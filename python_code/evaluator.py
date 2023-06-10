@@ -53,7 +53,7 @@ class Evaluator(object):
         """
         self.channel_dataset = ChannelModelDataset()
 
-    def evaluate(self) -> Tuple[List[float], List[float], List[float]]:
+    def evaluate(self) -> Tuple[List[float], List[float]]:
         """
         The online evaluation run. Main function for running the experiments of sequential transmission of pilots and
         data blocks for the paper.

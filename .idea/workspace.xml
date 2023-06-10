@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Modified the decoding section to treat the BP decoder only">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Implemented preliminary version of the evaluator">
+      <change afterPath="$PROJECT_DIR$/python_code/channel/encoder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/transmitter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/channel/channel_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/channel/channel_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/channel/mimo_channels/mimo_channel_dataset.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/bp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/bp_decoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/detector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,11 +77,11 @@
       <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\resources\config_runs" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors\dnn" />
-      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors\deepsic" />
     </key>
   </component>
   <component name="RunManager" selected="Python.evaluate">
@@ -185,14 +184,7 @@
       <workItem from="1679339578725" duration="83000" />
       <workItem from="1683377135979" duration="1709000" />
       <workItem from="1683902174968" duration="1358000" />
-      <workItem from="1686380909049" duration="3570000" />
-    </task>
-    <task id="LOCAL-00045" summary="Applied temperature scling, and modified the models such that bayesian yeilds the best reliability plots">
-      <created>1672490527696</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1672490527696</updated>
+      <workItem from="1686380909049" duration="5662000" />
     </task>
     <task id="LOCAL-00046" summary="Added the bayesian version of DeepSIC">
       <created>1672860878133</created>
@@ -530,7 +522,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686389461205</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="Implemented preliminary version of the evaluator">
+      <created>1686391205145</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1686391205145</updated>
+    </task>
+    <option name="localTasksCounter" value="95" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,7 +547,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Prior to starting the paper writing - good luck" />
     <MESSAGE value="Implemented the end-to-end DeepSIC model, as well as removed unnecessary code" />
     <MESSAGE value="Added the black-box-based bayesian DeepSIC" />
     <MESSAGE value="Pushed from calibration branch" />
@@ -573,7 +571,8 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="added the decoding files" />
     <MESSAGE value="Modified the decoding section to treat the BP decoder only" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modified the decoding section to treat the BP decoder only" />
+    <MESSAGE value="Implemented preliminary version of the evaluator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented preliminary version of the evaluator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -582,6 +581,11 @@
           <url>file://$PROJECT_DIR$/python_code/plotters/plotter_utils.py</url>
           <line>174</line>
           <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/python_code/channel/channel_dataset.py</url>
+          <line>45</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
