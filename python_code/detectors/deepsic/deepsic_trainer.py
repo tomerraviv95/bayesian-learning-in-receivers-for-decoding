@@ -46,7 +46,7 @@ class DeepSICTrainer(Detector):
 
     def forward(self, rx: torch.Tensor, h: torch.Tensor = None) -> torch.Tensor:
         # detect and decode
-        probs_vec = self._initialize_probs_for_infer()
+        probs_vec = self._initialize_probs_for_infer(rx)
         for i in range(ITERATIONS):
             probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
         confidence_word, confident_bits, detected_word = self.compute_output(probs_vec)
@@ -128,13 +128,12 @@ class DeepSICTrainer(Detector):
             next_probs_vec[:, user] = output[:, 1:].reshape(next_probs_vec[:, user].shape)
         return next_probs_vec
 
-    def _initialize_probs_for_infer(self):
+    def _initialize_probs_for_infer(self, rx):
         if conf.modulation_type == ModulationType.BPSK.name:
-            probs_vec = HALF * torch.ones(conf.block_length - conf.pilot_size, self.n_ant).to(DEVICE).float()
+            probs_vec = HALF * torch.ones(rx.shape).to(DEVICE).float()
         elif conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
-            probs_vec = (1 / MODULATION_NUM_MAPPING[conf.modulation_type]) * torch.ones(
-                int(conf.block_length - conf.pilot_size) // self.constellation_bits, self.n_ant)
-            probs_vec = probs_vec.to(DEVICE).unsqueeze(-1)
+            probs_vec = (1 / MODULATION_NUM_MAPPING[conf.modulation_type]) * torch.ones(rx.shape).to(DEVICE).unsqueeze(
+                -1)
             probs_vec = probs_vec.repeat([1, 1, MODULATION_NUM_MAPPING[conf.modulation_type] - 1]).float()
         else:
             raise ValueError("No such constellation!")

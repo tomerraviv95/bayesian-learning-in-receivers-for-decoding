@@ -95,7 +95,7 @@ Controls all hyperparameters:
 
 * block_length - number of total bits in transmission (pilots + info).
 
-* pilot_size - number of pilot bits in the transmission.
+* pilots_length - number of pilot bits in the transmission.
 
 * blocks_num - number of blocks to transmit.
 

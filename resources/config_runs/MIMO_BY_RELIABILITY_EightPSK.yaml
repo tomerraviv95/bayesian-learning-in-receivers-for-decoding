@@ -15,7 +15,7 @@ n_ant: 3 # number of received signals
 
 # protocol
 block_length: 13200 # coherence block time, total size of pilot + data. values: int.
-pilot_size: 1200 # pilot bits
+pilots_length: 1200 # pilot bits
 blocks_num: 10 # number of validation frames. values: int.
 
 # online training hyperparameters
