@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Changed plotter SER to BER">
+      <change afterPath="$PROJECT_DIR$/.idea/bayesian-learning-for-receivers.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dir_definitions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/environment.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/channel_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/mimo_channels/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/mimo_channels/mimo_channel_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/mimo_channels/sed_channel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/channel/modulator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/masked_deep_sic_detector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/end_to_end_deep_sic_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/bayesian_deep_sic_detector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/model_based_bayesian_deep_sic_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/seq_deep_sic_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/bayesian_dnn_detector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/bayesian_dnn_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_detector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/evaluate.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/plotters/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_methods.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/bayesian_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/config_singleton.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/metrics.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/probs_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/python_utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/config_runs/MIMO_BY_RELIABILITY_EightPSK.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/config_runs/MIMO_BY_SNR_EightPSK.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/config_runs/MIMO_BY_SNR_QPSK.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="research/8psk" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2CzFuMuQgemYtWMBdEOKRxI5mVC" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers\resources\config_runs" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers\results\paper" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\bayesian-learning-for-receivers\resources\config_runs" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors\dnn" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors\deepsic" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors" />
+      <recent name="C:\Projects\bayesian-learning-for-receivers\results\paper" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.par-plotter">
+    <configuration name="evaluate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="bayesian-learning-for-receivers" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python_code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python_code/evaluate.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="par-plotter" type="PythonConfigurationType" factoryName="Python" singleton="false">
+      <module name="bayesian-learning-for-receivers" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\tomer\.conda\envs\pytorch\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/python_code/plotters" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/python_code/plotters/plotter_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.par-plotter" />
+      <item itemvalue="Python.evaluate" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.evaluate" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="" />
+      <created>1659797727542</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1659797727542</updated>
+      <workItem from="1659797728783" duration="12618000" />
+      <workItem from="1659978042812" duration="10000" />
+      <workItem from="1659982716282" duration="606000" />
+      <workItem from="1660758073509" duration="463000" />
+      <workItem from="1660889921181" duration="89000" />
+      <workItem from="1661065668300" duration="25937000" />
+      <workItem from="1661790858517" duration="16000" />
+      <workItem from="1663178378777" duration="1069000" />
+      <workItem from="1665764372005" duration="149000" />
+      <workItem from="1666722466512" duration="808000" />
+      <workItem from="1668455896700" duration="28532000" />
+      <workItem from="1669183333148" duration="7047000" />
+      <workItem from="1669191425807" duration="1355000" />
+      <workItem from="1669492259113" duration="20436000" />
+      <workItem from="1670939704496" duration="23000" />
+      <workItem from="1671266948033" duration="8608000" />
+      <workItem from="1671298415006" duration="19755000" />
+      <workItem from="1671722495045" duration="9759000" />
+      <workItem from="1671804355914" duration="3885000" />
+      <workItem from="1671869711515" duration="14085000" />
+      <workItem from="1672321589816" duration="10503000" />
+      <workItem from="1672684489189" duration="65418000" />
+      <workItem from="1673544725436" duration="19195000" />
+      <workItem from="1673771803694" duration="1066000" />
+      <workItem from="1674229491138" duration="4572000" />
+      <workItem from="1674311948263" duration="727000" />
+      <workItem from="1674420650113" duration="165561000" />
+      <workItem from="1675500704357" duration="701000" />
+      <workItem from="1675527324356" duration="103000" />
+      <workItem from="1676191124029" duration="356000" />
+      <workItem from="1676198669106" duration="9968000" />
+      <workItem from="1678741461806" duration="1278000" />
+      <workItem from="1679036141959" duration="27000" />
+      <workItem from="1679156104421" duration="4567000" />
+      <workItem from="1679339578725" duration="83000" />
+      <workItem from="1683377135979" duration="1709000" />
+      <workItem from="1683902174968" duration="1358000" />
+      <workItem from="1686380909049" duration="610000" />
+    </task>
+    <task id="LOCAL-00042" summary="Added ECE, current params">
+      <created>1671890478610</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1671890478610</updated>
+    </task>
+    <task id="LOCAL-00043" summary="commiting everything until now">
+      <created>1672060955565</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1672060955565</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Applied temperature scling, and modified the models such that bayesian yeilds the best reliability plots">
+      <created>1672484569970</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1672484569970</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Applied temperature scling, and modified the models such that bayesian yeilds the best reliability plots">
+      <created>1672490527696</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1672490527696</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Added the bayesian version of DeepSIC">
+      <created>1672860878133</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1672860878133</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Fixed not needed priors">
+      <created>1672864929731</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1672864929731</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Fixed bug in the implementation of bayesian_deep_sic_detector.py">
+      <created>1673084304247</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1673084304247</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Finished implementation of the bayesian DeepSIC, need to output results by the plotter">
+      <created>1673085059643</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1673085059643</updated>
+    </task>
+    <task id="LOCAL-00050" summary="GRAPHS for SISO!">
+      <created>1673211087743</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1673211087743</updated>
+    </task>
+    <task id="LOCAL-00051" summary="MIMO setup graphs">
+      <created>1673212686561</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1673212686561</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Changed the SISO setup">
+      <created>1673276923228</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1673276923228</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Added channel plotter">
+      <created>1673295622664</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1673295622664</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Prior to starting the paper writing - good luck">
+      <created>1673378472075</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1673378472075</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Implemented the end-to-end DeepSIC model, as well as removed unnecessary code">
+      <created>1673383967549</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1673383967549</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Added the black-box-based bayesian DeepSIC">
+      <created>1673548458088</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1673548458088</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Added the black-box-based bayesian DeepSIC">
+      <created>1673604065545</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1673604065545</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Added the black-box-based bayesian DeepSIC">
+      <created>1673707687999</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1673707687999</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Pushed from calibration branch">
+      <created>1673707805715</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1673707805715</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Pushed from calibration branch">
+      <created>1673789475227</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1673789475227</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Pushed from calibration branch">
+      <created>1674422769884</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1674422769885</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Pushed from calibration branch">
+      <created>1674422897818</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1674422897818</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Managed to get QPSK working for the DNN and the DeepSIC that is trained in sequential fashion">
+      <created>1674592954660</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1674592954660</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Implemented QPSK in all Bayesian methods">
+      <created>1674594147240</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1674594147240</updated>
+    </task>
+    <task id="LOCAL-00065" summary="Implemented QPSK in all Bayesian methods">
+      <created>1674745647398</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1674745647398</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Implemented the Bayesian Black Box">
+      <created>1674747428287</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1674747428287</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Implemented Bayesian black box detector">
+      <created>1674751184102</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1674751184102</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Exploring Bayesian Black Box">
+      <created>1674807181462</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1674807181462</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Exploring Bayesian Black Box">
+      <created>1674815978745</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1674815978745</updated>
+    </task>
+    <task id="LOCAL-00070" summary="implemented the 8PSK encoding">
+      <created>1674820576085</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1674820576085</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Implemented the 8PSK scheme">
+      <created>1674896538961</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1674896538961</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Cleaned up basi deep sic code">
+      <created>1674897807005</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1674897807005</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Cleaned up basi deep sic code">
+      <created>1674897815222</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1674897815222</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Cleaned up basi deep sic code">
+      <created>1674897892474</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1674897892474</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Cleaned up basi deep sic code">
+      <created>1674897969658</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1674897969658</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Removed code from Bayesian">
+      <created>1674898875241</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1674898875241</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Removed code from Bayesian">
+      <created>1674899067539</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1674899067539</updated>
+    </task>
+    <task id="LOCAL-00078" summary="Outsourced the Bayesian utils">
+      <created>1674899532744</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1674899532744</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Organized the black-box code">
+      <created>1674900773109</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1674900773109</updated>
+    </task>
+    <task id="LOCAL-00080" summary="FIxed bug in the noise, where I generated only real noise">
+      <created>1674901515387</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1674901515387</updated>
+    </task>
+    <task id="LOCAL-00081" summary="FIxed bug in the noise, where I generated only real noise">
+      <created>1674916185206</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1674916185206</updated>
+    </task>
+    <task id="LOCAL-00082" summary="FIxed bug in the noise, where I generated only real noise">
+      <created>1675025660660</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1675025660660</updated>
+    </task>
+    <task id="LOCAL-00083" summary="Fixed code">
+      <created>1675090448962</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1675090448962</updated>
+    </task>
+    <task id="LOCAL-00084" summary="Changed plotting such that it is done by config per Figure">
+      <created>1675092174628</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1675092174628</updated>
+    </task>
+    <task id="LOCAL-00085" summary="Changed plotting such that it is done by config per Figure">
+      <created>1675092207615</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1675092207615</updated>
+    </task>
+    <task id="LOCAL-00086" summary="Updated">
+      <created>1675092385996</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1675092385996</updated>
+    </task>
+    <task id="LOCAL-00087" summary="Updated env file">
+      <created>1675110144606</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1675110144606</updated>
+    </task>
+    <task id="LOCAL-00088" summary="Updated env file">
+      <created>1675110875895</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1675110875895</updated>
+    </task>
+    <task id="LOCAL-00089" summary="Changed the pilots scheme from all uniform to random">
+      <created>1679162081071</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1679162081071</updated>
+    </task>
+    <task id="LOCAL-00090" summary="Changed plotter SER to BER">
+      <created>1679162110282</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1679162110282</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="MIMO setup graphs" />
+    <MESSAGE value="Changed the SISO setup" />
+    <MESSAGE value="Added channel plotter" />
+    <MESSAGE value="Prior to starting the paper writing - good luck" />
+    <MESSAGE value="Implemented the end-to-end DeepSIC model, as well as removed unnecessary code" />
+    <MESSAGE value="Added the black-box-based bayesian DeepSIC" />
+    <MESSAGE value="Pushed from calibration branch" />
+    <MESSAGE value="Managed to get QPSK working for the DNN and the DeepSIC that is trained in sequential fashion" />
+    <MESSAGE value="Implemented QPSK in all Bayesian methods" />
+    <MESSAGE value="Implemented the Bayesian Black Box" />
+    <MESSAGE value="Implemented Bayesian black box detector" />
+    <MESSAGE value="Exploring Bayesian Black Box" />
+    <MESSAGE value="implemented the 8PSK encoding" />
+    <MESSAGE value="Implemented the 8PSK scheme" />
+    <MESSAGE value="Cleaned up basi deep sic code" />
+    <MESSAGE value="Removed code from Bayesian" />
+    <MESSAGE value="Outsourced the Bayesian utils" />
+    <MESSAGE value="Organized the black-box code" />
+    <MESSAGE value="FIxed bug in the noise, where I generated only real noise" />
+    <MESSAGE value="Fixed code" />
+    <MESSAGE value="Changed plotting such that it is done by config per Figure" />
+    <MESSAGE value="Updated" />
+    <MESSAGE value="Updated env file" />
+    <MESSAGE value="Changed the pilots scheme from all uniform to random" />
+    <MESSAGE value="Changed plotter SER to BER" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed plotter SER to BER" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/python_code/plotters/plotter_utils.py</url>
+          <line>174</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$par_plotter.coverage" NAME="par-plotter Coverage Results" MODIFIED="1679169541386" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$evaluate_par.coverage" NAME="evaluate-par Coverage Results" MODIFIED="1678741528529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/concept_drift_for_receivers$evaluate.coverage" NAME="evaluate Coverage Results" MODIFIED="1659804270637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main_parallel.coverage" NAME="plotter_main_parallel Coverage Results" MODIFIED="1675272500846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/concept_drift_for_receivers$plotter_main.coverage" NAME="plotter_main Coverage Results" MODIFIED="1659879737212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_plotter.coverage" NAME="channel_plotter Coverage Results" MODIFIED="1675090866219" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main.coverage" NAME="plotter_main Coverage Results" MODIFIED="1679156317939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$evaluate.coverage" NAME="evaluate Coverage Results" MODIFIED="1679161980622" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+  </component>
+</project>
