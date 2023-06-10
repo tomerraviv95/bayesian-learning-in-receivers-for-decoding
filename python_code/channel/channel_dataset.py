@@ -29,6 +29,8 @@ class ChannelModelDataset(Dataset):
         self.transmitter = Transmitter()
         assert conf.block_length % conf.message_bits == 0, (
             "Block length must be divisible by the number of message bits for encoding!!!")
+        assert conf.pilots_length % conf.message_bits == 0, (
+            "Pilots length must be divisible by the number of message bits for encoding!!!")
 
     def get_snr_data(self, snr: float, database: list):
         if database is None:
@@ -46,7 +48,10 @@ class ChannelModelDataset(Dataset):
         # accumulate words until reaches desired number
         for index in range(conf.blocks_num):
             mx = self.generator.generate()
-            tx = self.encoder.encode(mx)
+            tx = np.empty((int(normalize_for_modulation(conf.block_length) / conf.message_bits * conf.code_bits),
+                           conf.n_user))
+            for user in range(conf.n_user):
+                tx[:, user] = self.encoder.encode(mx[:, user])
             s = self.modulator.modulate(tx.T)
             if conf.modulation_type == ModulationType.QPSK.name:
                 tx = get_qpsk_symbols_from_bits(tx)

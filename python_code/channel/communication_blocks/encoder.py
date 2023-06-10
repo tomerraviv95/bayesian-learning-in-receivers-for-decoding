@@ -13,6 +13,7 @@ class Encoder:
         self.encoding = lambda u: (np.dot(u, self.code_gm) % 2)
 
     def encode(self, mx):
-        reshaped_mx = mx.reshape(conf.message_bits, -1, mx.shape[1]).T
-        tx = (np.dot(reshaped_mx, self.code_gm) % 2).T
-        return tx.reshape(-1, mx.shape[1])
+        reshaped_mx = mx.reshape(-1, conf.message_bits)
+        tx = (np.dot(reshaped_mx, self.code_gm) % 2)
+        reshaped_tx = tx.reshape(-1)
+        return reshaped_tx

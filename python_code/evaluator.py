@@ -7,10 +7,10 @@ import torch
 
 from python_code import conf
 from python_code.channel.channel_dataset import ChannelModelDataset
-from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
+from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING, BPSKModulator
 from python_code.decoders.bp_decoder import BPDecoder
 from python_code.detectors import DETECTORS_TYPE_DICT
-from python_code.utils.constants import ModulationType
+from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.metrics import calculate_ber
 from python_code.utils.probs_utils import get_bits_from_qpsk_symbols, get_bits_from_eightpsk_symbols
 
@@ -18,6 +18,8 @@ random.seed(conf.seed)
 torch.manual_seed(conf.seed)
 torch.cuda.manual_seed(conf.seed)
 np.random.seed(conf.seed)
+
+MAX_CLIPPING = 20
 
 
 class Evaluator(object):
@@ -68,12 +70,10 @@ class Evaluator(object):
             # get current word and channel
             mx, tx, rx = message_words[block_ind], transmitted_words[block_ind], received_words[block_ind]
             # split words into data and pilot part
-            mx_pilot = mx[:conf.pilots_length // self.constellation_bits]
-            mx_data = mx[conf.pilots_length // self.constellation_bits:]
-            tx_pilot = tx[:conf.pilots_length // self.constellation_bits]
-            tx_data = tx[conf.pilots_length // self.constellation_bits:]
-            rx_pilot = rx[:conf.pilots_length // self.constellation_bits]
-            rx_data = rx[conf.pilots_length // self.constellation_bits:]
+            uncoded_pilots_end_ind = int(conf.pilots_length // self.constellation_bits)
+            pilots_end_ind = int(conf.pilots_length // self.constellation_bits / conf.message_bits * conf.code_bits)
+            mx_pilot, tx_pilot, rx_pilot = mx[:uncoded_pilots_end_ind], tx[:pilots_end_ind], rx[:pilots_end_ind]
+            mx_data, tx_data, rx_data = mx[uncoded_pilots_end_ind:], tx[pilots_end_ind:], rx[pilots_end_ind:]
             # run online training on the pilots part if desired
             if conf.is_online_training:
                 self.detector._online_training(tx_pilot, rx_pilot)
@@ -84,8 +84,11 @@ class Evaluator(object):
             detection_bers.append(detection_ber)
             print(f'current: {block_ind, detection_ber}')
             # use detected soft values to calculate the final message
-            decoded_words = self.decoder.forward(confidence_word)
-            # calculate accuracy for decoding
+            to_decode_word = MAX_CLIPPING * BPSKModulator.modulate(confident_bits) * (confidence_word - HALF)
+            decoded_words = torch.zeros_like(mx_data)
+            for user in range(conf.n_user):
+                current_to_decode = to_decode_word[:, user].reshape(-1, conf.code_bits)
+                decoded_words[:, user] = self.decoder.forward(current_to_decode)[:, :conf.message_bits].reshape(-1)
             decoded_ber = calculate_ber(decoded_words, mx_data)
             decoding_bers.append(decoded_ber)
             print(f'current: {block_ind, decoded_ber}')
