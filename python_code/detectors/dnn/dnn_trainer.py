@@ -2,7 +2,7 @@ import torch
 
 from python_code import conf
 from python_code.detectors.dnn.dnn_detector import DNNDetector
-from python_code.trainer import Trainer
+from python_code.evaluator import Evaluator
 from python_code.utils.constants import Phase, ModulationType
 from python_code.utils.probs_utils import calculate_mimo_states, get_bits_from_qpsk_symbols, \
     get_bits_from_eightpsk_symbols, calculate_symbols_from_states
@@ -10,7 +10,7 @@ from python_code.utils.probs_utils import calculate_mimo_states, get_bits_from_q
 EPOCHS = 400
 
 
-class DNNTrainer(Trainer):
+class DNNTrainer(Evaluator):
     """Form the trainer class.
 
     Keyword arguments:

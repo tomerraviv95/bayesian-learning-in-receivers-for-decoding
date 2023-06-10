@@ -13,6 +13,10 @@ modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
 
+# coding hyperparams
+code_bits: 63
+info_bits: 45
+
 # protocol
 block_length: 50400 # coherence block time, total size of pilot + data. values: int.
 pilot_size: 400 # pilot bits

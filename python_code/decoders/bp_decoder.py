@@ -5,8 +5,10 @@ from torch import nn
 from dir_definitions import ECC_MATRICES_DIR
 from python_code import conf
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
-from python_code.utils.constants import CLIPPING_VAL, Phase, TANNER_GRAPH_CYCLE_REDUCTION
+from python_code.utils.constants import CLIPPING_VAL, TANNER_GRAPH_CYCLE_REDUCTION
 from python_code.utils.python_utils import load_code_parameters
+
+ITERATIONS = 5
 
 
 class BPDecoder(nn.Module):
@@ -14,10 +16,8 @@ class BPDecoder(nn.Module):
         super().__init__()
         self.odd_llr_mask_only = True
         self.even_mask_only = True
-        self.multiloss_output_mask_only = True
         self.output_mask_only = False
-        self.multi_loss_flag = True
-        self.iteration_num = conf.iterations
+        self.iteration_num = ITERATIONS
         self._code_bits = conf.code_bits
         self._info_bits = conf.info_bits
         self.code_pcm, self.code_gm = load_code_parameters(self._code_bits, self._info_bits,
@@ -42,7 +42,7 @@ class BPDecoder(nn.Module):
                                         input_output_layer_size=self._code_bits,
                                         code_pcm=self.code_pcm)
 
-    def forward(self, x, phase: Phase):
+    def forward(self, x):
         """
         compute forward pass in the network
         :param x: [batch_size,N]

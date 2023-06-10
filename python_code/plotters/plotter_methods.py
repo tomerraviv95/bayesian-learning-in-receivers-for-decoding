@@ -3,7 +3,7 @@ from collections import namedtuple
 from typing import Tuple, List, Dict, Union
 
 from dir_definitions import CONFIG_RUNS_DIR
-from python_code.trainer import Trainer
+from python_code.evaluator import Evaluator
 from python_code.evaluate import CHANNEL_TYPE_TO_TRAINER_DICT
 from python_code.plotters.plotter_utils import get_all_plots
 from python_code.utils.config_singleton import Config
@@ -35,7 +35,7 @@ def set_method_name(conf: Config, params_dict: Dict[str, Union[int, str]]) -> st
 
 def gather_plots_by_trials(all_curves: List[Tuple[str, List, List, List]], conf: Config, method_name: str,
                            name: str, run_over: bool,
-                           trial_num: int, trainer: Trainer):
+                           trial_num: int, trainer: Evaluator):
     """
     Run the experiments #trial_num times, averaging over the whole run's aggregated ser.
     """

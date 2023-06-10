@@ -9,7 +9,7 @@ import numpy as np
 
 from dir_definitions import FIGURES_DIR, PLOTS_DIR
 from python_code import conf
-from python_code.trainer import Trainer
+from python_code.evaluator import Evaluator
 from python_code.plotters.plotter_config import PlotType
 from python_code.utils.metrics import calculate_reliability_and_ece
 from python_code.utils.python_utils import load_pkl, save_pkl
@@ -77,7 +77,7 @@ def get_color(method_name: str) -> str:
         raise ValueError('No such method!!!')
 
 
-def get_all_plots(dec: Trainer, run_over: bool, method_name: str, trial=None):
+def get_all_plots(dec: Evaluator, run_over: bool, method_name: str, trial=None):
     print(method_name)
     # set the path to saved plot results for a single method (so we do not need to run anew each time)
     if not os.path.exists(PLOTS_DIR):
