@@ -1,6 +1,5 @@
-import math
 import random
-from typing import List, Tuple
+from typing import Tuple
 
 import numpy as np
 import torch
@@ -9,33 +8,11 @@ from torch.nn import CrossEntropyLoss, MSELoss
 from torch.optim import RMSprop, Adam, SGD
 
 from python_code import DEVICE, conf
-from python_code.channel.channel_dataset import ChannelModelDataset
-from python_code.channel.modulator import MODULATION_NUM_MAPPING
-from python_code.detectors.deepsic.bayesian_deepsic.bayesian_deep_sic_trainer import BayesianDeepSICTrainer
-from python_code.detectors.deepsic.end_to_end_deepsic.end_to_end_deep_sic_trainer import EndToEndDeepSICTrainer
-from python_code.detectors.deepsic.model_based_bayesian_deepsic.model_based_bayesian_deep_sic_trainer import \
-    ModelBasedBayesianDeepSICTrainer
-from python_code.detectors.deepsic.seq_deepsic.seq_deep_sic_trainer import SeqDeepSICTrainer
-from python_code.detectors.dnn.bayesian_dnn.bayesian_dnn_trainer import BayesianDNNTrainer
-from python_code.detectors.dnn.dnn_trainer import DNNTrainer
-from python_code.utils.constants import ModulationType, DetectorType, DecoderType
-from python_code.utils.metrics import calculate_ber, calculate_reliability_and_ece
-from python_code.utils.probs_utils import get_bits_from_qpsk_symbols, get_qpsk_symbols_from_bits, \
-    get_bits_from_eightpsk_symbols, get_eightpsk_symbols_from_bits
 
 random.seed(conf.seed)
 torch.manual_seed(conf.seed)
 torch.cuda.manual_seed(conf.seed)
 np.random.seed(conf.seed)
-
-DETECTORS_TYPE_DICT = {DetectorType.seq_model.name: SeqDeepSICTrainer,
-                       DetectorType.end_to_end_model.name: EndToEndDeepSICTrainer,
-                       DetectorType.model_based_bayesian.name: ModelBasedBayesianDeepSICTrainer,
-                       DetectorType.bayesian.name: BayesianDeepSICTrainer,
-                       DetectorType.black_box.name: DNNTrainer,
-                       DetectorType.bayesian_black_box.name: BayesianDNNTrainer}
-
-DECODERS_TYPE_DICT = {DecoderType.bp_model.name: SeqDeepSICTrainer}
 
 
 class Detector(nn.Module):
@@ -47,12 +24,7 @@ class Detector(nn.Module):
 
     def __init__(self):
         super().__init__()
-        self.constellation_bits = int(math.log2(MODULATION_NUM_MAPPING[conf.modulation_type]))
-        # initialize matrices, datasets and detector
-        self._initialize_dataloader()
         self._initialize_detector()
-        self._initialize_decoder()
-        self.softmax = torch.nn.Softmax(dim=1)  # Single symbol probability inference
 
     def get_name(self):
         return self.__name__()
@@ -61,13 +33,7 @@ class Detector(nn.Module):
         """
         Every trainer must have some base detector
         """
-        self.detector = DETECTORS_TYPE_DICT[conf.detector_type]()
-
-    def _initialize_decoder(self):
-        """
-        Every trainer must have some base decoder
-        """
-        self.decoder = None
+        self.detector = None
 
     # calculate train loss
     def calc_loss(self, est: torch.Tensor, tx: torch.Tensor) -> torch.Tensor:
@@ -122,14 +88,6 @@ class Detector(nn.Module):
         else:
             raise NotImplementedError("No such loss function implemented!!!")
 
-    def _initialize_dataloader(self):
-        """
-        Sets up the data loader - a generator from which we draw batches, in iterations
-        """
-        self.channel_dataset = ChannelModelDataset(block_length=conf.block_length,
-                                                   pilots_length=conf.pilot_size,
-                                                   blocks_num=conf.blocks_num)
-
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         """
         Every detector trainer must have some function to adapt it online
@@ -141,58 +99,6 @@ class Detector(nn.Module):
         Every trainer must have some forward pass for its detector
         """
         pass
-
-    def evaluate(self) -> Tuple[List[float], List[float], List[float]]:
-        """
-        The online evaluation run. Main function for running the experiments of sequential transmission of pilots and
-        data blocks for the paper.
-        :return: list of ber per timestep
-        """
-        total_ber = []
-        correct_values_list, error_values_list = [], []
-        # draw words for a given snr
-        transmitted_words, received_words, hs = self.channel_dataset.__getitem__(snr_list=[conf.snr])
-        # detect sequentially
-        for block_ind in range(conf.blocks_num):
-            print('*' * 20)
-            # get current word and channel
-            tx, h, rx = transmitted_words[block_ind], hs[block_ind], received_words[block_ind]
-            # split words into data and pilot part
-            tx_pilot, tx_data = tx[:conf.pilot_size // self.constellation_bits], \
-                                tx[conf.pilot_size // self.constellation_bits:]
-            rx_pilot, rx_data = rx[:conf.pilot_size // self.constellation_bits], \
-                                rx[conf.pilot_size // self.constellation_bits:]
-            if conf.is_online_training:
-                # re-train the detector
-                self.detector._online_training(tx_pilot, rx_pilot)
-            # detect data part after training on the pilot part
-            detected_word, (confident_bits, confidence_word) = self.detector.forward(rx_data, h)
-            # calculate accuracy
-            target = tx_data[:, :rx.shape[1]]
-            if conf.modulation_type == ModulationType.QPSK.name:
-                target = get_bits_from_qpsk_symbols(target)
-            if conf.modulation_type == ModulationType.EightPSK.name:
-                target = get_bits_from_eightpsk_symbols(target)
-            ber = calculate_ber(detected_word, target)
-            if conf.modulation_type == ModulationType.QPSK.name:
-                confident_bits = get_qpsk_symbols_from_bits(confident_bits)
-                target = get_qpsk_symbols_from_bits(target)
-            if conf.modulation_type == ModulationType.EightPSK.name:
-                confident_bits = get_eightpsk_symbols_from_bits(confident_bits)
-                target = get_eightpsk_symbols_from_bits(target)
-            print(f'current: {block_ind, ber}')
-            correct_values = confidence_word[torch.eq(target, confident_bits)].tolist()
-            error_values = confidence_word[~torch.eq(target, confident_bits)].tolist()
-            total_ber.append(ber)
-            correct_values_list.append(correct_values)
-            error_values_list.append(error_values)
-        values = np.linspace(start=0, stop=1, num=9)
-        avg_acc_per_bin, avg_confidence_per_bin, ece_measure, normalized_samples_per_bin = calculate_reliability_and_ece(
-            correct_values_list,
-            error_values_list, values)
-        print(f'Final ser: {sum(total_ber) / len(total_ber)}')
-        print(f"ECE:{ece_measure}")
-        return total_ber, correct_values_list, error_values_list
 
     def run_train_loop(self, est: torch.Tensor, tx: torch.Tensor) -> float:
         # calculate loss

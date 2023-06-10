@@ -4,7 +4,7 @@ import numpy as np
 import torch
 
 from python_code import DEVICE, conf
-from python_code.channel.modulator import MODULATION_NUM_MAPPING
+from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.utils.constants import HALF, ModulationType
 
 

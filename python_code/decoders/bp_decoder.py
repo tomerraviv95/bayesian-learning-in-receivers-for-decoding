@@ -19,8 +19,8 @@ class BPDecoder(nn.Module):
         self.output_mask_only = False
         self.iteration_num = ITERATIONS
         self._code_bits = conf.code_bits
-        self._info_bits = conf.info_bits
-        self.code_pcm, self.code_gm = load_code_parameters(self._code_bits, self._info_bits,
+        self._message_bits = conf.message_bits
+        self.code_pcm, self.code_gm = load_code_parameters(self._code_bits, self._message_bits,
                                                            ECC_MATRICES_DIR, TANNER_GRAPH_CYCLE_REDUCTION)
         self.neurons = int(np.sum(self.code_pcm))
         self.lr = None

@@ -7,9 +7,9 @@ import torch
 
 from python_code import conf
 from python_code.channel.channel_dataset import ChannelModelDataset
-from python_code.channel.modulator import MODULATION_NUM_MAPPING
+from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.decoders.bp_decoder import BPDecoder
-from python_code.detectors.detector import Detector
+from python_code.detectors import DETECTORS_TYPE_DICT
 from python_code.utils.constants import ModulationType
 from python_code.utils.metrics import calculate_ber
 from python_code.utils.probs_utils import get_bits_from_qpsk_symbols, get_bits_from_eightpsk_symbols
@@ -39,7 +39,7 @@ class Evaluator(object):
         """
         Every trainer must have some base detector
         """
-        self.detector = Detector()
+        self.detector = DETECTORS_TYPE_DICT[conf.detector_type]()
 
     def _initialize_decoder(self):
         """
@@ -68,12 +68,12 @@ class Evaluator(object):
             # get current word and channel
             mx, tx, rx = message_words[block_ind], transmitted_words[block_ind], received_words[block_ind]
             # split words into data and pilot part
-            mx_pilot = mx[:conf.pilot_size // self.constellation_bits]
-            mx_data = mx[conf.pilot_size // self.constellation_bits:]
-            tx_pilot = tx[:conf.pilot_size // self.constellation_bits]
-            tx_data = tx[conf.pilot_size // self.constellation_bits:]
-            rx_pilot = rx[:conf.pilot_size // self.constellation_bits]
-            rx_data = rx[conf.pilot_size // self.constellation_bits:]
+            mx_pilot = mx[:conf.pilots_length // self.constellation_bits]
+            mx_data = mx[conf.pilots_length // self.constellation_bits:]
+            tx_pilot = tx[:conf.pilots_length // self.constellation_bits]
+            tx_data = tx[conf.pilots_length // self.constellation_bits:]
+            rx_pilot = rx[:conf.pilots_length // self.constellation_bits]
+            rx_data = rx[conf.pilots_length // self.constellation_bits:]
             # run online training on the pilots part if desired
             if conf.is_online_training:
                 self.detector._online_training(tx_pilot, rx_pilot)
@@ -99,3 +99,8 @@ class Evaluator(object):
             detection_target = get_bits_from_eightpsk_symbols(detection_target)
         detection_ber = calculate_ber(detected_word, detection_target)
         return detection_ber
+
+
+if __name__ == "__main__":
+    evaluator = Evaluator()
+    evaluator.evaluate()

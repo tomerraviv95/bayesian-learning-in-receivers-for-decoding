@@ -12,5 +12,7 @@ class Encoder:
                                                            ECC_MATRICES_DIR, TANNER_GRAPH_CYCLE_REDUCTION)
         self.encoding = lambda u: (np.dot(u, self.code_gm) % 2)
 
-    def encode(self, u):
-        return np.dot(u, self.code_gm) % 2
+    def encode(self, mx):
+        reshaped_mx = mx.reshape(conf.message_bits, -1, mx.shape[1]).T
+        tx = (np.dot(reshaped_mx, self.code_gm) % 2).T
+        return tx.reshape(-1, mx.shape[1])

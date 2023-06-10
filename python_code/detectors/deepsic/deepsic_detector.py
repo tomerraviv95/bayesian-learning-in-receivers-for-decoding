@@ -2,7 +2,7 @@ import torch
 from torch import nn
 
 from python_code import conf
-from python_code.channel.modulator import MODULATION_NUM_MAPPING
+from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.utils.constants import ModulationType
 
 HIDDEN_BASE_SIZE = 64

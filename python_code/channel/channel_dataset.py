@@ -6,11 +6,12 @@ import torch
 from torch.utils.data import Dataset
 
 from python_code import DEVICE, conf
-from python_code.channel.encoder import Encoder
-from python_code.channel.generator import Generator
-from python_code.channel.modulator import MODULATION_DICT
-from python_code.channel.transmitter import Transmitter
+from python_code.channel.communication_blocks.encoder import Encoder
+from python_code.channel.communication_blocks.generator import Generator
+from python_code.channel.communication_blocks.modulator import MODULATION_DICT
+from python_code.channel.communication_blocks.transmitter import Transmitter
 from python_code.utils.constants import ModulationType
+from python_code.utils.probs_utils import get_qpsk_symbols_from_bits, get_eightpsk_symbols_from_bits
 from python_code.utils.python_utils import normalize_for_modulation
 
 
@@ -21,31 +22,36 @@ class ChannelModelDataset(Dataset):
     """
 
     def __init__(self):
-        self.blocks_num = conf.block_num
+        self.blocks_num = conf.blocks_num
         self.generator = Generator()
         self.encoder = Encoder()
         self.modulator = MODULATION_DICT[conf.modulation_type]
         self.transmitter = Transmitter()
-
-        # if conf.modulation_type == ModulationType.QPSK.name:
-        #     tx = get_qpsk_symbols_from_bits(s)
-        # if conf.modulation_type == ModulationType.EightPSK.name:
-        #     tx = get_eightpsk_symbols_from_bits(s)
+        assert conf.block_length % conf.message_bits == 0, (
+            "Block length must be divisible by the number of message bits for encoding!!!")
 
     def get_snr_data(self, snr: float, database: list):
         if database is None:
             database = []
         mx_full = np.empty((self.blocks_num, conf.block_length, conf.n_user))
-        tx_full = np.empty((self.blocks_num, normalize_for_modulation(conf.block_length), conf.n_user))
-        rx_full = np.empty((self.blocks_num, normalize_for_modulation(conf.block_length), conf.n_ant),
+        tx_full = np.empty((self.blocks_num,
+                            int(normalize_for_modulation(conf.block_length) / conf.message_bits * conf.code_bits),
+                            conf.n_user))
+        rx_full = np.empty((self.blocks_num,
+                            int(normalize_for_modulation(conf.block_length) / conf.message_bits * conf.code_bits),
+                            conf.n_ant),
                            dtype=complex
                            if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]
                            else float)
         # accumulate words until reaches desired number
-        for index in range(conf.block_num):
+        for index in range(conf.blocks_num):
             mx = self.generator.generate()
             tx = self.encoder.encode(mx)
             s = self.modulator.modulate(tx.T)
+            if conf.modulation_type == ModulationType.QPSK.name:
+                tx = get_qpsk_symbols_from_bits(tx)
+            if conf.modulation_type == ModulationType.EightPSK.name:
+                tx = get_eightpsk_symbols_from_bits(tx)
             rx = self.transmitter.transmit(s, snr, index)
             # accumulate
             mx_full[index] = mx
@@ -63,6 +69,3 @@ class ChannelModelDataset(Dataset):
         mx, tx, rx = torch.Tensor(mx).to(device=DEVICE), torch.Tensor(tx).to(device=DEVICE), torch.from_numpy(rx).to(
             device=DEVICE)
         return mx, tx, rx
-
-    def __len__(self):
-        return self.block_length
