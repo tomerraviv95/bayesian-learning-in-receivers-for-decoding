@@ -1,7 +1,8 @@
 from enum import Enum
 
 HALF = 0.5
-
+CLIPPING_VAL = 10
+TANNER_GRAPH_CYCLE_REDUCTION = True
 
 class Phase(Enum):
     TRAIN = 'train'
@@ -23,6 +24,10 @@ class DetectorType(Enum):
     bayesian = 'bayesian'
     black_box = 'black_box'
     bayesian_black_box = 'bayesian_black_box'
+
+
+class DecoderType(Enum):
+    bp_model = 'bp_model'
 
 
 class ModulationType(Enum):

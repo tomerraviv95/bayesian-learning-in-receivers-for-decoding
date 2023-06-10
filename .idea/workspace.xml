@@ -4,61 +4,90 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Changed plotter SER to BER">
-      <change afterPath="$PROJECT_DIR$/.idea/bayesian-learning-for-receivers.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dir_definitions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/environment.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/channel/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/channel/channel_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/channel/mimo_channels/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/channel/mimo_channels/mimo_channel_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/channel/mimo_channels/sed_channel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/channel/modulator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/masked_deep_sic_detector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/end_to_end_deep_sic_trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/bayesian_deep_sic_detector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/model_based_bayesian_deep_sic_trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/seq_deep_sic_trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/bayesian_dnn_detector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/bayesian_dnn_trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_detector.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/detectors/trainer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/evaluate.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/plotters/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_methods.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/bayesian_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/config_singleton.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/metrics.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/probs_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/python_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/config_runs/MIMO_BY_RELIABILITY_EightPSK.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/config_runs/MIMO_BY_SNR_EightPSK.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/config_runs/MIMO_BY_SNR_QPSK.yaml" afterDir="false" />
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/bp_decoder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/bp_nn.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/bp_nn_weights.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/decoder.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/detector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_127_64_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_127_64_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_127_64_PCM_CR.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_127_92_PCM_CR.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_127_99_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_127_99_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_127_99_PCM_CR.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_31_26_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_31_26_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_31_26_PCM_CR.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_63_36_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_63_36_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_63_36_PCM_CR.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_63_45_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_63_45_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_63_45_PCM_CR.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_8_4_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_8_4_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/BCH_8_4_PCM_CR.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_127_64_GM.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_127_64_PCM.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_127_64_PCM_CR_eliya.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_15_11_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_15_11_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_31_16_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_31_16_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_31_26_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_31_26_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_36_PCM_CR_eliya.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_39_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_39_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_45_PCM_CR_eliya.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_51_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_51_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_57_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/BCH_63_57_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/CCSDS_128_64.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/CCSDS_128_64_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/CCSDS_128_64_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_100.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_100_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_100_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_110.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_110_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_110_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_60.alist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_60.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_60_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_60_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_70.alist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_70.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_70_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_70_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_80.alist" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_80.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_80_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_121_80_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_49_24.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_49_24_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_49_24_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_49_36_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_49_36_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_49_42_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/LDPC_ARRAY_49_42_PCM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/TANNER_155_64_GM.npy" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ECC_matrices/archive/TANNER_155_64_PCM.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dir_definitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/dir_definitions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/evaluate.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_methods.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/utils/config_singleton.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/config_singleton.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/utils/python_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/python_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +135,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding",
+    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -116,21 +145,21 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\resources\config_runs" />
       <recent name="C:\Projects\bayesian-learning-for-receivers" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\" />
-      <recent name="C:\Projects\bayesian-learning-for-receivers\results\paper" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders" />
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\resources\config_runs" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors\dnn" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors\deepsic" />
-      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors" />
-      <recent name="C:\Projects\bayesian-learning-for-receivers\results\paper" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.par-plotter">
+  <component name="RunManager" selected="Python.evaluate">
     <configuration name="evaluate" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bayesian-learning-for-receivers" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -230,14 +259,7 @@
       <workItem from="1679339578725" duration="83000" />
       <workItem from="1683377135979" duration="1709000" />
       <workItem from="1683902174968" duration="1358000" />
-      <workItem from="1686380909049" duration="610000" />
-    </task>
-    <task id="LOCAL-00042" summary="Added ECE, current params">
-      <created>1671890478610</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1671890478610</updated>
+      <workItem from="1686380909049" duration="1662000" />
     </task>
     <task id="LOCAL-00043" summary="commiting everything until now">
       <created>1672060955565</created>
@@ -575,7 +597,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679162110282</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="Initial commit">
+      <created>1686388203391</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1686388203391</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -593,7 +622,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="MIMO setup graphs" />
     <MESSAGE value="Changed the SISO setup" />
     <MESSAGE value="Added channel plotter" />
     <MESSAGE value="Prior to starting the paper writing - good luck" />
@@ -618,7 +646,8 @@
     <MESSAGE value="Updated env file" />
     <MESSAGE value="Changed the pilots scheme from all uniform to random" />
     <MESSAGE value="Changed plotter SER to BER" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed plotter SER to BER" />
+    <MESSAGE value="Initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -10,7 +10,14 @@ from torch.optim import RMSprop, Adam, SGD
 from python_code import DEVICE, conf
 from python_code.channel.channel_dataset import ChannelModelDataset
 from python_code.channel.modulator import MODULATION_NUM_MAPPING
-from python_code.utils.constants import ModulationType
+from python_code.detectors.deepsic.bayesian_deepsic.bayesian_deep_sic_trainer import BayesianDeepSICTrainer
+from python_code.detectors.deepsic.end_to_end_deepsic.end_to_end_deep_sic_trainer import EndToEndDeepSICTrainer
+from python_code.detectors.deepsic.model_based_bayesian_deepsic.model_based_bayesian_deep_sic_trainer import \
+    ModelBasedBayesianDeepSICTrainer
+from python_code.detectors.deepsic.seq_deepsic.seq_deep_sic_trainer import SeqDeepSICTrainer
+from python_code.detectors.dnn.bayesian_dnn.bayesian_dnn_trainer import BayesianDNNTrainer
+from python_code.detectors.dnn.dnn_trainer import DNNTrainer
+from python_code.utils.constants import ModulationType, DetectorType, DecoderType
 from python_code.utils.metrics import calculate_ber, calculate_reliability_and_ece
 from python_code.utils.probs_utils import get_bits_from_qpsk_symbols, get_qpsk_symbols_from_bits, \
     get_bits_from_eightpsk_symbols, get_eightpsk_symbols_from_bits
@@ -19,6 +26,15 @@ random.seed(conf.seed)
 torch.manual_seed(conf.seed)
 torch.cuda.manual_seed(conf.seed)
 np.random.seed(conf.seed)
+
+DETECTORS_TYPE_DICT = {DetectorType.seq_model.name: SeqDeepSICTrainer,
+                       DetectorType.end_to_end_model.name: EndToEndDeepSICTrainer,
+                       DetectorType.model_based_bayesian.name: ModelBasedBayesianDeepSICTrainer,
+                       DetectorType.bayesian.name: BayesianDeepSICTrainer,
+                       DetectorType.black_box.name: DNNTrainer,
+                       DetectorType.bayesian_black_box.name: BayesianDNNTrainer}
+
+DECODERS_TYPE_DICT = {DecoderType.bp_model.name: SeqDeepSICTrainer}
 
 
 class Trainer(object):
@@ -33,6 +49,7 @@ class Trainer(object):
         # initialize matrices, datasets and detector
         self._initialize_dataloader()
         self._initialize_detector()
+        self._initialize_decoder()
         self.softmax = torch.nn.Softmax(dim=1)  # Single symbol probability inference
 
     def get_name(self):
@@ -40,9 +57,15 @@ class Trainer(object):
 
     def _initialize_detector(self):
         """
-        Every trainer must have some base detector seq_model
+        Every trainer must have some base detector
         """
-        self.detector = None
+        self.detector = DETECTORS_TYPE_DICT[conf.detector_type]()
+
+    def _initialize_decoder(self):
+        """
+        Every trainer must have some base decoder
+        """
+        self.decoder = None
 
     # calculate train loss
     def calc_loss(self, est: torch.Tensor, tx: torch.Tensor) -> torch.Tensor:
@@ -139,9 +162,9 @@ class Trainer(object):
                                 rx[conf.pilot_size // self.constellation_bits:]
             if conf.is_online_training:
                 # re-train the detector
-                self._online_training(tx_pilot, rx_pilot)
+                self.detector._online_training(tx_pilot, rx_pilot)
             # detect data part after training on the pilot part
-            detected_word, (confident_bits, confidence_word) = self.forward(rx_data, h)
+            detected_word, (confident_bits, confidence_word) = self.detector.forward(rx_data, h)
             # calculate accuracy
             target = tx_data[:, :rx.shape[1]]
             if conf.modulation_type == ModulationType.QPSK.name:

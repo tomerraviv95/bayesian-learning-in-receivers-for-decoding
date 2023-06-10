@@ -28,7 +28,7 @@ class Config:
             config = yaml.load(f, Loader=yaml.FullLoader)
             self.config_name = os.path.splitext(os.path.basename(config_path))[0]
 
-        # set attribute of Trainer with every config item
+        # set attribute of Decoder with every config item
         for k, v in config.items():
             setattr(self, k, v)
 

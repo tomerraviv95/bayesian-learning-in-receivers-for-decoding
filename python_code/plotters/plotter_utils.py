@@ -9,7 +9,7 @@ import numpy as np
 
 from dir_definitions import FIGURES_DIR, PLOTS_DIR
 from python_code import conf
-from python_code.detectors.trainer import Trainer
+from python_code.trainer import Trainer
 from python_code.plotters.plotter_config import PlotType
 from python_code.utils.metrics import calculate_reliability_and_ece
 from python_code.utils.python_utils import load_pkl, save_pkl

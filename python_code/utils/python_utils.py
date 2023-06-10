@@ -1,4 +1,5 @@
 import math
+import os
 import pickle as pkl
 from typing import Dict, Any
 
@@ -24,3 +25,14 @@ def normalize_for_modulation(size: int) -> int:
     Return the bits/symbols ratio for the given block size
     """
     return int(size // int(math.log2(MODULATION_NUM_MAPPING[conf.modulation_type])))
+
+def load_code_parameters(bits_num, parity_bits_num, ecc_mat_path, tanner_graph_cycle_reduction):
+    ecc_path = os.path.join(ecc_mat_path, '_'.join(['BCH', str(bits_num), str(parity_bits_num)]))
+    if os.path.isfile(ecc_path + '_PCM.npy'):
+        code_pcm = np.load(ecc_path + '_PCM.npy').astype(np.float32)
+        code_gm = np.load(ecc_path + '_GM.npy').astype(np.float32)
+    else:
+        raise Exception('Code ({},{}) matrices are not exist!!!'.format(bits_num, parity_bits_num))
+    if tanner_graph_cycle_reduction:
+        code_pcm = (np.load(ecc_path + '_PCM_CR.npy')).astype(np.float32)
+    return code_pcm, code_gm

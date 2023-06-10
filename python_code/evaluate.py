@@ -13,7 +13,7 @@ from python_code.utils.constants import DetectorType
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 
-CHANNEL_TYPE_TO_TRAINER_DICT = {DetectorType.seq_model.name: SeqDeepSICTrainer,
+DETECTORS_TYPE_DICT = {DetectorType.seq_model.name: SeqDeepSICTrainer,
                                 DetectorType.end_to_end_model.name: EndToEndDeepSICTrainer,
                                 DetectorType.model_based_bayesian.name: ModelBasedBayesianDeepSICTrainer,
                                 DetectorType.bayesian.name: BayesianDeepSICTrainer,
