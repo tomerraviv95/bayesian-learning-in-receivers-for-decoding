@@ -1,13 +1,28 @@
+import numpy as np
 import torch
+from torch import nn
 
+from dir_definitions import ECC_MATRICES_DIR
+from python_code import conf
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
-from python_code.decoders.decoder import Decoder
-from python_code.utils.constants import CLIPPING_VAL, Phase
+from python_code.utils.constants import CLIPPING_VAL, Phase, TANNER_GRAPH_CYCLE_REDUCTION
+from python_code.utils.python_utils import load_code_parameters
 
 
-class BPDecoder(Decoder):
+class BPDecoder(nn.Module):
     def __init__(self):
         super().__init__()
+        self.odd_llr_mask_only = True
+        self.even_mask_only = True
+        self.multiloss_output_mask_only = True
+        self.output_mask_only = False
+        self.multi_loss_flag = True
+        self.iteration_num = conf.iterations
+        self._code_bits = conf.code_bits
+        self._info_bits = conf.info_bits
+        self.code_pcm, self.code_gm = load_code_parameters(self._code_bits, self._info_bits,
+                                                           ECC_MATRICES_DIR, TANNER_GRAPH_CYCLE_REDUCTION)
+        self.neurons = int(np.sum(self.code_pcm))
         self.lr = None
         self.initialize_layers()
 
@@ -26,12 +41,6 @@ class BPDecoder(Decoder):
         self.output_layer = OutputLayer(neurons=self.neurons,
                                         input_output_layer_size=self._code_bits,
                                         code_pcm=self.code_pcm)
-
-    def calc_loss(self, decision, labels, not_satisfied_list):
-        pass
-
-    def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
-        pass
 
     def forward(self, x, phase: Phase):
         """
@@ -56,4 +65,5 @@ class BPDecoder(Decoder):
             output = x + self.output_layer.forward(even_output, mask_only=self.output_mask_only)
             output_list[i + 1] = output.clone()
 
-        return output_list
+        decoded_words = torch.round(torch.sigmoid(-output_list[-1]))
+        return decoded_words
