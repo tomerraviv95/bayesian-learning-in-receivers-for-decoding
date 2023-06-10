@@ -2,8 +2,8 @@
 seed: 0 # run seed
 
 # MIMO protocol
-block_length: 45000 # coherence block time, total size of pilot + data. values: int.
-pilots_length: 4500 # pilot bits
+block_length: 4500 # coherence block time, total size of pilot + data. values: int.
+pilots_length: 450 # pilot bits
 blocks_num: 50 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
@@ -19,7 +19,7 @@ code_bits: 63
 message_bits: 45
 
 # Detector type
-detector_type: 'seq_model'
+detector_type: 'model_based_bayesian'
 # 'seq_model' or 'end_to_end_model' or 'model_based_bayesian' or 'bayesian' or 'black_box' or 'bayesian_black_box'
 
 # online training hyperparameters

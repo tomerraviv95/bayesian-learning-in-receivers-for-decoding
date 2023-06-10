@@ -67,6 +67,7 @@ class Evaluator(object):
         # detect sequentially
         for block_ind in range(conf.blocks_num):
             print('*' * 20)
+            print(f'current: {block_ind}')
             # get current word and channel
             mx, tx, rx = message_words[block_ind], transmitted_words[block_ind], received_words[block_ind]
             # split words into data and pilot part
@@ -82,7 +83,7 @@ class Evaluator(object):
             # calculate accuracy for detection
             detection_ber = self.calculate_detection_ber(detected_words, rx, tx_data)
             detection_bers.append(detection_ber)
-            print(f'current: {block_ind, detection_ber}')
+            print(f'detection error: {detection_ber}')
             # use detected soft values to calculate the final message
             to_decode_word = MAX_CLIPPING * BPSKModulator.modulate(confident_bits) * (confidence_word - HALF)
             decoded_words = torch.zeros_like(mx_data)
@@ -91,7 +92,7 @@ class Evaluator(object):
                 decoded_words[:, user] = self.decoder.forward(current_to_decode)[:, :conf.message_bits].reshape(-1)
             decoded_ber = calculate_ber(decoded_words, mx_data)
             decoding_bers.append(decoded_ber)
-            print(f'current: {block_ind, decoded_ber}')
+            print(f'decoding error: {decoded_ber}')
         return decoding_bers, detection_bers
 
     def calculate_detection_ber(self, detected_word, rx, tx_data):
