@@ -4,7 +4,6 @@ from typing import Tuple, List, Dict, Union
 
 from dir_definitions import CONFIG_RUNS_DIR
 from python_code.evaluator import Evaluator
-from python_code.evaluate import CHANNEL_TYPE_TO_TRAINER_DICT
 from python_code.plotters.plotter_utils import get_all_plots
 from python_code.utils.config_singleton import Config
 
@@ -13,8 +12,6 @@ RunParams = namedtuple(
     "run_over trial_num",
     defaults=[False, 1]
 )
-
-BER_ERROR_THRESHOLD = 0.4
 
 
 def set_method_name(conf: Config, params_dict: Dict[str, Union[int, str]]) -> str:
@@ -33,31 +30,21 @@ def set_method_name(conf: Config, params_dict: Dict[str, Union[int, str]]) -> st
     return name
 
 
-def gather_plots_by_trials(all_curves: List[Tuple[str, List, List, List]], conf: Config, method_name: str,
-                           name: str, run_over: bool,
-                           trial_num: int, trainer: Evaluator):
+def gather_plots_by_trials(all_curves: List[Tuple[str, List, List, List]], conf: Config, name: str, run_over: bool,
+                           trial_num: int, evaluater: Evaluator):
     """
     Run the experiments #trial_num times, averaging over the whole run's aggregated ser.
     """
     total_ber = []
-    total_correct_values_list = []
-    total_error_values_list = []
+    method_name = str(evaluater.detector)
     for trial in range(trial_num):
         conf.set_value('seed', 1 + trial)
-        trainer.__init__()
-        ber, correct_values_list, error_values_list = get_all_plots(trainer, run_over=run_over,
-                                                                    method_name=method_name + name,
-                                                                    trial=trial)
-        errored_indices = [ind for ind in range(len(ber)) if ber[ind] > BER_ERROR_THRESHOLD]
-        if len(errored_indices) > 0:
-            for errored_index in errored_indices[::-1]:
-                del ber[errored_index]
-                del correct_values_list[errored_index]
-                del error_values_list[errored_index]
-        total_ber.append(ber)
-        total_correct_values_list.extend(correct_values_list)
-        total_error_values_list.extend(error_values_list)
-    all_curves.append((method_name, total_ber, total_correct_values_list, total_error_values_list))
+        evaluater.__init__()
+        ber_total = get_all_plots(evaluater, run_over=run_over,
+                                  method_name=method_name + name,
+                                  trial=trial)
+        total_ber.append(ber_total)
+    all_curves.append((method_name, total_ber))
 
 
 def compute_for_method(all_curves: List[Tuple[float, str]], params_dict: Dict[str, Union[int, str]],
@@ -66,8 +53,5 @@ def compute_for_method(all_curves: List[Tuple[float, str]], params_dict: Dict[st
     conf.load_config(os.path.join(CONFIG_RUNS_DIR, f'{plot_type_name}.yaml'))
     name = set_method_name(conf, params_dict)
     name += f'_{plot_type_name}'
-    trainer = CHANNEL_TYPE_TO_TRAINER_DICT[params_dict['detector_type']]()
-    full_method_name = f'{trainer.__str__()}'
-    print(full_method_name)
-    gather_plots_by_trials(all_curves, conf, full_method_name, name, run_params_obj.run_over, run_params_obj.trial_num,
-                           trainer)
+    evaluater = Evaluator()
+    gather_plots_by_trials(all_curves, conf, name, run_params_obj.run_over, run_params_obj.trial_num, evaluater)

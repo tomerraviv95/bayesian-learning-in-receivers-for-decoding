@@ -42,7 +42,7 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         """
-        Main training function for DeepSIC trainer. Initializes the probabilities, then propagates them through the
+        Main training function for DeepSIC evaluater. Initializes the probabilities, then propagates them through the
         network, training the entire networks by end-to-end manner.
         """
         if not conf.fading_in_channel:

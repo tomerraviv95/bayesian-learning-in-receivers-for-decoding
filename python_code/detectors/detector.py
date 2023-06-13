@@ -17,9 +17,9 @@ np.random.seed(conf.seed)
 
 class Detector(nn.Module):
     """
-    Implements the meta-trainer class. Every trainer must inherent from this base class.
+    Implements the meta-evaluater class. Every evaluater must inherent from this base class.
     It implements the evaluation method, initializes the dataloader and the detector.
-    It also defines some functions that every inherited trainer must implement.
+    It also defines some functions that every inherited evaluater must implement.
     """
 
     def __init__(self):
@@ -33,14 +33,14 @@ class Detector(nn.Module):
 
     def _initialize_detector(self):
         """
-        Every trainer must have some base detector
+        Every evaluater must have some base detector
         """
         self.detector = None
 
     # calculate train loss
     def calc_loss(self, est: torch.Tensor, tx: torch.Tensor) -> torch.Tensor:
         """
-         Every trainer must have some loss calculation
+         Every evaluater must have some loss calculation
         """
         pass
 
@@ -92,13 +92,13 @@ class Detector(nn.Module):
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         """
-        Every detector trainer must have some function to adapt it online
+        Every detector evaluater must have some function to adapt it online
         """
         pass
 
     def forward(self, rx: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
-        Every trainer must have some forward pass for its detector
+        Every evaluater must have some forward pass for its detector
         """
         pass
 

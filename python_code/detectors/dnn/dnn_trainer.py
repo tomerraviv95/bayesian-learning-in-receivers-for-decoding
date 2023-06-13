@@ -11,7 +11,7 @@ EPOCHS = 400
 
 
 class DNNTrainer(Detector):
-    """Form the trainer class.
+    """Form the evaluater class.
 
     Keyword arguments:
 

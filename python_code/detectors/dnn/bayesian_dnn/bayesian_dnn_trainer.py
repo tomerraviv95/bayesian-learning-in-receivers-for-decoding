@@ -12,7 +12,7 @@ HIDDEN_SIZE = 60
 
 
 class BayesianDNNTrainer(DNNTrainer):
-    """Form the trainer class.
+    """Form the evaluater class.
 
     Keyword arguments:
 

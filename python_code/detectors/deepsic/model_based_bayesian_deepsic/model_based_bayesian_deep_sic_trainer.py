@@ -74,7 +74,7 @@ class ModelBasedBayesianDeepSICTrainer(DeepSICTrainer):
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         """
-        Main training function for DeepSIC trainer. Initializes the probabilities, then propagates them through the
+        Main training function for DeepSIC evaluater. Initializes the probabilities, then propagates them through the
         network, training sequentially each network and not by end-to-end manner (each one individually).
         """
         if not conf.fading_in_channel:

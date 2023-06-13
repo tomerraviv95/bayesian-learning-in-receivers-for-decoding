@@ -1,5 +1,6 @@
 import math
 import random
+from collections import namedtuple
 from typing import List, Tuple
 
 import numpy as np
@@ -21,6 +22,11 @@ np.random.seed(conf.seed)
 
 MAX_CLIPPING = 20
 
+SerOutput = namedtuple(
+    "SerOutput",
+    "decoding_bers detection_bers"
+)
+
 
 class Evaluator(object):
     """
@@ -39,13 +45,13 @@ class Evaluator(object):
 
     def _initialize_detector(self):
         """
-        Every trainer must have some base detector
+        Every evaluater must have some base detector
         """
         self.detector = DETECTORS_TYPE_DICT[conf.detector_type]()
 
     def _initialize_decoder(self):
         """
-        Every trainer must have some base decoder
+        Every evaluater must have some base decoder
         """
         self.decoder = BPDecoder()
 
@@ -61,6 +67,7 @@ class Evaluator(object):
         data blocks for the paper.
         :return: list of ber per timestep
         """
+        print(str(self.detector))
         detection_bers, decoding_bers = [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
@@ -93,7 +100,8 @@ class Evaluator(object):
             decoded_ber = calculate_ber(decoded_words, mx_data)
             decoding_bers.append(decoded_ber)
             print(f'decoding error: {decoded_ber}')
-        return decoding_bers, detection_bers
+        ser_output = SerOutput(decoding_bers=decoding_bers, detection_bers=detection_bers)
+        return ser_output
 
     def calculate_detection_ber(self, detected_word, rx, tx_data):
         detection_target = tx_data[:, :rx.shape[1]]
