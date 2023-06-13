@@ -26,13 +26,13 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         self.kl_scale = 5
         self.kl_beta = 1e-2
         self.arm_beta = 1
-        self.log_softmax = nn.LogSoftmax(dim=1)
-        self.softmax = nn.Softmax(dim=1)
         self.classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
         self.hidden_size = BASE_HIDDEN_SIZE * self.classes_num
         base_rx_size = conf.n_ant if conf.modulation_type == ModulationType.BPSK.name else 2 * conf.n_ant
         self.linear_input = base_rx_size + (self.classes_num - 1) * (conf.n_user - 1)  # from DeepSIC paper
         super().__init__()
+        self.log_softmax = nn.LogSoftmax(dim=1)
+        self.softmax = nn.Softmax(dim=1)
 
     def __str__(self):
         return 'Bayesian DeepSIC'
@@ -119,7 +119,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         total_probs_vec = 0
         for ind_ensemble in range(self.ensemble_num):
             # detect and decode
-            probs_vec = self._initialize_probs_for_infer()
+            probs_vec = self._initialize_probs_for_infer(rx)
             for i in range(ITERATIONS):
                 probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
             total_probs_vec += probs_vec

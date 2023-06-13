@@ -11,7 +11,7 @@ n_ant: 4 # number of received signals
 # channel
 linear: True # channel linearity. Boolean value.
 fading_in_channel: False # If the channel is fading/non-fading. values: [True, False]
-snr: 12 # validation SNR value. values: float.
+snr: 10 # validation SNR value. values: float.
 modulation_type: 'BPSK' # ['BPSK','QPSK','EightPSK']
 
 # coding hyperparams
@@ -19,7 +19,7 @@ code_bits: 63
 message_bits: 45
 
 # Detector type
-detector_type: 'model_based_bayesian'
+detector_type: 'bayesian'
 # 'seq_model' or 'end_to_end_model' or 'model_based_bayesian' or 'bayesian' or 'black_box' or 'bayesian_black_box'
 
 # online training hyperparameters

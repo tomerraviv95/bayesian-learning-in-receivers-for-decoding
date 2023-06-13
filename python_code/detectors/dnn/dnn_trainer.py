@@ -54,13 +54,13 @@ class DNNTrainer(Detector):
         confidence_word = torch.amax(torch.softmax(soft_estimation, dim=1), dim=1).unsqueeze(-1).repeat([1, self.n_ant])
         estimated_states = torch.argmax(soft_estimation, dim=1)
         detected_word = calculate_symbols_from_states(self.n_ant, estimated_states).long()
-
         if conf.modulation_type == ModulationType.QPSK.name:
             detected_word = get_bits_from_qpsk_symbols(detected_word)
-            confident_bits = detected_word
+
         if conf.modulation_type == ModulationType.EightPSK.name:
             detected_word = get_bits_from_eightpsk_symbols(detected_word)
-            confident_bits = detected_word
+        confident_bits = detected_word
+
         return detected_word, (confident_bits, confidence_word)
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
