@@ -126,6 +126,7 @@ def get_to_plot_values_dict(all_curves: List[Tuple[float, str]]) -> Tuple[str, D
     values_to_plot_dict = {method_name: {'detection_bers': [], 'decoding_bers': []} for method_name in
                            set([curve[0] for curve in all_curves])}
     for method_name, ser in all_curves:
-        values_to_plot_dict[method_name]['detection_bers'].extend(ser[0].detection_bers)
-        values_to_plot_dict[method_name]['decoding_bers'].extend(ser[0].decoding_bers)
+        non_zero_idxs = np.nonzero(np.array(ser[0].decoding_bers))[0]
+        values_to_plot_dict[method_name]['detection_bers'].extend(list(np.array(ser[0].detection_bers)[non_zero_idxs]))
+        values_to_plot_dict[method_name]['decoding_bers'].extend(list(np.array(ser[0].decoding_bers)[non_zero_idxs]))
     return values_to_plot_dict
