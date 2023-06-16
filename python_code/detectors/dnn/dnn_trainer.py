@@ -1,6 +1,9 @@
+from typing import Tuple
+
 import torch
 
 from python_code import conf
+from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.detectors.detector_trainer import Detector
 from python_code.detectors.dnn.dnn_detector import DNNDetector
 from python_code.utils.constants import Phase, ModulationType
@@ -43,24 +46,26 @@ class DNNTrainer(Detector):
         loss = self.criterion(input=est, target=gt_states)
         return loss
 
-    def forward(self, rx: torch.Tensor, probs_vec: torch.Tensor = None) -> torch.Tensor:
+    def forward(self, rx: torch.Tensor, probs_vec: torch.Tensor = None) -> Tuple[torch.Tensor, torch.Tensor]:
         if conf.modulation_type == ModulationType.BPSK.name:
             rx = rx.float()
         elif conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
             rx = torch.view_as_real(rx).float().reshape(rx.shape[0], -1)
 
         soft_estimation = self.detector(rx, phase=Phase.TEST)
-        confidence_word = torch.amax(torch.softmax(soft_estimation, dim=1), dim=1).unsqueeze(-1).repeat([1, self.n_ant])
         estimated_states = torch.argmax(soft_estimation, dim=1)
-        detected_word = calculate_symbols_from_states(self.n_ant, estimated_states).long()
+        detected_words = calculate_symbols_from_states(self.n_ant, estimated_states).long()
         if conf.modulation_type == ModulationType.QPSK.name:
-            detected_word = get_bits_from_qpsk_symbols(detected_word)
-
+            detected_words = get_bits_from_qpsk_symbols(detected_words)
         if conf.modulation_type == ModulationType.EightPSK.name:
-            detected_word = get_bits_from_eightpsk_symbols(detected_word)
-        confident_bits = detected_word
-
-        return detected_word, (confident_bits, confidence_word)
+            detected_words = get_bits_from_eightpsk_symbols(detected_words)
+        soft_confidences = torch.amax(torch.softmax(soft_estimation, dim=1), dim=1).unsqueeze(-1).repeat(
+            [1, self.n_ant])
+        if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
+            soft_confidences = torch.repeat_interleave(soft_confidences,
+                                                       MODULATION_NUM_MAPPING[conf.modulation_type] // 2,
+                                                       dim=0)
+        return detected_words, soft_confidences
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         """
