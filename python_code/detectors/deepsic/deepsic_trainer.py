@@ -49,8 +49,8 @@ class DeepSICTrainer(Detector):
         probs_vec = self._initialize_probs_for_infer(rx)
         for i in range(ITERATIONS):
             probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
-        confidence_word, confident_bits, detected_word = self.compute_output(probs_vec)
-        return detected_word, (confident_bits, confidence_word)
+        detected_words, soft_confidences = self.compute_output(probs_vec)
+        return detected_words, soft_confidences
 
     def compute_output(self, probs_vec):
         if conf.modulation_type == ModulationType.BPSK.name:
@@ -61,17 +61,19 @@ class DeepSICTrainer(Detector):
             symbols_word = prob_to_EightPSK_symbol(probs_vec.float())
         else:
             raise ValueError("No such constellation!")
-        detected_word = MODULATION_DICT[conf.modulation_type].demodulate(symbols_word)
+        detected_words = MODULATION_DICT[conf.modulation_type].demodulate(symbols_word)
         if conf.modulation_type == ModulationType.BPSK.name:
             new_probs_vec = torch.cat([probs_vec.unsqueeze(dim=2), (1 - probs_vec).unsqueeze(dim=2)], dim=2)
-            confident_bits = 1 - torch.argmax(new_probs_vec, dim=2)
         elif conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
             new_probs_vec = torch.cat([probs_vec, (1 - probs_vec.sum(dim=2)).unsqueeze(dim=2)], dim=2)
-            confident_bits = detected_word
         else:
             raise ValueError("No such constellation!")
-        confidence_word = torch.amax(new_probs_vec, dim=2)
-        return confidence_word, confident_bits, detected_word
+        soft_confidences = torch.amax(new_probs_vec, dim=2)
+        if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
+            soft_confidences = torch.repeat_interleave(soft_confidences,
+                                                       MODULATION_NUM_MAPPING[conf.modulation_type] // 2,
+                                                       dim=0)
+        return detected_words, soft_confidences
 
     def prepare_data_for_training(self, tx: torch.Tensor, rx: torch.Tensor, probs_vec: torch.Tensor) -> [
         torch.Tensor, torch.Tensor]:

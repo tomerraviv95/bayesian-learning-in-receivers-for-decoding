@@ -6,14 +6,14 @@ from typing import List, Tuple
 import numpy as np
 import torch
 
-from python_code import conf
+from python_code import conf, DEVICE
 from python_code.channel.channel_dataset import ChannelModelDataset
 from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING, BPSKModulator
 from python_code.decoders.bp_decoder import BPDecoder
 from python_code.detectors import DETECTORS_TYPE_DICT
 from python_code.utils.constants import ModulationType, HALF
-from python_code.utils.metrics import calculate_ber
-from python_code.utils.probs_utils import get_bits_from_qpsk_symbols, get_bits_from_eightpsk_symbols
+from python_code.utils.metrics import calculate_error_rate
+from python_code.utils.probs_utils import get_qpsk_symbols_from_bits, get_eightpsk_symbols_from_bits
 
 random.seed(conf.seed)
 torch.manual_seed(conf.seed)
@@ -22,9 +22,9 @@ np.random.seed(conf.seed)
 
 MAX_CLIPPING = 20
 
-SerOutput = namedtuple(
-    "SerOutput",
-    "decoding_bers detection_bers"
+MetricOutput = namedtuple(
+    "MetricOutput",
+    "ser_list ber_list"
 )
 
 
@@ -68,7 +68,7 @@ class Evaluator(object):
         :return: list of ber per timestep
         """
         print(str(self.detector))
-        detection_bers, decoding_bers = [], []
+        ser_list, ber_list = [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
         # detect sequentially
@@ -78,7 +78,7 @@ class Evaluator(object):
             # get current word and channel
             mx, tx, rx = message_words[block_ind], transmitted_words[block_ind], received_words[block_ind]
             # split words into data and pilot part
-            uncoded_pilots_end_ind = int(conf.pilots_length // self.constellation_bits)
+            uncoded_pilots_end_ind = int(conf.pilots_length)
             pilots_end_ind = int(conf.pilots_length // self.constellation_bits / conf.message_bits * conf.code_bits)
             mx_pilot, tx_pilot, rx_pilot = mx[:uncoded_pilots_end_ind], tx[:pilots_end_ind], rx[:pilots_end_ind]
             mx_data, tx_data, rx_data = mx[uncoded_pilots_end_ind:], tx[pilots_end_ind:], rx[pilots_end_ind:]
@@ -86,31 +86,35 @@ class Evaluator(object):
             if conf.is_online_training:
                 self.detector._online_training(tx_pilot, rx_pilot)
             # detect data part after training on the pilot part
-            detected_words, (confident_bits, confidence_word) = self.detector.forward(rx_data)
+            detected_words, soft_confidences = self.detector.forward(rx_data)
             # calculate accuracy for detection
-            detection_ber = self.calculate_detection_ber(detected_words, rx, tx_data)
-            detection_bers.append(detection_ber)
-            print(f'detection error: {detection_ber}')
+            ser = self.calculate_ser(detected_words, tx_data)
+            ser_list.append(ser)
+            print(f'symbol error rate: {ser}')
             # use detected soft values to calculate the final message
-            to_decode_word = MAX_CLIPPING * BPSKModulator.modulate(confident_bits) * (confidence_word - HALF)
-            decoded_words = torch.zeros_like(mx_data)
-            for user in range(conf.n_user):
-                current_to_decode = to_decode_word[:, user].reshape(-1, conf.code_bits)
-                decoded_words[:, user] = self.decoder.forward(current_to_decode)[:, :conf.message_bits].reshape(-1)
-            decoded_ber = calculate_ber(decoded_words, mx_data)
-            decoding_bers.append(decoded_ber)
-            print(f'decoding error: {decoded_ber}')
-        ser_output = SerOutput(decoding_bers=decoding_bers, detection_bers=detection_bers)
-        return ser_output
+            ber = self.calculate_ber(soft_confidences, detected_words, mx_data)
+            ber_list.append(ber)
+            print(f'bit error rate: {ber}')
+        metrics_output = MetricOutput(ber_list=ber_list, ser_list=ser_list)
+        return metrics_output
 
-    def calculate_detection_ber(self, detected_word, rx, tx_data):
-        detection_target = tx_data[:, :rx.shape[1]]
+    def calculate_ser(self, detected_word, tx_data):
         if conf.modulation_type == ModulationType.QPSK.name:
-            detection_target = get_bits_from_qpsk_symbols(detection_target)
+            detected_word = torch.Tensor(get_qpsk_symbols_from_bits(detected_word.cpu().numpy())).to(DEVICE)
         if conf.modulation_type == ModulationType.EightPSK.name:
-            detection_target = get_bits_from_eightpsk_symbols(detection_target)
-        detection_ber = calculate_ber(detected_word, detection_target)
-        return detection_ber
+            detected_word = torch.Tensor(get_eightpsk_symbols_from_bits(detected_word.cpu().numpy())).to(DEVICE)
+        ser = calculate_error_rate(detected_word, tx_data)
+        return ser
+
+    def calculate_ber(self, confidence_word, detected_words, mx_data):
+        to_decode_word = MAX_CLIPPING * BPSKModulator.modulate(detected_words) * (confidence_word - HALF)
+        decoded_words = torch.zeros_like(mx_data)
+        for user in range(conf.n_user):
+            current_to_decode = to_decode_word[:, user].reshape(-1, conf.code_bits)
+            current_decoded_word = self.decoder.forward(current_to_decode)
+            decoded_words[:, user] = current_decoded_word[:, :conf.message_bits].reshape(-1)
+        decoded_ber = calculate_error_rate(decoded_words, mx_data)
+        return decoded_ber
 
 
 if __name__ == "__main__":
