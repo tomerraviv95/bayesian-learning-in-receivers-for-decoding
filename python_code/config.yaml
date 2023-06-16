@@ -19,7 +19,7 @@ code_bits: 63
 message_bits: 45
 
 # Detector type
-detector_type: 'model_based_bayesian'
+detector_type: 'black_box'
 # 'seq_model' or 'end_to_end_model' or 'model_based_bayesian' or 'bayesian' or 'black_box' or 'bayesian_black_box'
 
 # online training hyperparameters

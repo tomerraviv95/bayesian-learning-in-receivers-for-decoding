@@ -24,9 +24,9 @@ class Detector(nn.Module):
 
     def __init__(self):
         super().__init__()
+        self.train_from_scratch = not conf.fading_in_channel
         self._initialize_detector()
         self.softmax = torch.nn.Softmax(dim=1)
-
 
     def get_name(self):
         return self.__name__()

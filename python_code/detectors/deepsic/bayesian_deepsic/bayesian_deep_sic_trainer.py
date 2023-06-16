@@ -8,10 +8,9 @@ from python_code import DEVICE, conf
 from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.detectors.deepsic.bayesian_deepsic.masked_deep_sic_detector import LossVariable, \
     MaskedDeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS
 from python_code.utils.constants import HALF, Phase, ModulationType
 
-ITERATIONS = 2
 EPOCHS = 400
 
 BASE_HIDDEN_SIZE = 64
@@ -21,6 +20,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
     """
     The Black-Box Bayesian Approach Applied to DeepSIC
     """
+
     def __init__(self):
         self.ensemble_num = 5
         self.kl_scale = 5
@@ -90,7 +90,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         return loss_vars
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         self.optimizer = torch.optim.Adam(self.detector.parameters(), lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()

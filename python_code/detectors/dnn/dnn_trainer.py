@@ -1,7 +1,7 @@
 import torch
 
 from python_code import conf
-from python_code.detectors.detector import Detector
+from python_code.detectors.detector_trainer import Detector
 from python_code.detectors.dnn.dnn_detector import DNNDetector
 from python_code.utils.constants import Phase, ModulationType
 from python_code.utils.probs_utils import calculate_mimo_states, get_bits_from_qpsk_symbols, \
@@ -18,7 +18,6 @@ class DNNTrainer(Detector):
     """
 
     def __init__(self):
-        self.memory_length = 1
         self.n_user = conf.n_user
         self.n_ant = conf.n_ant
         self.lr = 5e-3
@@ -70,7 +69,7 @@ class DNNTrainer(Detector):
         :param tx: transmitted word
         :param rx: received word
         """
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         self.deep_learning_setup(self.lr)
 

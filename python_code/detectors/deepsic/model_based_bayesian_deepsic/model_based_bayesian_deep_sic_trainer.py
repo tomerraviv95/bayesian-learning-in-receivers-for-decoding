@@ -1,16 +1,15 @@
-## Implement the LBD method "Learnable Bernoulli Dropout for Bayesian Deep Learning"
+## Implements the LBD method "Learnable Bernoulli Dropout for Bayesian Deep Learning"
 from typing import List
 
 import torch
 from torch import nn
 
-from python_code import DEVICE, conf
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer
+from python_code import DEVICE
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS
 from python_code.detectors.deepsic.model_based_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
     BayesianDeepSICDetector
 from python_code.utils.constants import HALF, Phase
 
-ITERATIONS = 2
 EPOCHS = 400
 
 
@@ -77,7 +76,7 @@ class ModelBasedBayesianDeepSICTrainer(DeepSICTrainer):
         Main training function for DeepSIC evaluater. Initializes the probabilities, then propagates them through the
         network, training sequentially each network and not by end-to-end manner (each one individually).
         """
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         initial_probs = self._initialize_probs(tx)
         tx_all, rx_all = self.prepare_data_for_training(tx, rx, initial_probs)

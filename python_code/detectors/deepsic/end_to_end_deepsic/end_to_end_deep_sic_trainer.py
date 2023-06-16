@@ -3,11 +3,10 @@ from typing import List
 import torch
 from torch import nn
 
-from python_code import DEVICE, conf
+from python_code import DEVICE
 from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS
 
-ITERATIONS = 2
 EPOCHS = 400
 
 
@@ -45,7 +44,7 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
         Main training function for DeepSIC evaluater. Initializes the probabilities, then propagates them through the
         network, training the entire networks by end-to-end manner.
         """
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         self.optimizer = torch.optim.Adam(self.detector.parameters(), lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
