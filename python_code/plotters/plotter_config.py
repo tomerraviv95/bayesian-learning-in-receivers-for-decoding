@@ -37,9 +37,18 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], list, str, str, List[in
         to_plot_by_values = range(8, 11)
     elif plot_type == PlotType.QPSK_BER_VS_SER:
         params_dicts = [
+            {'snr': 6, 'detector_type': DetectorType.black_box.name},
+            {'snr': 7, 'detector_type': DetectorType.black_box.name},
             {'snr': 8, 'detector_type': DetectorType.black_box.name},
+            {'snr': 9, 'detector_type': DetectorType.black_box.name},
+            {'snr': 6, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 7, 'detector_type': DetectorType.seq_model.name},
             {'snr': 8, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 9, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 6, 'detector_type': DetectorType.model_based_bayesian.name},
+            {'snr': 7, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 8, 'detector_type': DetectorType.model_based_bayesian.name},
+            {'snr': 9, 'detector_type': DetectorType.model_based_bayesian.name},
         ]
         xlabel, ylabel = 'SER', 'BER'
         to_plot_by_values = range(8, 9)
@@ -59,7 +68,7 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], list, str, str, List[in
             {'snr': 9, 'detector_type': DetectorType.model_based_bayesian.name},
         ]
         xlabel, ylabel = 'SNR [dB]', 'BER'
-        to_plot_by_values = range(8, 11)
+        to_plot_by_values = range(6, 10)
     else:
         raise ValueError('No such plot type!!!')
 

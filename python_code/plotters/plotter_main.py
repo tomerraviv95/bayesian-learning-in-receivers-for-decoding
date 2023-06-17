@@ -1,6 +1,6 @@
 from python_code.plotters.plotter_config import get_config, PlotType
 from python_code.plotters.plotter_methods import compute_for_method, RunParams
-from python_code.plotters.plotter_utils import plot_by_det_ber, plot_by_snr
+from python_code.plotters.plotter_utils import plot_by_det_ber, plot_ber_vs_snr, plot_ser_vs_snr
 
 ## Plotter for the Paper's Figures
 if __name__ == '__main__':
@@ -17,8 +17,9 @@ if __name__ == '__main__':
         compute_for_method(all_curves, params_dict, run_params_obj, plot_type.name)
 
     if plot_type in [PlotType.SNR, PlotType.QPSK_SNR]:
-        plot_by_snr(all_curves, xlabel, ylabel, plot_type, to_plot_by_values)
-    elif plot_type == PlotType.DETECTION_BER:
+        plot_ber_vs_snr(all_curves, xlabel, ylabel, plot_type, to_plot_by_values)
+        plot_ser_vs_snr(all_curves, xlabel, ylabel, plot_type, to_plot_by_values)
+    elif plot_type in [PlotType.DETECTION_BER,PlotType.QPSK_BER_VS_SER]:
         plot_by_det_ber(all_curves, xlabel, ylabel, plot_type, to_plot_by_values)
     else:
         raise ValueError("No such graph type!!!")
