@@ -134,7 +134,7 @@ def plot_ber_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
     plt.grid(which='both', ls='--')
     plt.legend(loc='lower left', prop={'size': 18})
     plt.yscale('log')
-    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_snr_{plot_type}.png'), bbox_inches='tight')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_snr_{plot_type.name}.png'), bbox_inches='tight')
 
 
 def plot_ser_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
@@ -163,10 +163,10 @@ def plot_ser_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
     plt.grid(which='both', ls='--')
     plt.legend(loc='lower left', prop={'size': 18})
     plt.yscale('log')
-    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ser_versus_snr_{plot_type}.png'), bbox_inches='tight')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ser_versus_snr_{plot_type.name}.png'), bbox_inches='tight')
 
 
-def plot_by_det_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str,
+def plot_ber_vs_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str,
                     plot_type: PlotType, to_plot_by_values: List[int]):
     # path for the saved figure
     current_day_time = datetime.datetime.now()
@@ -193,7 +193,7 @@ def plot_by_det_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
     plt.legend(loc='upper left', prop={'size': 18})
     plt.yscale('log')
     plt.xscale('log')
-    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ser_versus_snrs_{plot_type}.png'), bbox_inches='tight')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_ser_{plot_type.name}.png'), bbox_inches='tight')
 
 
 def get_all_sers_dict(all_curves: List[Tuple[float, str]]) -> Tuple[

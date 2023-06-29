@@ -18,7 +18,6 @@ class ChannelModels(Enum):
 
 
 class DetectorType(Enum):
-    end_to_end_model = 'end_to_end_model'
     seq_model = 'seq_model'
     model_based_bayesian = 'model_based_bayesian'
     bayesian = 'bayesian'

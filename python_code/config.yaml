@@ -19,8 +19,8 @@ code_bits: 63
 message_bits: 45
 
 # Detector type
-detector_type: 'seq_model'
-# 'seq_model' or 'end_to_end_model' or 'model_based_bayesian' or 'bayesian' or 'black_box' or 'bayesian_black_box'
+detector_type: 'bayesian'
+# 'seq_model' or 'model_based_bayesian' or 'bayesian' or 'black_box' or 'bayesian_black_box'
 
 # online training hyperparameters
 is_online_training: True # Whether to run the online training (as in ViterbiNet). values: [True, False].
