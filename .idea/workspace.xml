@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added plotting by the SER not only BER">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added and validated that the Bayesian DeepSIC method works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/end_to_end_deep_sic_trainer.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/DETECTION_BER.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/SNR.yaml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,14 +178,7 @@
       <workItem from="1686380909049" duration="15682000" />
       <workItem from="1686677617219" duration="5880000" />
       <workItem from="1686898972403" duration="16692000" />
-      <workItem from="1688060669711" duration="1743000" />
-    </task>
-    <task id="LOCAL-00060" summary="Pushed from calibration branch">
-      <created>1673789475227</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1673789475227</updated>
+      <workItem from="1688060669711" duration="8867000" />
     </task>
     <task id="LOCAL-00061" summary="Pushed from calibration branch">
       <created>1674422769884</created>
@@ -531,7 +516,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686987103077</updated>
     </task>
-    <option name="localTasksCounter" value="109" />
+    <task id="LOCAL-00109" summary="Added and validated that the Bayesian DeepSIC method works">
+      <created>1688067344399</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1688067344399</updated>
+    </task>
+    <option name="localTasksCounter" value="110" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -549,7 +541,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Outsourced the Bayesian utils" />
     <MESSAGE value="Organized the black-box code" />
     <MESSAGE value="FIxed bug in the noise, where I generated only real noise" />
     <MESSAGE value="Fixed code" />
@@ -574,7 +565,8 @@
     <MESSAGE value="Fixed bug in the black box approach" />
     <MESSAGE value="Adapted the plotter class to support the QPSK plotting" />
     <MESSAGE value="Added plotting by the SER not only BER" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added plotting by the SER not only BER" />
+    <MESSAGE value="Added and validated that the Bayesian DeepSIC method works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added and validated that the Bayesian DeepSIC method works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -596,7 +588,7 @@
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1688061217096" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1688067317247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1688195334213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$evaluate_par.coverage" NAME="evaluate-par Coverage Results" MODIFIED="1678741528529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/concept_drift_for_receivers$evaluate.coverage" NAME="evaluate Coverage Results" MODIFIED="1659804270637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />

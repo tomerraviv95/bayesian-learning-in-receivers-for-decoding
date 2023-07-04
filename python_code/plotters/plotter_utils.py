@@ -5,6 +5,7 @@ from typing import List, Tuple, Dict
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy.polynomial.polynomial import polyfit
 
 from dir_definitions import FIGURES_DIR, PLOTS_DIR
 from python_code.evaluator import Evaluator
@@ -176,32 +177,57 @@ def plot_ber_vs_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
 
     # extract names from simulated plots
     plt.figure()
-    sers_dict = get_all_sers_dict(all_curves)
+    method_to_values_dict = get_method_to_values_dict(all_curves)
 
     # plots all methods
-    for method_name, sers in sers_dict.items():
+    for method_name, method_to_values_dict_single in method_to_values_dict.items():
         print(method_name)
-        plt.scatter(sers['detection_bers'], sers['decoding_bers'],
-                    label=method_name,
-                    color=get_color(method_name),
-                    marker=get_marker(method_name),
-                    linestyle=get_linestyle(method_name))
+        sers = np.log(np.array(method_to_values_dict_single['detection_bers']))
+        bers = np.log(np.array(method_to_values_dict_single['decoding_bers']))
+
+        indices = np.argsort(sers)
+        sorted_sers = sers[indices]
+        sorted_bers = bers[indices]
+
+        # Fit with polyfit
+        b, m = polyfit(sorted_sers, sorted_bers, 1)
+        line_fit = b + m * np.array(sorted_sers)
+
+        # filter values below some threshold
+        to_filter = line_fit < -8
+        sorted_sers = sorted_sers[~to_filter]
+        line_fit = line_fit[~to_filter]
+
+        plt.plot(sorted_sers, line_fit, label=method_name,
+                 color=get_color(method_name),
+                 marker=get_marker(method_name),
+                 linestyle=get_linestyle(method_name),
+                 linewidth=4, markevery=20)
+
+        # plt.scatter(sers, bers,
+        #             label=method_name,
+        #             color=get_color(method_name),
+        #             marker=get_marker(method_name),
+        #             linestyle=get_linestyle(method_name), alpha=0.4)
 
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(which='both', ls='--')
     plt.legend(loc='upper left', prop={'size': 18})
-    plt.yscale('log')
-    plt.xscale('log')
+    # plt.yscale('log')
+    # plt.xscale('log')
     plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_ser_{plot_type.name}.png'), bbox_inches='tight')
 
 
-def get_all_sers_dict(all_curves: List[Tuple[float, str]]) -> Tuple[
+def get_method_to_values_dict(all_curves: List[Tuple[float, str]]) -> Tuple[
     str, Dict[str, List[np.ndarray]]]:
-    values_to_plot_dict = {method_name: {'detection_bers': [], 'decoding_bers': []} for method_name in
-                           set([curve[0] for curve in all_curves])}
-    for method_name, ser in all_curves:
-        non_zero_idxs = np.nonzero(np.array(ser[0].ber_list))[0]
-        values_to_plot_dict[method_name]['detection_bers'].extend(list(np.array(ser[0].ser_list)[non_zero_idxs]))
-        values_to_plot_dict[method_name]['decoding_bers'].extend(list(np.array(ser[0].ber_list)[non_zero_idxs]))
-    return values_to_plot_dict
+    method_to_values_dict = {method_name: {'detection_bers': [], 'decoding_bers': []} for method_name in
+                             set([curve[0] for curve in all_curves])}
+    for method_name, metric_outputs in all_curves:
+        for metric_output in metric_outputs:
+            non_zero_idxs = np.array(np.nonzero(metric_output.ber_list))[0]
+            method_to_values_dict[method_name]['detection_bers'].extend(
+                list(np.array(metric_output.ser_list)[non_zero_idxs]))
+            method_to_values_dict[method_name]['decoding_bers'].extend(
+                list(np.array(metric_output.ber_list)[non_zero_idxs]))
+    return method_to_values_dict
