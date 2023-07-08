@@ -52,6 +52,6 @@ def compute_for_method(all_curves: List[Tuple[float, str]], params_dict: Dict[st
     conf = Config()
     conf.load_config(os.path.join(CONFIG_RUNS_DIR, f'{plot_type_name}.yaml'))
     name = set_method_name(conf, params_dict)
-    name = f'{plot_type_name}_' + name
+    name = f'{plot_type_name}' + name
     evaluater = Evaluator()
     gather_plots_by_trials(all_curves, conf, name, run_params_obj.run_over, run_params_obj.trial_num, evaluater)
