@@ -5,7 +5,7 @@ import torch
 from torch import nn
 
 from python_code import DEVICE, conf
-from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
+from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.detectors.deepsic.bayesian_deepsic.masked_deep_sic_detector import LossVariable, \
     MaskedDeepSICDetector
 from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS

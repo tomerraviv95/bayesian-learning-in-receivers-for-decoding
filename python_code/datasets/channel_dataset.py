@@ -6,10 +6,10 @@ import torch
 from torch.utils.data import Dataset
 
 from python_code import DEVICE, conf
-from python_code.channel.communication_blocks.encoder import Encoder
-from python_code.channel.communication_blocks.generator import Generator
-from python_code.channel.communication_blocks.modulator import MODULATION_DICT
-from python_code.channel.communication_blocks.transmitter import Transmitter
+from python_code.datasets.communication_blocks.encoder import Encoder
+from python_code.datasets.communication_blocks.generator import Generator
+from python_code.datasets.communication_blocks.modulator import MODULATION_DICT
+from python_code.datasets.communication_blocks.transmitter import Transmitter
 from python_code.utils.constants import ModulationType
 from python_code.utils.probs_utils import get_qpsk_symbols_from_bits, get_eightpsk_symbols_from_bits
 from python_code.utils.python_utils import normalize_for_modulation
@@ -17,7 +17,7 @@ from python_code.utils.python_utils import normalize_for_modulation
 
 class ChannelModelDataset(Dataset):
     """
-    Dataset object for the channel. Used in training and evaluation.
+    Dataset object for the datasets. Used in training and evaluation.
     Returns (transmitted, received, channel_coefficients) batch.
     """
 
@@ -28,9 +28,9 @@ class ChannelModelDataset(Dataset):
         self.modulator = MODULATION_DICT[conf.modulation_type]
         self.transmitter = Transmitter()
         assert conf.block_length % conf.message_bits == 0, (
-            "Block length must be divisible by the number of message bits for encoding!!!")
+            "Block length must be divisible by the number of message bits for _encoding!!!")
         assert conf.pilots_length % conf.message_bits == 0, (
-            "Pilots length must be divisible by the number of message bits for encoding!!!")
+            "Pilots length must be divisible by the number of message bits for _encoding!!!")
 
     def get_snr_data(self, snr: float, database: list):
         if database is None:

@@ -7,10 +7,10 @@ import numpy as np
 import torch
 
 from python_code import conf, DEVICE
-from python_code.channel.channel_dataset import ChannelModelDataset
-from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING, BPSKModulator
+from python_code.datasets.channel_dataset import ChannelModelDataset
+from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING, BPSKModulator
 from python_code.decoders.bp_decoder import BPDecoder
-from python_code.detectors import DETECTORS_TYPE_DICT
+from python_code.detectors import DETECTORS_TYPE_DICT, DECODERS_TYPE_DICT
 from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.metrics import calculate_error_rate
 from python_code.utils.probs_utils import get_qpsk_symbols_from_bits, get_eightpsk_symbols_from_bits
@@ -53,7 +53,7 @@ class Evaluator(object):
         """
         Every evaluater must have some base decoder
         """
-        self.decoder = BPDecoder()
+        self.decoder = DECODERS_TYPE_DICT[conf.decoder_type]()
 
     def _initialize_dataloader(self):
         """
@@ -75,7 +75,7 @@ class Evaluator(object):
         for block_ind in range(conf.blocks_num):
             print('*' * 20)
             print(f'current: {block_ind}')
-            # get current word and channel
+            # get current word and datasets
             mx, tx, rx = message_words[block_ind], transmitted_words[block_ind], received_words[block_ind]
             # split words into data and pilot part
             uncoded_pilots_end_ind = int(conf.pilots_length)

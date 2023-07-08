@@ -31,7 +31,7 @@ class SEDChannel:
         The MIMO SED Channel
         :param s: to transmit symbol words
         :param snr: signal-to-noise value
-        :param h: channel function
+        :param h: datasets function
         :return: received word
         """
         conv = SEDChannel._compute_channel_signal_convolution(h, s)

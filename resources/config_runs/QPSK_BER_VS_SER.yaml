@@ -8,9 +8,9 @@ blocks_num: 20 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
 
-# channel
-linear: True # channel linearity. Boolean value.
-fading_in_channel: False # If the channel is fading/non-fading. values: [True, False]
+# datasets
+linear: True # datasets linearity. Boolean value.
+fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
 snr: 8 # validation SNR value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 

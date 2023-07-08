@@ -25,7 +25,8 @@ class DetectorType(Enum):
 
 
 class DecoderType(Enum):
-    bp_model = 'bp_model'
+    bp = 'bp'
+    wbp = 'wbp'
 
 
 class ModulationType(Enum):

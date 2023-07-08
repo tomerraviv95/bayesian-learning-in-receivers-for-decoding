@@ -1,7 +1,7 @@
 import torch
 
 from python_code import DEVICE, conf
-from python_code.channel.communication_blocks.modulator import MODULATION_NUM_MAPPING
+from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.detectors.dnn.bayesian_dnn.bayesian_dnn_detector import LossVariable, BayesianDNNDetector
 from python_code.detectors.dnn.dnn_trainer import DNNTrainer
 from python_code.utils.constants import HALF
