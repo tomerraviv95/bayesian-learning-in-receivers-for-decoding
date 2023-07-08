@@ -6,7 +6,7 @@ from dir_definitions import ECC_MATRICES_DIR
 from python_code import conf
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
 from python_code.utils.constants import CLIPPING_VAL
-from python_code.utils.python_utils import get_code_pcm_and_gm
+from python_code.utils.coding_utils import get_code_pcm_and_gm
 
 ITERATIONS = 5
 

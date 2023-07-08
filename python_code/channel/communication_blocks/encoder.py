@@ -2,7 +2,7 @@ import numpy as np
 
 from dir_definitions import ECC_MATRICES_DIR
 from python_code import conf
-from python_code.utils.python_utils import get_code_pcm_and_gm
+from python_code.utils.coding_utils import get_code_pcm_and_gm
 
 
 class Encoder:
