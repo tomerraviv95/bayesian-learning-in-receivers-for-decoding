@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added and validated that the Bayesian DeepSIC method works">
-      <change afterPath="$PROJECT_DIR$/python_code/decoders/polar_fg/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/utils/tanner_graph_cycle_reduction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/channel_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/channel/channel_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/communication_blocks/encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/channel/communication_blocks/encoder.py" afterDir="false" />
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="does not need the tanner reduction file, and moved the coding utils to the same file">
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/bp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/bp_decoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/utils/python_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/python_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,21 +177,7 @@
       <workItem from="1686898972403" duration="16692000" />
       <workItem from="1688060669711" duration="9224000" />
       <workItem from="1688499580333" duration="970000" />
-      <workItem from="1688717085726" duration="5974000" />
-    </task>
-    <task id="LOCAL-00062" summary="Pushed from calibration branch">
-      <created>1674422897818</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1674422897818</updated>
-    </task>
-    <task id="LOCAL-00063" summary="Managed to get QPSK working for the DNN and the DeepSIC that is trained in sequential fashion">
-      <created>1674592954660</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1674592954660</updated>
+      <workItem from="1688717085726" duration="6914000" />
     </task>
     <task id="LOCAL-00064" summary="Implemented QPSK in all Bayesian methods">
       <created>1674594147240</created>
@@ -532,7 +508,21 @@
       <option name="project" value="LOCAL" />
       <updated>1688483349651</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="Now reading the pcm by the standard format of the coding database. This will allow me to change to polar codes easily.">
+      <created>1688811274320</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1688811274320</updated>
+    </task>
+    <task id="LOCAL-00112" summary="does not need the tanner reduction file, and moved the coding utils to the same file">
+      <created>1688811375959</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1688811375959</updated>
+    </task>
+    <option name="localTasksCounter" value="113" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -550,8 +540,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Organized the black-box code" />
-    <MESSAGE value="FIxed bug in the noise, where I generated only real noise" />
     <MESSAGE value="Fixed code" />
     <MESSAGE value="Changed plotting such that it is done by config per Figure" />
     <MESSAGE value="Updated" />
@@ -575,7 +563,9 @@
     <MESSAGE value="Adapted the plotter class to support the QPSK plotting" />
     <MESSAGE value="Added plotting by the SER not only BER" />
     <MESSAGE value="Added and validated that the Bayesian DeepSIC method works" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added and validated that the Bayesian DeepSIC method works" />
+    <MESSAGE value="Now reading the pcm by the standard format of the coding database. This will allow me to change to polar codes easily." />
+    <MESSAGE value="does not need the tanner reduction file, and moved the coding utils to the same file" />
+    <option name="LAST_COMMIT_MESSAGE" value="does not need the tanner reduction file, and moved the coding utils to the same file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -605,7 +595,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1688811117815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1688811475843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1688499967231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
