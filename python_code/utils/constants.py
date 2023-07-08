@@ -19,8 +19,8 @@ class ChannelModels(Enum):
 
 class DetectorType(Enum):
     seq_model = 'seq_model'
-    model_based_bayesian = 'model_based_bayesian'
     bayesian = 'bayesian'
+    model_based_bayesian = 'model_based_bayesian'
     black_box = 'black_box'
     bayesian_black_box = 'bayesian_black_box'
 
