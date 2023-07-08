@@ -1,76 +1,23 @@
-import numpy as np
 import torch
-from torch import nn
-from torch.nn import CrossEntropyLoss, MSELoss
-from torch.optim import Adam, RMSprop, SGD
 
-from dir_definitions import ECC_MATRICES_DIR
-from python_code import conf, DEVICE
-from python_code.datasets.coding_dataset import CodingDataset
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
-from python_code.utils.coding_utils import get_code_pcm_and_gm
+from python_code.decoders.decoder_trainer import DecoderTrainer
 from python_code.utils.constants import CLIPPING_VAL
 
 EPOCHS = 500
 BATCH_SIZE = 120
-ITERATIONS = 5
-SNR_START = 4
-SNR_END = 7
 LR = 1e-3
-TOTAL_RUNS = 5
 
 
-class WBPDecoder(nn.Module):
+class WBPDecoder(DecoderTrainer):
     def __init__(self):
         super().__init__()
-        self._initialize_dataloader()
-        self.softmax = torch.nn.Softmax(dim=1)  # Single symbol probability inference
-        self.odd_llr_mask_only = True
-        self.even_mask_only = True
-        self.multiloss_output_mask_only = True
-        self.output_mask_only = False
-        self.multi_loss_flag = True
-        self.iteration_num = ITERATIONS
-        self._code_bits = conf.code_bits
-        self._message_bits = conf.message_bits
-        self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits,
-                                                          ECC_MATRICES_DIR, conf.code_type)
-        self.neurons = int(np.sum(self.code_pcm))
         self.initialize_layers()
         self.deep_learning_setup(LR)
         self.train_model()
 
     def __str__(self):
         return 'WBP Decoder'
-
-    # setup the optimization algorithm
-    def deep_learning_setup(self, lr: float):
-        """
-        Sets up the optimizer and loss criterion
-        """
-        if conf.optimizer_type == 'Adam':
-            self.optimizer = Adam(filter(lambda p: p.requires_grad, self.parameters()),
-                                  lr=lr)
-        elif conf.optimizer_type == 'RMSprop':
-            self.optimizer = RMSprop(filter(lambda p: p.requires_grad, self.parameters()),
-                                     lr=lr)
-        elif conf.optimizer_type == 'SGD':
-            self.optimizer = SGD(filter(lambda p: p.requires_grad, self.parameters()),
-                                 lr=lr)
-        else:
-            raise NotImplementedError("No such optimizer implemented!!!")
-        if conf.loss_type == 'CrossEntropy':
-            self.criterion = CrossEntropyLoss().to(DEVICE)
-        elif conf.loss_type == 'MSE':
-            self.criterion = MSELoss().to(DEVICE)
-        else:
-            raise NotImplementedError("No such loss function implemented!!!")
-
-    def _initialize_dataloader(self):
-        """
-        Sets up the data loader - a generator from which we draw batches, in iterations
-        """
-        self.train_dataset = CodingDataset(block_size=conf.block_length)
 
     def initialize_layers(self):
         self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
@@ -98,22 +45,14 @@ class WBPDecoder(nn.Module):
             # select BATCH_SIZE samples randomly
             idx = torch.randperm(tx.shape[0])[:BATCH_SIZE]
             cur_tx, cur_rx = tx[idx], rx[idx]
-            output_list = self.forward(cur_rx)
+            output_list = self.forward(cur_rx, mode='train')
             # calculate loss
             loss = self.calc_loss(decision=output_list[-self.iteration_num:], labels=cur_tx)
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
 
-    def train_model(self):
-        print("Training Decoder Model on AWGN Channel")
-        for run_ind in range(TOTAL_RUNS):
-            tx, rx = self.train_dataset.__getitem__(snr_list=list(range(SNR_START, SNR_END + 1)))
-            # train the decoder
-            self.single_training(tx, rx)
-            print(run_ind)
-
-    def forward(self, x):
+    def forward(self, x, mode='inference'):
         """
         compute forward pass in the network
         :param x: [batch_size,N]
@@ -136,4 +75,8 @@ class WBPDecoder(nn.Module):
             output = x + self.output_layer.forward(even_output, mask_only=self.output_mask_only)
             output_list[i + 1] = output.clone()
 
-        return output_list
+        if mode == 'inference':
+            decoded_words = torch.round(torch.sigmoid(-output_list[-1]))
+            return decoded_words
+        else:
+            return output_list

@@ -3,6 +3,7 @@ from enum import Enum
 HALF = 0.5
 CLIPPING_VAL = 10
 
+
 class Phase(Enum):
     TRAIN = 'train'
     TEST = 'test'
@@ -27,6 +28,7 @@ class DetectorType(Enum):
 class DecoderType(Enum):
     bp = 'bp'
     wbp = 'wbp'
+    modular_bayesian_wbp = 'modular_bayesian_wbp'
 
 
 class ModulationType(Enum):

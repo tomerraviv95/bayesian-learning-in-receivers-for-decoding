@@ -4,36 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added polar codes of lengths up to 1000">
-      <change afterPath="$PROJECT_DIR$/python_code/datasets/coding_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/datasets/siso_channels/awgn_channel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/decoders/wbp_decoder.py" afterDir="false" />
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added the weighted belief propogation as an optional decoder">
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/bp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/bayesian_bp_nn.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/modular_bayesian_wbp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/decoders/wbp/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/channel_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/channel_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/communication_blocks/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/communication_blocks/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/communication_blocks/encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/communication_blocks/encoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/communication_blocks/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/communication_blocks/generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/communication_blocks/modulator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/communication_blocks/modulator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/communication_blocks/transmitter.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/communication_blocks/transmitter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/mimo_channels/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/mimo_channels/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/channel/mimo_channels/sed_channel.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/mimo_channels/sed_channel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/polar_fg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/siso_channels/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/datasets/coding_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/coding_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/decoders/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/decoders/bp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/bp/bp_decoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/decoders/wbp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/wbp/wbp_decoder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/bayesian_deep_sic_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/model_based_bayesian_deepsic/bayesian_deep_sic_detector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/bayesian_dnn_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/dnn/bayesian_dnn/bayesian_dnn_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_detector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/dnn/dnn_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/utils/probs_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/probs_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/utils/python_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/python_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/QPSK_BER_VS_SER.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/QPSK_BER_VS_SER.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/QPSK_SNR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/QPSK_SNR.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +67,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding/python_code/channel",
+    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding/python_code/decoders",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -91,18 +77,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders" />
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources\config_runs" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources" />
       <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders\wbp" />
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders\bp" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel_dataset" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel_dataset\siso_channels" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code" />
-      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel\communication_blocks" />
-      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel" />
     </key>
   </component>
   <component name="RunManager" selected="Python.evaluator-par">
@@ -205,14 +191,7 @@
       <workItem from="1686898972403" duration="16692000" />
       <workItem from="1688060669711" duration="9224000" />
       <workItem from="1688499580333" duration="970000" />
-      <workItem from="1688717085726" duration="13768000" />
-    </task>
-    <task id="LOCAL-00066" summary="Implemented the Bayesian Black Box">
-      <created>1674747428287</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1674747428287</updated>
+      <workItem from="1688717085726" duration="15284000" />
     </task>
     <task id="LOCAL-00067" summary="Implemented Bayesian black box detector">
       <created>1674751184102</created>
@@ -550,7 +529,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688822158258</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="Added the weighted belief propogation as an optional decoder">
+      <created>1688824291860</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1688824291860</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -568,7 +554,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Changed plotting such that it is done by config per Figure" />
     <MESSAGE value="Updated" />
     <MESSAGE value="Updated env file" />
     <MESSAGE value="Changed the pilots scheme from all uniform to random" />
@@ -593,7 +578,8 @@
     <MESSAGE value="Now reading the pcm by the standard format of the coding database. This will allow me to change to polar codes easily." />
     <MESSAGE value="does not need the tanner reduction file, and moved the coding utils to the same file" />
     <MESSAGE value="Added polar codes of lengths up to 1000" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added polar codes of lengths up to 1000" />
+    <MESSAGE value="Added the weighted belief propogation as an optional decoder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added the weighted belief propogation as an optional decoder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -608,7 +594,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1688824259851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1688825794557" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1688499967231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />

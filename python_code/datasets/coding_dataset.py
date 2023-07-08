@@ -16,8 +16,8 @@ from python_code.utils.coding_utils import get_code_pcm_and_gm
 
 
 class EccChannel:
-    def __init__(self, block_size: int):
-        self._block_length = block_size
+    def __init__(self, codewords_num: int):
+        self._codewords_num = codewords_num
         self._bits_generator = default_rng(seed=conf.seed)
         self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits,
                                                           ECC_MATRICES_DIR, conf.code_type)
@@ -25,7 +25,7 @@ class EccChannel:
         self.rate = float(conf.message_bits / conf.code_bits)
 
     def _transmit(self, snr: float) -> Tuple[np.ndarray, np.ndarray]:
-        tx = self._bits_generator.integers(0, 2, size=(self._block_length, conf.message_bits))
+        tx = self._bits_generator.integers(0, 2, size=(self._codewords_num, conf.message_bits))
         x = self._encoding(tx)
         s = BPSKModulator.modulate(x)
         rx = AWGNChannel(tx=s, SNR=snr, R=self.rate, random=np.random.RandomState(conf.seed))
@@ -43,9 +43,9 @@ class CodingDataset(Dataset):
     Returns (transmitted, received, channel_coefficients) batch.
     """
 
-    def __init__(self, block_size: int):
-        self.block_size = block_size
-        self.channel_type = EccChannel(block_size)
+    def __init__(self, codewords_num: int):
+        self.codewords_num = codewords_num
+        self.channel_type = EccChannel(codewords_num)
 
     def get_snr_data(self, snr: float, database: list):
         if database is None:
@@ -63,4 +63,4 @@ class CodingDataset(Dataset):
         return tx, rx
 
     def __len__(self):
-        return self.block_size
+        return self.codewords_num

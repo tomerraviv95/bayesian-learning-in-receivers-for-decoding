@@ -1,29 +1,13 @@
-import numpy as np
 import torch
-from torch import nn
 
-from dir_definitions import ECC_MATRICES_DIR
-from python_code import conf
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
+from python_code.decoders.decoder_trainer import DecoderTrainer
 from python_code.utils.constants import CLIPPING_VAL
-from python_code.utils.coding_utils import get_code_pcm_and_gm
-
-ITERATIONS = 5
 
 
-class BPDecoder(nn.Module):
+class BPDecoder(DecoderTrainer):
     def __init__(self):
         super().__init__()
-        self.odd_llr_mask_only = True
-        self.even_mask_only = True
-        self.output_mask_only = False
-        self.iteration_num = ITERATIONS
-        self._code_bits = conf.code_bits
-        self._message_bits = conf.message_bits
-        self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits,
-                                                          ECC_MATRICES_DIR, conf.code_type)
-        self.neurons = int(np.sum(self.code_pcm))
-        self.lr = None
         self.initialize_layers()
 
     def __str__(self):
