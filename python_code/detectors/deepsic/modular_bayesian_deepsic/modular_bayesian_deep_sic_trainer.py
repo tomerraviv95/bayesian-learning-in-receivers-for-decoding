@@ -6,14 +6,14 @@ from torch import nn
 
 from python_code import DEVICE
 from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS
-from python_code.detectors.deepsic.model_based_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
+from python_code.detectors.deepsic.modular_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
     BayesianDeepSICDetector
 from python_code.utils.constants import HALF, Phase
 
 EPOCHS = 400
 
 
-class ModelBasedBayesianDeepSICTrainer(DeepSICTrainer):
+class ModularBayesianDeepSICTrainer(DeepSICTrainer):
     """
     Our Proposed Approach, Each DeepSIC is applied with the Bayesian Approximation Individually
     """
@@ -26,7 +26,7 @@ class ModelBasedBayesianDeepSICTrainer(DeepSICTrainer):
         super().__init__()
 
     def __str__(self):
-        return 'Model-Based Bayesian DeepSIC'
+        return 'Modular Bayesian DeepSIC'
 
     def _initialize_detector(self):
         self.detector = [

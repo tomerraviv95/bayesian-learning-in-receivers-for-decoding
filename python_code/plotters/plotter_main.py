@@ -1,6 +1,6 @@
 from python_code.plotters.plotter_config import get_config, PlotType
 from python_code.plotters.plotter_methods import compute_for_method, RunParams
-from python_code.plotters.plotter_utils import plot_ber_vs_snr, plot_ser_vs_snr
+from python_code.plotters.plotter_utils import plot_by_ber, plot_by_ser
 
 ## Plotter for the Paper's Figures
 if __name__ == '__main__':
@@ -15,8 +15,11 @@ if __name__ == '__main__':
     for params_dict in params_dicts:
         print(params_dict)
         compute_for_method(all_curves, params_dict, run_params_obj, plot_type.name)
-
-    plot_ber_vs_snr(all_curves=all_curves, xlabel=xlabel, ylabel='BER', plot_type=plot_type,
+    if plot_type is not PlotType.final_comparison_by_users:
+        plot_by_ber(all_curves=all_curves, xlabel=xlabel, ylabel='BER', plot_type=plot_type,
                     to_plot_by_values=to_plot_by_values)
-    plot_ser_vs_snr(all_curves=all_curves, xlabel=xlabel, ylabel='SER', plot_type=plot_type,
+        plot_by_ser(all_curves=all_curves, xlabel=xlabel, ylabel='SER', plot_type=plot_type,
+                    to_plot_by_values=to_plot_by_values)
+    else:
+        plot_by_ber(all_curves=all_curves, xlabel=xlabel, ylabel='BER', plot_type=plot_type,
                     to_plot_by_values=to_plot_by_values)

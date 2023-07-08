@@ -19,7 +19,7 @@ def set_method_name(conf: Config, params_dict: Dict[str, Union[int, str]]) -> st
     Set values of params dict to current config. And return the field and their respective values as the name of the run,
     used to save as pkl file for easy access later.
     :param conf: config file.
-    :param method_name: the desired augmentation scheme name
+    :param save_by_name: the desired augmentation scheme name
     :param params_dict: the run params
     :return: name of the run
     """
@@ -36,12 +36,12 @@ def gather_plots_by_trials(all_curves: List[Tuple[str, List, List, List]], conf:
     Run the experiments #trial_num times, averaging over the whole run's aggregated ser.
     """
     total_ber = []
-    method_name = str(evaluater.detector)
+    method_name = str(evaluater.detector) + ', ' + str(evaluater.decoder)
     for trial in range(trial_num):
         conf.set_value('seed', 1 + trial)
         evaluater.__init__()
         ber_total = get_all_plots(evaluater, run_over=run_over,
-                                  method_name=method_name + name,
+                                  save_by_name=name,
                                   trial=trial)
         total_ber.append(ber_total)
     all_curves.append((method_name, total_ber))
@@ -52,6 +52,6 @@ def compute_for_method(all_curves: List[Tuple[float, str]], params_dict: Dict[st
     conf = Config()
     conf.load_config(os.path.join(CONFIG_RUNS_DIR, f'{plot_type_name}.yaml'))
     name = set_method_name(conf, params_dict)
-    name += f'_{plot_type_name}'
+    name = f'{plot_type_name}_' + name
     evaluater = Evaluator()
     gather_plots_by_trials(all_curves, conf, name, run_params_obj.run_over, run_params_obj.trial_num, evaluater)

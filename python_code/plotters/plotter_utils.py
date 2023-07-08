@@ -26,7 +26,7 @@ mpl.rcParams['font.family'] = 'STIXGeneral'
 
 
 def get_linestyle(method_name: str) -> str:
-    if 'Model-Based Bayesian' in method_name:
+    if 'Modular Bayesian DeepSIC' in method_name:
         return 'solid'
     elif 'Bayesian DeepSIC' in method_name:
         return 'dashed'
@@ -40,23 +40,8 @@ def get_linestyle(method_name: str) -> str:
         raise ValueError('No such detector!!!')
 
 
-def get_marker(method_name: str) -> str:
-    if 'Model-Based Bayesian' in method_name:
-        return 'o'
-    elif 'Bayesian DeepSIC' in method_name:
-        return 'X'
-    elif 'DeepSIC' in method_name:
-        return 's'
-    elif 'Bayesian DNN' in method_name:
-        return 'p'
-    elif 'DNN' in method_name:
-        return 'p'
-    else:
-        raise ValueError('No such method!!!')
-
-
 def get_color(method_name: str) -> str:
-    if 'Model-Based Bayesian' in method_name:
+    if 'Modular Bayesian DeepSIC' in method_name:
         return 'blue'
     elif 'Bayesian DeepSIC' in method_name:
         return 'black'
@@ -70,12 +55,25 @@ def get_color(method_name: str) -> str:
         raise ValueError('No such method!!!')
 
 
-def get_all_plots(dec: Evaluator, run_over: bool, method_name: str, trial=None) -> Tuple[List[float], List[float]]:
-    print(method_name)
+def get_marker(method_name: str) -> str:
+    if 'Modular Bayesian WBP' in method_name:
+        return 'o'
+    elif 'Bayesian WBP' in method_name:
+        return 'X'
+    elif 'WBP' in method_name:
+        return 's'
+    elif 'BP' in method_name:
+        return 'p'
+    else:
+        raise ValueError('No such method!!!')
+
+
+def get_all_plots(dec: Evaluator, run_over: bool, save_by_name: str, trial=None) -> Tuple[List[float], List[float]]:
+    print(save_by_name)
     # set the path to saved plot results for a single method (so we do not need to run anew each time)
     if not os.path.exists(PLOTS_DIR):
         os.makedirs(PLOTS_DIR)
-    file_name = method_name
+    file_name = save_by_name
     if trial is not None:
         file_name = file_name + '_' + str(trial)
     plots_path = os.path.join(PLOTS_DIR, file_name)
@@ -108,8 +106,8 @@ def get_mean_ber_list(all_curves):
     return values_to_plot_dict
 
 
-def plot_ber_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
-                    to_plot_by_values: List[int]):
+def plot_by_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
+                to_plot_by_values: List[int]):
     # path for the saved figure
     current_day_time = datetime.datetime.now()
     folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
@@ -121,7 +119,7 @@ def plot_ber_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
     means_bers_dict = get_mean_ber_list(all_curves)
 
     # plots all methods
-    for method_name, sers in means_bers_dict.items():
+    for method_name in means_bers_dict.keys():
         print(method_name)
         plt.plot(to_plot_by_values, means_bers_dict[method_name],
                  label=method_name,
@@ -134,11 +132,12 @@ def plot_ber_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
     plt.grid(which='both', ls='--')
     plt.legend(loc='lower left', prop={'size': 18})
     plt.yscale('log')
-    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_snr_{plot_type.name}.png'), bbox_inches='tight')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_{xlabel}_{plot_type.name}.png'),
+                bbox_inches='tight')
 
 
-def plot_ser_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
-                    to_plot_by_values: List[int]):
+def plot_by_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
+                to_plot_by_values: List[int]):
     # path for the saved figure
     current_day_time = datetime.datetime.now()
     folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
@@ -163,4 +162,5 @@ def plot_ser_vs_snr(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
     plt.grid(which='both', ls='--')
     plt.legend(loc='lower left', prop={'size': 18})
     plt.yscale('log')
-    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ser_versus_snr_{plot_type.name}.png'), bbox_inches='tight')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ser_versus_{xlabel}_{plot_type.name}.png'),
+                bbox_inches='tight')

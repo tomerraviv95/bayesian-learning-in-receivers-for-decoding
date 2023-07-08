@@ -22,7 +22,7 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
         self.train_model()
 
     def __str__(self):
-        return 'Model-Based Bayesian WBP Decoder'
+        return 'Modular Bayesian WBP Decoder'
 
     def initialize_layers(self):
         self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
