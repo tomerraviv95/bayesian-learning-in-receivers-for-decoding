@@ -5,8 +5,8 @@ from torch import nn
 from dir_definitions import ECC_MATRICES_DIR
 from python_code import conf
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
-from python_code.utils.constants import CLIPPING_VAL, TANNER_GRAPH_CYCLE_REDUCTION
-from python_code.utils.python_utils import load_code_parameters
+from python_code.utils.constants import CLIPPING_VAL
+from python_code.utils.python_utils import get_code_pcm_and_gm
 
 ITERATIONS = 5
 
@@ -20,8 +20,8 @@ class BPDecoder(nn.Module):
         self.iteration_num = ITERATIONS
         self._code_bits = conf.code_bits
         self._message_bits = conf.message_bits
-        self.code_pcm, self.code_gm = load_code_parameters(self._code_bits, self._message_bits,
-                                                           ECC_MATRICES_DIR, TANNER_GRAPH_CYCLE_REDUCTION)
+        self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits,
+                                                          ECC_MATRICES_DIR, conf.code_type)
         self.neurons = int(np.sum(self.code_pcm))
         self.lr = None
         self.initialize_layers()

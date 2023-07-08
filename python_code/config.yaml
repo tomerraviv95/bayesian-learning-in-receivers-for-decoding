@@ -1,9 +1,15 @@
+##  DISCLAIMERS ON INPUT SIZES
+# Note that due to coding length, both the block length and pilots size have to be divisible by the message bits.
+# Also, for the QPSK modulation one has to have an even number of pre-modulated bits thus
+# x = block_length * (code_bits/message_bits) have to be even.
+# For the same reason, in 8-PSK this quantity x has to divisible by 4.
+
 # general
 seed: 0 # run seed
 
 # MIMO protocol
-block_length: 9000 # coherence block time, total size of pilot + data. values: int.
-pilots_length: 180 # pilot bits
+block_length: 3600 # coherence block time, total size of pilot + data. values: int.
+pilots_length: 360 # pilot bits
 blocks_num: 10 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
@@ -15,12 +21,12 @@ snr: 8 # validation SNR value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 
 # coding hyperparams
+code_type: 'BCH' # ['BCH','POLAR']
 code_bits: 63
-message_bits: 45
+message_bits: 36
 
-# Detector type
-detector_type: 'bayesian'
-# 'seq_model' or 'model_based_bayesian' or 'bayesian' or 'black_box' or 'bayesian_black_box'
+# Detector type ['seq_model','model_based_bayesian','bayesian','black_box','bayesian_black_box']
+detector_type: 'seq_model'
 
 # online training hyperparameters
 is_online_training: True # Whether to run the online training (as in ViterbiNet). values: [True, False].

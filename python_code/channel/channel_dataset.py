@@ -48,7 +48,7 @@ class ChannelModelDataset(Dataset):
         # accumulate words until reaches desired number
         for index in range(conf.blocks_num):
             mx = self.generator.generate()
-            tx = np.empty((int(conf.block_length / conf.message_bits * conf.code_bits),conf.n_user))
+            tx = np.empty((int(conf.block_length / conf.message_bits * conf.code_bits), conf.n_user))
             for user in range(conf.n_user):
                 tx[:, user] = self.encoder.encode(mx[:, user])
             s = self.modulator.modulate(tx.T)

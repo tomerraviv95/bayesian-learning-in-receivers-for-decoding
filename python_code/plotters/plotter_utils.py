@@ -197,23 +197,25 @@ def plot_ber_vs_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel
         to_filter = line_fit < -8
         sorted_sers = sorted_sers[~to_filter]
         line_fit = line_fit[~to_filter]
+        sorted_bers = sorted_bers[~to_filter]
 
-        plt.plot(sorted_sers, line_fit, label=method_name,
-                 color=get_color(method_name),
-                 marker=get_marker(method_name),
-                 linestyle=get_linestyle(method_name),
-                 linewidth=4, markevery=20)
+        # plt.plot(sorted_sers, line_fit, label=method_name,
+        #          color=get_color(method_name),
+        #          marker=get_marker(method_name),
+        #          linestyle=get_linestyle(method_name),
+        #          linewidth=4, markevery=20)
 
-        # plt.scatter(sers, bers,
-        #             label=method_name,
-        #             color=get_color(method_name),
-        #             marker=get_marker(method_name),
-        #             linestyle=get_linestyle(method_name), alpha=0.4)
+        plt.scatter(sorted_sers, sorted_bers,
+                    label=method_name,
+                    color=get_color(method_name),
+                    marker=get_marker(method_name),
+                    linestyle=get_linestyle(method_name), alpha=0.5)
 
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(which='both', ls='--')
     plt.legend(loc='upper left', prop={'size': 18})
+    plt.ylim(bottom=-8)
     # plt.yscale('log')
     # plt.xscale('log')
     plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_ser_{plot_type.name}.png'), bbox_inches='tight')
