@@ -29,6 +29,7 @@ class DecoderType(Enum):
     bp = 'bp'
     wbp = 'wbp'
     modular_bayesian_wbp = 'modular_bayesian_wbp'
+    bayesian_wbp = 'bayesian_wbp'
 
 
 class ModulationType(Enum):
