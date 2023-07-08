@@ -62,7 +62,7 @@ class DecoderTrainer(nn.Module):
         self.train_dataset = CodingDataset(codewords_num=CODEWORDS_NUM)
 
     def train_model(self):
-        print("Training Decoder Model on AWGN Channel")
+        print(f"Training {self.__str__()} on AWGN Channel")
         for run_ind in range(TOTAL_RUNS):
             tx, rx = self.train_dataset.__getitem__(snr_list=list(range(SNR_START, SNR_END + 1)))
             # train the decoder

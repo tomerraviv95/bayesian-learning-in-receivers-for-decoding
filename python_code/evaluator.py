@@ -67,7 +67,7 @@ class Evaluator(object):
         data blocks for the paper.
         :return: list of ber per timestep
         """
-        print(str(self.detector))
+        print(f"Detecting using {str(self.detector)}")
         ser_list, ber_list = [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
