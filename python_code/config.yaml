@@ -8,8 +8,8 @@
 seed: 0 # run seed
 
 # MIMO protocol
-block_length: 6400 # coherence block time, total size of pilot + data. values: int.
-pilots_length: 640 # pilot bits
+block_length: 5120 # coherence block time, total size of pilot + data. values: int.
+pilots_length: 2560 # pilot bits
 blocks_num: 10 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
@@ -21,9 +21,9 @@ snr: 8 # validation SNR value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 
 # coding hyperparams
-code_type: 'Polar' # ['BCH','POLAR']
-code_bits: 127
-message_bits: 64
+code_type: 'POLAR' # ['BCH','POLAR']
+code_bits: 512
+message_bits: 256
 
 # Detector type ['seq_model','model_based_bayesian','bayesian','black_box','bayesian_black_box']
 detector_type: 'seq_model'

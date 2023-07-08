@@ -111,8 +111,9 @@ class Evaluator(object):
         decoded_words = torch.zeros_like(mx_data)
         for user in range(conf.n_user):
             current_to_decode = to_decode_word[:, user].reshape(-1, conf.code_bits)
-            current_decoded_word = self.decoder.forward(current_to_decode)
-            decoded_words[:, user] = current_decoded_word[:, :conf.message_bits].reshape(-1)
+            decoded_word = self.decoder.forward(current_to_decode)
+            message_decoded_word = decoded_word[:, conf.code_bits - conf.message_bits:]
+            decoded_words[:, user] = message_decoded_word.reshape(-1)
         decoded_ber = calculate_error_rate(decoded_words, mx_data)
         return decoded_ber
 
