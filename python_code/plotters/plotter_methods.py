@@ -35,16 +35,16 @@ def gather_plots_by_trials(all_curves: List[Tuple[str, List, List, List]], conf:
     """
     Run the experiments #trial_num times, averaging over the whole run's aggregated ser.
     """
-    total_ber = []
+    metric_outputs = []
     method_name = str(evaluater.detector) + ', ' + str(evaluater.decoder)
     for trial in range(trial_num):
         conf.set_value('seed', 1 + trial)
         evaluater.__init__()
-        ber_total = get_all_plots(evaluater, run_over=run_over,
+        metric_output = get_all_plots(evaluater, run_over=run_over,
                                   save_by_name=name,
                                   trial=trial)
-        total_ber.append(ber_total)
-    all_curves.append((method_name, total_ber))
+        metric_outputs.append(metric_output)
+    all_curves.append((method_name, metric_outputs))
 
 
 def compute_for_method(all_curves: List[Tuple[float, str]], params_dict: Dict[str, Union[int, str]],

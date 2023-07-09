@@ -26,6 +26,9 @@ class BPDecoder(DecoderTrainer):
                                         input_output_layer_size=self._code_bits,
                                         code_pcm=self.code_pcm)
 
+    def train_model(self):
+        pass
+
     def forward(self, x):
         """
         compute forward pass in the network

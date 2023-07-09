@@ -14,7 +14,6 @@ class WBPDecoder(DecoderTrainer):
         super().__init__()
         self.initialize_layers()
         self.deep_learning_setup(LR)
-        self.train_model()
 
     def __str__(self):
         return 'WBP Decoder'

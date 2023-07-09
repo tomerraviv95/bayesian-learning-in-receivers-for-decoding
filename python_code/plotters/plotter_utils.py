@@ -1,5 +1,6 @@
 import datetime
 import os
+from collections import OrderedDict
 from typing import List, Tuple
 
 import matplotlib as mpl
@@ -91,17 +92,25 @@ def get_all_plots(dec: Evaluator, run_over: bool, save_by_name: str, trial=None)
 
 
 def get_mean_ser_list(all_curves):
-    values_to_plot_dict = {method_name: [] for method_name in set([curve[0] for curve in all_curves])}
-    for method_name, ser in all_curves:
-        current_ser_list = ser[0].ser_list
+    values_to_plot_dict = OrderedDict()
+    for method_name, metric_outputs in all_curves:
+        if method_name not in values_to_plot_dict.keys():
+            values_to_plot_dict[method_name] = []
+        current_ser_list = []
+        for metric_output in metric_outputs:
+            current_ser_list.extend(metric_output.ser_list)
         values_to_plot_dict[method_name].append(sum(current_ser_list) / len(current_ser_list))
     return values_to_plot_dict
 
 
 def get_mean_ber_list(all_curves):
-    values_to_plot_dict = {method_name: [] for method_name in set([curve[0] for curve in all_curves])}
-    for method_name, ser in all_curves:
-        current_ber_list = ser[0].ber_list
+    values_to_plot_dict = OrderedDict()
+    for method_name, metric_outputs in all_curves:
+        if method_name not in values_to_plot_dict.keys():
+            values_to_plot_dict[method_name] = []
+        current_ber_list = []
+        for metric_output in metric_outputs:
+            current_ber_list.extend(metric_output.ber_list)
         values_to_plot_dict[method_name].append(sum(current_ber_list) / len(current_ber_list))
     return values_to_plot_dict
 
@@ -119,6 +128,7 @@ def plot_by_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
     means_bers_dict = get_mean_ber_list(all_curves)
 
     # plots all methods
+    print("Plotting BER")
     for method_name in means_bers_dict.keys():
         print(method_name)
         plt.plot(to_plot_by_values, means_bers_dict[method_name],
@@ -149,6 +159,7 @@ def plot_by_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
     means_sers_dict = get_mean_ser_list(all_curves)
 
     # plots all methods
+    print("Plotting SER")
     for method_name, sers in means_sers_dict.items():
         print(method_name)
         plt.plot(to_plot_by_values, means_sers_dict[method_name],
