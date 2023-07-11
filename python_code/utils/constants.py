@@ -21,12 +21,9 @@ class DetectorType(Enum):
     seq_model = 'seq_model'
     bayesian = 'bayesian'
     model_based_bayesian = 'model_based_bayesian'
-    black_box = 'black_box'
-    bayesian_black_box = 'bayesian_black_box'
 
 
 class DecoderType(Enum):
-    bp = 'bp'
     wbp = 'wbp'
     modular_bayesian_wbp = 'modular_bayesian_wbp'
     bayesian_wbp = 'bayesian_wbp'

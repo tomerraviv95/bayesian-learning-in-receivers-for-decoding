@@ -8,8 +8,8 @@
 seed: 0 # run seed
 
 # MIMO protocol
-block_length: 6400 # coherence block time, total size of pilot + data. values: int.
-pilots_length: 640 # pilot bits
+block_length: 20480 # coherence block time, total size of pilot + data. values: int.
+pilots_length: 512 # pilot bits
 blocks_num: 10 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
@@ -17,7 +17,7 @@ n_ant: 4 # number of received signals
 # datasets
 linear: True # datasets linearity. Boolean value.
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
-snr: 6 # validation SNR value. values: float.
+snr: 7 # validation SNR value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 detector_type: 'seq_model' # ['seq_model','model_based_bayesian','bayesian','black_box','bayesian_black_box']
 
@@ -27,7 +27,6 @@ code_bits: 128
 message_bits: 64
 decoder_type: 'bp' # ['bp','wbp','modular_bayesian_wbp','bayesian_wbp']
 
-# online training hyperparameters
-is_online_training: True # Whether to run the online training (as in ViterbiNet). values: [True, False].
+# training hyperparameters
 loss_type: 'CrossEntropy' # Loss type. values: 'BCE','CrossEntropy','MSE'.
 optimizer_type: 'Adam' # Optimizer type. values: 'Adam','RMSprop','SGD'.

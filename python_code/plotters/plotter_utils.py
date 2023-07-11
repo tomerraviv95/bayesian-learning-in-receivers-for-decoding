@@ -21,50 +21,40 @@ mpl.rcParams['axes.titlesize'] = 28
 mpl.rcParams['axes.labelsize'] = 28
 mpl.rcParams['lines.linewidth'] = 2
 mpl.rcParams['lines.markersize'] = 8
-mpl.rcParams['legend.fontsize'] = 20
+mpl.rcParams['legend.fontsize'] = 16
 mpl.rcParams['mathtext.fontset'] = 'stix'
 mpl.rcParams['font.family'] = 'STIXGeneral'
 
 
 def get_linestyle(method_name: str) -> str:
-    if 'Modular Bayesian DeepSIC' in method_name:
+    if 'MB-D' in method_name:
         return 'solid'
-    elif 'Bayesian DeepSIC' in method_name:
+    elif 'B-D' in method_name:
         return 'dashed'
-    elif 'DeepSIC' in method_name:
+    elif 'F-D' in method_name:
         return 'dotted'
-    elif 'Bayesian DNN' in method_name:
-        return '-.'
-    elif 'DNN' in method_name:
-        return '-.'
     else:
         raise ValueError('No such detector!!!')
 
 
 def get_color(method_name: str) -> str:
-    if 'Modular Bayesian DeepSIC' in method_name:
+    if 'MB-D' in method_name:
         return 'blue'
-    elif 'Bayesian DeepSIC' in method_name:
+    elif 'B-D' in method_name:
         return 'black'
-    elif 'DeepSIC' in method_name:
+    elif 'F-D' in method_name:
         return 'red'
-    elif 'Bayesian DNN' in method_name:
-        return 'purple'
-    elif 'DNN' in method_name:
-        return 'green'
     else:
         raise ValueError('No such method!!!')
 
 
 def get_marker(method_name: str) -> str:
-    if 'Modular Bayesian WBP' in method_name:
+    if 'MB-W' in method_name:
         return 'o'
-    elif 'Bayesian WBP' in method_name:
+    elif 'B-W' in method_name:
         return 'X'
-    elif 'WBP' in method_name:
+    elif 'F-W' in method_name:
         return 's'
-    elif 'BP' in method_name:
-        return 'p'
     else:
         raise ValueError('No such method!!!')
 
@@ -116,7 +106,7 @@ def get_mean_ber_list(all_curves):
 
 
 def plot_by_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
-                to_plot_by_values: List[int]):
+                to_plot_by_values: List[int], loc='lower left'):
     # path for the saved figure
     current_day_time = datetime.datetime.now()
     folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
@@ -132,7 +122,7 @@ def plot_by_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
     for method_name in means_bers_dict.keys():
         print(method_name)
         plt.plot(to_plot_by_values, means_bers_dict[method_name],
-                 label=method_name,
+                 label=method_name.replace(', ','/'),
                  color=get_color(method_name),
                  marker=get_marker(method_name), markersize=11,
                  linestyle=get_linestyle(method_name), linewidth=2.2)
@@ -140,7 +130,7 @@ def plot_by_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(which='both', ls='--')
-    plt.legend(loc='lower left', prop={'size': 18})
+    plt.legend(loc=loc, prop={'size': 18})
     plt.yscale('log')
     plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_{xlabel}_{plot_type.name}.png'),
                 bbox_inches='tight')

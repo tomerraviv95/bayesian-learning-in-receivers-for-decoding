@@ -34,7 +34,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         self.softmax = nn.Softmax(dim=1)
 
     def __str__(self):
-        return 'Bayesian DeepSIC'
+        return 'B-DeepSIC'
 
     def _initialize_detector(self):
         detectors_list = [

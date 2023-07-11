@@ -13,7 +13,7 @@ ITERATIONS = 5
 SNR_START = 4
 SNR_END = 7
 TOTAL_RUNS = 5
-CODEWORDS_NUM = 500
+CODEWORDS_NUM = 50
 
 class DecoderTrainer(nn.Module):
     def __init__(self):

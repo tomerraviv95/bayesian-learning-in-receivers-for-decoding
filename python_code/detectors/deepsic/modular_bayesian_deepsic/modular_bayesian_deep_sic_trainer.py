@@ -26,7 +26,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         super().__init__()
 
     def __str__(self):
-        return 'Modular Bayesian DeepSIC'
+        return 'MB-DeepSIC'
 
     def _initialize_detector(self):
         self.detector = [

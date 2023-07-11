@@ -16,7 +16,7 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         super().__init__()
 
     def __str__(self):
-        return 'DeepSIC'
+        return 'F-DeepSIC'
 
     def _initialize_detector(self):
         self.detector = [[DeepSICDetector().to(DEVICE) for _ in range(ITERATIONS)] for _ in

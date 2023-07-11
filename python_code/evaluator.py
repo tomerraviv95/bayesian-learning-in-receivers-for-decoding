@@ -84,8 +84,7 @@ class Evaluator(object):
             mx_pilot, tx_pilot, rx_pilot = mx[:uncoded_pilots_end_ind], tx[:pilots_end_ind], rx[:pilots_end_ind]
             mx_data, tx_data, rx_data = mx[uncoded_pilots_end_ind:], tx[pilots_end_ind:], rx[pilots_end_ind:]
             # run online training on the pilots part if desired
-            if conf.is_online_training:
-                self.detector._online_training(tx_pilot, rx_pilot)
+            self.detector._online_training(tx_pilot, rx_pilot)
             # detect data part after training on the pilot part
             detected_words, soft_confidences = self.detector.forward(rx_data)
             # calculate accuracy for detection
