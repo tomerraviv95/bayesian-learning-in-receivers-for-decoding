@@ -9,20 +9,13 @@ class PlotType(Enum):
     decoding_comparison_by_SNR = 'decoding_comparison_by_SNR'
     final_comparison_by_SNR = 'final_comparison_by_SNR'
     final_comparison_by_users = 'final_comparison_by_users'
+    ber_by_ece = 'ber_by_ece'
 
 
 def get_config(plot_type: PlotType) -> Tuple[List[Dict], list, str, str, List[int]]:
     ## Decoding with BP, detection methods vary
     if plot_type == PlotType.detection_comparison_by_SNR:
         params_dicts = [
-            {'snr': 5, 'detector_type': DetectorType.black_box.name},
-            {'snr': 6, 'detector_type': DetectorType.black_box.name},
-            {'snr': 7, 'detector_type': DetectorType.black_box.name},
-            {'snr': 8, 'detector_type': DetectorType.black_box.name},
-            {'snr': 5, 'detector_type': DetectorType.bayesian_black_box.name},
-            {'snr': 6, 'detector_type': DetectorType.bayesian_black_box.name},
-            {'snr': 7, 'detector_type': DetectorType.bayesian_black_box.name},
-            {'snr': 8, 'detector_type': DetectorType.bayesian_black_box.name},
             {'snr': 5, 'detector_type': DetectorType.bayesian.name},
             {'snr': 6, 'detector_type': DetectorType.bayesian.name},
             {'snr': 7, 'detector_type': DetectorType.bayesian.name},
@@ -41,10 +34,6 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], list, str, str, List[in
     ## Detection with DeepSIC, decoding methods vary
     elif plot_type == PlotType.decoding_comparison_by_SNR:
         params_dicts = [
-            # {'snr': 5, 'decoder_type': DecoderType.bp.name},
-            # {'snr': 6, 'decoder_type': DecoderType.bp.name},
-            # {'snr': 7, 'decoder_type': DecoderType.bp.name},
-            # {'snr': 8, 'decoder_type': DecoderType.bp.name},
             {'snr': 5, 'decoder_type': DecoderType.wbp.name},
             {'snr': 6, 'decoder_type': DecoderType.wbp.name},
             {'snr': 7, 'decoder_type': DecoderType.wbp.name},
@@ -128,6 +117,17 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], list, str, str, List[in
         ]
         xlabel, ylabel = 'Number of Users and Antennas', 'BER'
         to_plot_by_values = [2, 4, 6, 8]
+    elif plot_type == PlotType.ber_by_ece:
+        params_dicts = [
+            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 128},
+            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 256},
+            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 128},
+            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 256},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 128},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 256},
+        ]
+        to_plot_by_values = None
+        xlabel, ylabel = 'Expected Calibration Error (ECE)', 'BER'
     else:
         raise ValueError('No such plot type!!!')
 

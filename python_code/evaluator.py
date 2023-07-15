@@ -12,7 +12,7 @@ from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_M
 from python_code.decoders import DECODERS_TYPE_DICT
 from python_code.detectors import DETECTORS_TYPE_DICT
 from python_code.utils.constants import ModulationType, HALF
-from python_code.utils.metrics import calculate_error_rate
+from python_code.utils.metrics import calculate_error_rate, calculate_reliability_and_ece
 from python_code.utils.probs_utils import get_qpsk_symbols_from_bits, get_eightpsk_symbols_from_bits
 
 random.seed(conf.seed)
@@ -24,7 +24,7 @@ MAX_CLIPPING = 20
 
 MetricOutput = namedtuple(
     "MetricOutput",
-    "ser_list ber_list"
+    "ser_list ber_list ece_list"
 )
 
 
@@ -69,7 +69,7 @@ class Evaluator(object):
         """
         print(f"Detecting using {str(self.detector)}, decoding using {str(self.decoder)}")
         self.decoder.train_model()
-        ser_list, ber_list = [], []
+        ser_list, ber_list, ece_list = [], [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
         # detect sequentially
@@ -83,30 +83,42 @@ class Evaluator(object):
             pilots_end_ind = int(conf.pilots_length // self.constellation_bits / conf.message_bits * conf.code_bits)
             mx_pilot, tx_pilot, rx_pilot = mx[:uncoded_pilots_end_ind], tx[:pilots_end_ind], rx[:pilots_end_ind]
             mx_data, tx_data, rx_data = mx[uncoded_pilots_end_ind:], tx[pilots_end_ind:], rx[pilots_end_ind:]
-            # run online training on the pilots part if desired
+            # run online training on the pilots part
             self.detector._online_training(tx_pilot, rx_pilot)
             # detect data part after training on the pilot part
             detected_words, soft_confidences = self.detector.forward(rx_data)
             # calculate accuracy for detection
-            ser = self.calculate_ser(detected_words, tx_data)
+            detected_symbols_words = self.get_detected_symbols_words(detected_words)
+            ser = calculate_error_rate(detected_symbols_words, tx_data)
             ser_list.append(ser)
             print(f'symbol error rate: {ser}')
+            # calculate ece measure
+            ece = self.calculate_ece(tx_data, detected_symbols_words, soft_confidences)
+            ece_list.append(ece)
+            print(f'expected calibration error (ECE): {ece}')
             # use detected soft values to calculate the final message
             ber = self.calculate_ber(soft_confidences, detected_words, mx_data)
             ber_list.append(ber)
             print(f'bit error rate: {ber}')
-        metrics_output = MetricOutput(ber_list=ber_list, ser_list=ser_list)
+        metrics_output = MetricOutput(ber_list=ber_list, ser_list=ser_list, ece_list=ece_list)
         return metrics_output
 
-    def calculate_ser(self, detected_word, tx_data):
+    @staticmethod
+    def get_detected_symbols_words(detected_words):
+        if conf.modulation_type == ModulationType.BPSK.name:
+            detected_symbols_words = detected_words
         if conf.modulation_type == ModulationType.QPSK.name:
-            detected_word = torch.Tensor(get_qpsk_symbols_from_bits(detected_word.cpu().numpy())).to(DEVICE)
+            detected_symbols_words = torch.Tensor(get_qpsk_symbols_from_bits(detected_words.cpu().numpy())).to(DEVICE)
         if conf.modulation_type == ModulationType.EightPSK.name:
-            detected_word = torch.Tensor(get_eightpsk_symbols_from_bits(detected_word.cpu().numpy())).to(DEVICE)
-        ser = calculate_error_rate(detected_word, tx_data)
-        return ser
+            detected_symbols_words = torch.Tensor(get_eightpsk_symbols_from_bits(detected_words.cpu().numpy())).to(
+                DEVICE)
+        return detected_symbols_words
 
     def calculate_ber(self, confidence_word, detected_words, mx_data):
+        if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
+            confidence_word = torch.repeat_interleave(confidence_word,
+                                                      MODULATION_NUM_MAPPING[conf.modulation_type] // 2,
+                                                      dim=0)
         to_decode_word = MAX_CLIPPING * BPSKModulator.modulate(detected_words) * (confidence_word - HALF)
         decoded_words = torch.zeros_like(mx_data)
         for user in range(conf.n_user):
@@ -116,6 +128,16 @@ class Evaluator(object):
             decoded_words[:, user] = message_decoded_word.reshape(-1)
         decoded_ber = calculate_error_rate(decoded_words, mx_data)
         return decoded_ber
+
+    @staticmethod
+    def calculate_ece(tx_data, detected_symbols_words, soft_confidences):
+        correct_values = soft_confidences[torch.eq(tx_data, detected_symbols_words)].tolist()
+        error_values = soft_confidences[~torch.eq(tx_data, detected_symbols_words)].tolist()
+        binning_regions = np.linspace(start=0, stop=1, num=9)
+        ece_measure, avg_acc_per_bin, avg_confidence_per_bin = calculate_reliability_and_ece(correct_values,
+                                                                                             error_values,
+                                                                                             binning_regions)
+        return ece_measure
 
 
 if __name__ == "__main__":

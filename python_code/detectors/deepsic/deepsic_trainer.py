@@ -69,10 +69,6 @@ class DeepSICTrainer(Detector):
         else:
             raise ValueError("No such constellation!")
         soft_confidences = torch.amax(new_probs_vec, dim=2)
-        if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
-            soft_confidences = torch.repeat_interleave(soft_confidences,
-                                                       MODULATION_NUM_MAPPING[conf.modulation_type] // 2,
-                                                       dim=0)
         return detected_words, soft_confidences
 
     def prepare_data_for_training(self, tx: torch.Tensor, rx: torch.Tensor, probs_vec: torch.Tensor) -> [

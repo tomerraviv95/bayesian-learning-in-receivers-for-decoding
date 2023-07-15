@@ -72,13 +72,13 @@ def get_all_plots(dec: Evaluator, run_over: bool, save_by_name: str, trial=None)
     # if plot already exists, and the run_over flag is false - load the saved plot
     if os.path.isfile(plots_path + '_ber.pkl') and not run_over:
         print("Loading plots")
-        ber_total = load_pkl(plots_path, type='ber')
+        metric_output = load_pkl(plots_path, type='ber')
     else:
         # otherwise - run again
         print("Calculating fresh")
-        ber_total = dec.evaluate()
-        save_pkl(plots_path, ber_total, type='ber')
-    return ber_total
+        metric_output = dec.evaluate()
+        save_pkl(plots_path, metric_output, type='ber')
+    return metric_output
 
 
 def get_mean_ser_list(all_curves):
@@ -105,6 +105,18 @@ def get_mean_ber_list(all_curves):
     return values_to_plot_dict
 
 
+def get_mean_ece_list(all_curves):
+    values_to_plot_dict = OrderedDict()
+    for method_name, metric_outputs in all_curves:
+        if method_name not in values_to_plot_dict.keys():
+            values_to_plot_dict[method_name] = []
+        current_ece_list = []
+        for metric_output in metric_outputs:
+            current_ece_list.extend(metric_output.ece_list)
+        values_to_plot_dict[method_name].append(sum(current_ece_list) / len(current_ece_list))
+    return values_to_plot_dict
+
+
 def plot_by_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
                 to_plot_by_values: List[int], loc='lower left'):
     # path for the saved figure
@@ -122,7 +134,7 @@ def plot_by_ber(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
     for method_name in means_bers_dict.keys():
         print(method_name)
         plt.plot(to_plot_by_values, means_bers_dict[method_name],
-                 label=method_name.replace(', ','/'),
+                 label=method_name.replace(', ', '/'),
                  color=get_color(method_name),
                  marker=get_marker(method_name), markersize=11,
                  linestyle=get_linestyle(method_name), linewidth=2.2)
@@ -164,4 +176,36 @@ def plot_by_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
     plt.legend(loc='lower left', prop={'size': 18})
     plt.yscale('log')
     plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ser_versus_{xlabel}_{plot_type.name}.png'),
+                bbox_inches='tight')
+
+
+def plot_by_ece(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
+                to_plot_by_values: List[int], loc='lower left'):
+    # path for the saved figure
+    current_day_time = datetime.datetime.now()
+    folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
+    if not os.path.isdir(os.path.join(FIGURES_DIR, folder_name)):
+        os.makedirs(os.path.join(FIGURES_DIR, folder_name))
+
+    # extract names from simulated plots
+    plt.figure()
+    means_ece_dict = get_mean_ece_list(all_curves)
+    means_bers_dict = get_mean_ber_list(all_curves)
+
+    # plots all methods
+    print("Plotting BER")
+    for method_name in means_ece_dict.keys():
+        print(method_name)
+        plt.plot(means_ece_dict[method_name], means_bers_dict[method_name],
+                 label=method_name.replace(', ', '/'),
+                 color=get_color(method_name),
+                 marker=get_marker(method_name), markersize=11,
+                 linestyle=get_linestyle(method_name), linewidth=2.2)
+
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.grid(which='both', ls='--')
+    plt.legend(loc=loc, prop={'size': 18})
+    plt.yscale('log')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_{xlabel}_{plot_type.name}.png'),
                 bbox_inches='tight')
