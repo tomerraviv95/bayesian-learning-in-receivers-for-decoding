@@ -27,7 +27,6 @@ def calculate_reliability_and_ece(correct_values_list: List[float], error_values
     error_values_array = np.array(error_values_list)
     avg_confidence_per_bin, avg_acc_per_bin, inbetween_indices_number_list = [], [], []
     total_values = len(correct_values_array) + len(error_values_array)
-    print(total_values)
     # calculate the mean accuracy and mean confidence for the given range
     for val_j, val_j_plus_1 in zip(values[:-1], values[1:]):
         avg_confidence_value_in_bin, avg_acc_value_in_bin = 0, 0
@@ -43,8 +42,6 @@ def calculate_reliability_and_ece(correct_values_list: List[float], error_values
         avg_acc_per_bin.append(avg_acc_value_in_bin)
         avg_confidence_per_bin.append(avg_confidence_value_in_bin)
         inbetween_indices_number_list.append(inbetween_indices_number)
-        print(
-            f'Bin range:({val_j, val_j_plus_1}), Total:{inbetween_indices_number}, Avg confidence:{avg_confidence_value_in_bin}, Avg accuracy:{avg_acc_value_in_bin}')
     # calculate ECE
     confidence_acc_diff = np.abs(np.array(avg_confidence_per_bin) - np.array(avg_acc_per_bin))
     ece_measure = np.sum(np.array(inbetween_indices_number_list) * confidence_acc_diff) / sum(

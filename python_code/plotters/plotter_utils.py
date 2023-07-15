@@ -179,8 +179,40 @@ def plot_by_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
                 bbox_inches='tight')
 
 
-def plot_by_ece(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
-                to_plot_by_values: List[int], loc='lower left'):
+def plot_ece_by_ser(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
+                    to_plot_by_values: List[int], loc='lower left'):
+    # path for the saved figure
+    current_day_time = datetime.datetime.now()
+    folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
+    if not os.path.isdir(os.path.join(FIGURES_DIR, folder_name)):
+        os.makedirs(os.path.join(FIGURES_DIR, folder_name))
+
+    # extract names from simulated plots
+    plt.figure()
+    means_ece_dict = get_mean_ece_list(all_curves)
+    means_sers_dict = get_mean_ser_list(all_curves)
+
+    # plots all methods
+    print("Plotting BER")
+    for method_name in means_ece_dict.keys():
+        print(method_name)
+        plt.plot(means_sers_dict[method_name], means_ece_dict[method_name],
+                 label=method_name.replace(', ', '/'),
+                 color=get_color(method_name),
+                 marker=get_marker(method_name), markersize=11,
+                 linestyle=get_linestyle(method_name), linewidth=2.2)
+
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.grid(which='both', ls='--')
+    plt.legend(loc=loc, prop={'size': 18})
+    plt.yscale('log')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ece_versus_ser_{plot_type.name}.png'),
+                bbox_inches='tight')
+
+
+def plot_ber_by_ece(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: str, ylabel: str, plot_type: PlotType,
+                    to_plot_by_values: List[int], loc='lower left'):
     # path for the saved figure
     current_day_time = datetime.datetime.now()
     folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
@@ -207,5 +239,5 @@ def plot_by_ece(all_curves: List[Tuple[np.ndarray, np.ndarray, str]], xlabel: st
     plt.grid(which='both', ls='--')
     plt.legend(loc=loc, prop={'size': 18})
     plt.yscale('log')
-    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_{xlabel}_{plot_type.name}.png'),
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ber_versus_ece_{plot_type.name}.png'),
                 bbox_inches='tight')
