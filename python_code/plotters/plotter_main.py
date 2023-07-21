@@ -1,35 +1,85 @@
+from collections import OrderedDict
+
 from python_code.plotters.plotter_config import get_config, PlotType
 from python_code.plotters.plotter_methods import compute_for_method, RunParams
-from python_code.plotters.plotter_utils import plot_by_ber, plot_by_ser, plot_ece_by_ser, plot_ber_by_ece
+from python_code.plotters.plotter_utils import plot_dict_vs_list, plot_dict_vs_dict
+
+
+def get_mean_ser_list(all_curves):
+    values_to_plot_dict = OrderedDict()
+    for method_name, metric_outputs in all_curves:
+        if method_name not in values_to_plot_dict.keys():
+            values_to_plot_dict[method_name] = []
+        current_ser_list = []
+        for metric_output in metric_outputs:
+            current_ser_list.extend(metric_output.ser_list)
+        values_to_plot_dict[method_name].append(sum(current_ser_list) / len(current_ser_list))
+    return values_to_plot_dict
+
+
+def get_mean_ber_list(all_curves):
+    values_to_plot_dict = OrderedDict()
+    for method_name, metric_outputs in all_curves:
+        if method_name not in values_to_plot_dict.keys():
+            values_to_plot_dict[method_name] = []
+        current_ber_list = []
+        for metric_output in metric_outputs:
+            current_ber_list.extend(metric_output.ber_list)
+        values_to_plot_dict[method_name].append(sum(current_ber_list) / len(current_ber_list))
+    return values_to_plot_dict
+
+
+def get_mean_ece_list(all_curves):
+    values_to_plot_dict = OrderedDict()
+    for method_name, metric_outputs in all_curves:
+        if method_name not in values_to_plot_dict.keys():
+            values_to_plot_dict[method_name] = []
+        current_ece_list = []
+        for metric_output in metric_outputs:
+            current_ece_list.extend(metric_output.ece_list)
+        values_to_plot_dict[method_name].append(sum(current_ece_list) / len(current_ece_list))
+    return values_to_plot_dict
+
 
 ## Plotter for the Paper's Figures
 if __name__ == '__main__':
     run_over = False  # whether to run over previous results
-    trial_num = 3  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
-    # [PlotType.final_comparison_by_SNR,
-    #  PlotType.detection_comparison_by_SNR,
-    #  PlotType.decoding_comparison_by_SNR,
-    #  PlotType.final_comparison_by_users,
-    #  PlotType.ber_by_ece]
-    plot_type = PlotType.ber_by_ece
+    trial_num = 1  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
+    plot_type = PlotType.ece_by_pilots_length
     print(plot_type.name)
     run_params_obj = RunParams(run_over=run_over, trial_num=trial_num)
-    params_dicts, xlabel, ylabel, to_plot_by_values = get_config(plot_type)
+    params_dicts, to_plot_by_values = get_config(plot_type)
     all_curves = []
 
     for params_dict in params_dicts:
         print(params_dict)
         compute_for_method(all_curves, params_dict, run_params_obj, plot_type.name)
+
     if plot_type is PlotType.final_comparison_by_users:
-        plot_by_ber(all_curves=all_curves, xlabel='Number of Users and Antennas', ylabel='BER', plot_type=plot_type,
-                    to_plot_by_values=to_plot_by_values, loc='upper left')
+        means_bers_dict = get_mean_ber_list(all_curves)
+        plot_dict_vs_list(values_dict=means_bers_dict, xlabel='Number of Users and Antennas', ylabel='BER',
+                          plot_type=plot_type, to_plot_by_values=to_plot_by_values, loc='upper left')
     elif plot_type is PlotType.ber_by_ece:
-        plot_ece_by_ser(all_curves=all_curves, xlabel='SER', ylabel='ECE', plot_type=plot_type,
-                        to_plot_by_values=to_plot_by_values, loc='lower right')
-        plot_ber_by_ece(all_curves=all_curves, xlabel='ECE', ylabel='BER', plot_type=plot_type,
-                        to_plot_by_values=to_plot_by_values, loc='lower right')
+        means_bers_dict = get_mean_ber_list(all_curves)
+        means_sers_dict = get_mean_ser_list(all_curves)
+        means_ece_dict = get_mean_ece_list(all_curves)
+        plot_dict_vs_dict(values_dict=means_ece_dict, to_plot_by_values=means_sers_dict, xlabel='SER', ylabel='ECE',
+                          plot_type=plot_type, loc='lower right')
+        plot_dict_vs_dict(values_dict=means_bers_dict, to_plot_by_values=means_ece_dict, xlabel='ECE', ylabel='BER',
+                          plot_type=plot_type, loc='lower right')
+    elif plot_type is PlotType.ber_by_ser:
+        means_bers_dict = get_mean_ber_list(all_curves)
+        means_sers_dict = get_mean_ser_list(all_curves)
+        plot_dict_vs_dict(values_dict=means_bers_dict, to_plot_by_values=means_sers_dict, xlabel='SER', ylabel='BER',
+                          plot_type=plot_type, loc='lower right')
+    elif plot_type is PlotType.ece_by_pilots_length:
+        means_ece_dict = get_mean_ece_list(all_curves)
+        plot_dict_vs_list(values_dict=means_ece_dict, xlabel='Number of Pilots', ylabel='ECE', plot_type=plot_type,
+                          to_plot_by_values=to_plot_by_values, loc='lower right')
     else:
-        plot_by_ber(all_curves=all_curves, xlabel='SNR [dB]', ylabel='BER', plot_type=plot_type,
-                    to_plot_by_values=to_plot_by_values)
-        plot_by_ser(all_curves=all_curves, xlabel='SNR [dB]', ylabel='SER', plot_type=plot_type,
-                    to_plot_by_values=to_plot_by_values)
+        means_bers_dict = get_mean_ber_list(all_curves)
+        means_sers_dict = get_mean_ser_list(all_curves)
+        plot_dict_vs_list(values_dict=means_bers_dict, xlabel='SNR [dB]', ylabel='BER', plot_type=plot_type,
+                          to_plot_by_values=to_plot_by_values)
+        plot_dict_vs_list(values_dict=means_sers_dict, xlabel='SNR [dB]', ylabel='SER', plot_type=plot_type,
+                          to_plot_by_values=to_plot_by_values)
