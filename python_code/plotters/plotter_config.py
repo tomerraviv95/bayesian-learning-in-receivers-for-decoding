@@ -9,7 +9,6 @@ class PlotType(Enum):
     decoding_comparison_by_SNR = 'decoding_comparison_by_SNR'
     final_comparison_by_SNR = 'final_comparison_by_SNR'
     final_comparison_by_users = 'final_comparison_by_users'
-    ber_by_ece = 'ber_by_ece'
     ber_by_ser = 'ber_by_ser'
     ece_by_pilots_length = 'ece_by_pilots_length'
 
@@ -115,25 +114,6 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
              'detector_type': DetectorType.model_based_bayesian.name},
         ]
         to_plot_by_values = [2, 4, 6, 8]
-    elif plot_type == PlotType.ber_by_ece:
-        params_dicts = [
-            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 128},
-            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 256},
-            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 384},
-            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 512},
-            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 640},
-            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 128},
-            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 256},
-            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 384},
-            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 512},
-            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 640},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 128},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 256},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 384},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 512},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 640},
-        ]
-        to_plot_by_values = None
     elif plot_type == PlotType.ber_by_ser:
         params_dicts = [
             {'detector_type': DetectorType.seq_model.name, 'pilots_length': 128},
@@ -141,16 +121,22 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
             {'detector_type': DetectorType.seq_model.name, 'pilots_length': 384},
             {'detector_type': DetectorType.seq_model.name, 'pilots_length': 512},
             {'detector_type': DetectorType.seq_model.name, 'pilots_length': 640},
+            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 768},
+            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 896},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 128},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 256},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 384},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 512},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 640},
+            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 768},
+            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 896},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 128},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 256},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 384},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 512},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 640},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 768},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 896},
         ]
         to_plot_by_values = None
     elif plot_type == PlotType.ece_by_pilots_length:
@@ -160,18 +146,24 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
             {'detector_type': DetectorType.seq_model.name, 'pilots_length': 384},
             {'detector_type': DetectorType.seq_model.name, 'pilots_length': 512},
             {'detector_type': DetectorType.seq_model.name, 'pilots_length': 640},
+            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 768},
+            {'detector_type': DetectorType.seq_model.name, 'pilots_length': 896},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 128},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 256},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 384},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 512},
             {'detector_type': DetectorType.bayesian.name, 'pilots_length': 640},
+            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 768},
+            {'detector_type': DetectorType.bayesian.name, 'pilots_length': 896},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 128},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 256},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 384},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 512},
             {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 640},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 768},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'pilots_length': 896},
         ]
-        to_plot_by_values = [128, 256, 384, 512, 640]
+        to_plot_by_values = [128, 256, 384, 512, 640, 768, 896]
     else:
         raise ValueError('No such plot type!!!')
 

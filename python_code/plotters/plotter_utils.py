@@ -90,7 +90,7 @@ def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: Li
     # extract names from simulated plots
     plt.figure()
     # plots all methods
-    print("Plotting BER")
+    print("Plotting")
     for method_name in values_dict.keys():
         print(method_name)
         plt.plot(to_plot_by_values, values_dict[method_name],
@@ -120,7 +120,7 @@ def plot_dict_vs_dict(values_dict: Dict[str, List[float]], to_plot_by_values: Di
     plt.figure()
 
     # plots all methods
-    print("Plotting BER")
+    print("Plotting")
     for method_name in values_dict.keys():
         print(method_name)
         plt.plot(to_plot_by_values[method_name], values_dict[method_name],
@@ -134,5 +134,6 @@ def plot_dict_vs_dict(values_dict: Dict[str, List[float]], to_plot_by_values: Di
     plt.grid(which='both', ls='--')
     plt.legend(loc=loc, prop={'size': 18})
     plt.yscale('log')
-    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'ece_versus_ser_{plot_type.name}.png'),
+    plt.xscale('log')
+    plt.savefig(os.path.join(FIGURES_DIR, folder_name, f'{ylabel}_versus_{xlabel}_{plot_type.name}.png'),
                 bbox_inches='tight')
