@@ -4,11 +4,84 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added another experiment - ECE vs plot_length, and BER vs SER is more coherent">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added more pilots lengths to the plotting of the ECE">
+      <change afterPath="$PROJECT_DIR$/python_code/datasets/mimo_channels/cost_channel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_EightPSK.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_QPSK.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/1/h_8.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/2/h_8.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/3/h_8.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/4/h_8.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/5/h_8.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/6/h_8.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/7/h_8.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_1.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_2.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_3.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_4.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_5.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_6.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_7.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/cost2100_channel/8/h_8.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/datasets/communication_blocks/transmitter.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/communication_blocks/transmitter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/ber_by_ece.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_QPSK.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_SNR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_SNR.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_EightPSK.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,26 +124,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Projects/bayesian-learning-in-receivers-for-decoding/resources/config_runs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding/resources/config_runs",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources\config_runs" />
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\datasets\mimo_channels" />
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel" />
-      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources" />
-      <recent name="C:\Projects\bayesian-learning-for-receivers\python_code\detectors" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders\wbp" />
@@ -80,7 +153,7 @@
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.plotter-par">
+  <component name="RunManager" selected="Python.evaluator-par">
     <configuration name="evaluator-par" type="PythonConfigurationType" factoryName="Python" singleton="false">
       <module name="bayesian-learning-for-receivers" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -184,14 +257,9 @@
       <workItem from="1688915852770" duration="17724000" />
       <workItem from="1689336095148" duration="49000" />
       <workItem from="1689420651134" duration="5815000" />
-      <workItem from="1689948144976" duration="9922000" />
-    </task>
-    <task id="LOCAL-00078" summary="Outsourced the Bayesian utils">
-      <created>1674899532744</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1674899532744</updated>
+      <workItem from="1689948144976" duration="10402000" />
+      <workItem from="1691088405557" duration="585000" />
+      <workItem from="1691215723035" duration="7085000" />
     </task>
     <task id="LOCAL-00079" summary="Organized the black-box code">
       <created>1674900773109</created>
@@ -529,7 +597,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689951043509</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="Added more pilots lengths to the plotting of the ECE">
+      <created>1690025727116</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1690025727116</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -547,7 +622,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Implemented preliminary version of the evaluator" />
     <MESSAGE value="Seperated the communication chain into meaningful blocks" />
     <MESSAGE value="Built all the communication blocks, added assertion to make sure the block length is divisible by the message of the code" />
     <MESSAGE value="worked on the detection part, seems to work now" />
@@ -572,13 +646,14 @@
     <MESSAGE value="Removed BP option" />
     <MESSAGE value="Added graphs of BER vs ECE, ECE vs SER" />
     <MESSAGE value="Added another experiment - ECE vs plot_length, and BER vs SER is more coherent" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added another experiment - ECE vs plot_length, and BER vs SER is more coherent" />
+    <MESSAGE value="Added more pilots lengths to the plotting of the ECE" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more pilots lengths to the plotting of the ECE" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1689426930061" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1691223125255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1690006815053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1691221224065" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$evaluate_par.coverage" NAME="evaluate-par Coverage Results" MODIFIED="1678741528529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/concept_drift_for_receivers$evaluate.coverage" NAME="evaluate Coverage Results" MODIFIED="1659804270637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />

@@ -15,6 +15,7 @@ n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
 
 # datasets
+channel_model: 'Synthetic' # ['Synthetic','Cost2100']
 linear: True # datasets linearity. Boolean value.
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
 snr: 7 # validation SNR value. values: float.

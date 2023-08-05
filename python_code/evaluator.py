@@ -117,7 +117,7 @@ class Evaluator(object):
     def calculate_ber(self, confidence_word, detected_words, mx_data):
         if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
             confidence_word = torch.repeat_interleave(confidence_word,
-                                                      MODULATION_NUM_MAPPING[conf.modulation_type] // 2,
+                                                      int(math.log2(MODULATION_NUM_MAPPING[conf.modulation_type])),
                                                       dim=0)
         to_decode_word = MAX_CLIPPING * BPSKModulator.modulate(detected_words) * (confidence_word - HALF)
         decoded_words = torch.zeros_like(mx_data)
