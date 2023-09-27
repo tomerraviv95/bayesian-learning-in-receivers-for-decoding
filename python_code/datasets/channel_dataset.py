@@ -28,9 +28,9 @@ class ChannelModelDataset(Dataset):
         self.modulator = MODULATION_DICT[conf.modulation_type]
         self.transmitter = Transmitter()
         assert conf.block_length % conf.message_bits == 0, (
-            "Block length must be divisible by the number of message bits for _encoding!!!")
+            "Block length must be divisible by the number of message bits for encoding!!!")
         assert conf.pilots_length % conf.message_bits == 0, (
-            "Pilots length must be divisible by the number of message bits for _encoding!!!")
+            "Pilots length must be divisible by the number of message bits for encoding!!!")
 
     def get_snr_data(self, snr: float, database: list):
         if database is None:

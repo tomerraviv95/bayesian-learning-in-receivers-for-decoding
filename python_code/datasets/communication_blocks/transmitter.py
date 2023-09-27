@@ -19,7 +19,6 @@ class Transmitter:
             h = Cost2100MIMOChannel.calculate_channel(conf.n_ant, conf.n_user, index, conf.fading_in_channel)
         else:
             raise ValueError("No such channel model!!!")
-        print(h)
         # pass through datasets
         rx = MIMO_CHANNELS_DICT[conf.channel_model].transmit(s=s, h=h, snr=snr)
         return rx.T

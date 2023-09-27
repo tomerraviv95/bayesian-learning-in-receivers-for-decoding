@@ -9,11 +9,12 @@ from python_code import conf, DEVICE
 from python_code.datasets.coding_dataset import CodingDataset
 from python_code.utils.coding_utils import get_code_pcm_and_gm
 
-ITERATIONS = 5
+ITERATIONS = 3
 SNR_START = 4
 SNR_END = 7
 TOTAL_RUNS = 5
 CODEWORDS_NUM = 50
+
 
 class DecoderTrainer(nn.Module):
     def __init__(self):

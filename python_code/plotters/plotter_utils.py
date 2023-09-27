@@ -1,5 +1,6 @@
 import datetime
 import os
+from enum import Enum
 from typing import List, Tuple, Dict
 
 import matplotlib as mpl
@@ -57,6 +58,11 @@ def get_marker(method_name: str) -> str:
         raise ValueError('No such method!!!')
 
 
+class LEGEND_TYPE(Enum):
+    FULL = 'FULL'
+    DETECTION_ONLY = 'DETECTION_ONLY'
+
+
 def get_all_plots(dec: Evaluator, run_over: bool, save_by_name: str, trial=None) -> Tuple[List[float], List[float]]:
     print(save_by_name)
     # set the path to saved plot results for a single method (so we do not need to run anew each time)
@@ -80,7 +86,7 @@ def get_all_plots(dec: Evaluator, run_over: bool, save_by_name: str, trial=None)
 
 
 def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: List[int], xlabel: str, ylabel: str,
-                      plot_type: PlotType, loc='lower left'):
+                      plot_type: PlotType, legend_type: LEGEND_TYPE, loc='lower left'):
     # path for the saved figure
     current_day_time = datetime.datetime.now()
     folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
@@ -93,8 +99,14 @@ def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: Li
     print("Plotting")
     for method_name in values_dict.keys():
         print(method_name)
+        if legend_type is LEGEND_TYPE.FULL:
+            label = method_name.replace(', ', '/').replace('-DeepSIC', '').replace('-WBP', '')
+        elif legend_type is LEGEND_TYPE.DETECTION_ONLY:
+            label = method_name.split(',')[0].replace('-DeepSIC', '')
+        else:
+            label = ''
         plt.plot(to_plot_by_values, values_dict[method_name],
-                 label=method_name.replace(', ', '/').replace('DeepSIC', 'Det').replace('WBP', 'Dec'),
+                 label=label,
                  color=get_color(method_name),
                  marker=get_marker(method_name), markersize=11,
                  linestyle=get_linestyle(method_name), linewidth=2.2)
@@ -124,7 +136,7 @@ def plot_dict_vs_dict(values_dict: Dict[str, List[float]], to_plot_by_values: Di
     for method_name in values_dict.keys():
         print(method_name)
         plt.plot(to_plot_by_values[method_name], values_dict[method_name],
-                 label=method_name.replace(', ', '/').replace('DeepSIC', 'Det').replace('WBP', 'Dec'),
+                 label=method_name.replace(', ', '/').replace('-DeepSIC', '').replace('-WBP', ''),
                  color=get_color(method_name),
                  marker=get_marker(method_name), markersize=11,
                  linestyle=get_linestyle(method_name), linewidth=2.2)
