@@ -5,7 +5,7 @@ from python_code.decoders.decoder_trainer import DecoderTrainer
 from python_code.utils.constants import CLIPPING_VAL
 
 EPOCHS = 500
-BATCH_SIZE = 32
+BATCH_SIZE = 120
 LR = 1e-3
 
 
@@ -14,6 +14,7 @@ class WBPDecoder(DecoderTrainer):
         super().__init__()
         self.initialize_layers()
         self.deep_learning_setup(LR)
+        self.total_runs = 20
 
     def __str__(self):
         return 'F-WBP'

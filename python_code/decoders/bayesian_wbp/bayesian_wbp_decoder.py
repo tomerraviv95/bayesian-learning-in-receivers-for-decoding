@@ -6,7 +6,7 @@ from python_code.decoders.modular_bayesian_wbp.bayesian_bp_nn import BayesianOdd
 from python_code.utils.constants import HALF, CLIPPING_VAL
 
 EPOCHS = 100
-BATCH_SIZE = 32
+BATCH_SIZE = 120
 LR = 1e-3
 
 
@@ -20,6 +20,7 @@ class BayesianWBPDecoder(DecoderTrainer):
         self.beta = 1e-2
         self.initialize_layers()
         self.deep_learning_setup(LR)
+        self.total_runs = 5
 
     def __str__(self):
         return 'B-WBP'

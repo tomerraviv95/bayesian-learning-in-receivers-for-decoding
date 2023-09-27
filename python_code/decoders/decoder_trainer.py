@@ -1,19 +1,20 @@
 import numpy as np
 import torch
 from torch import nn
-from torch.nn import CrossEntropyLoss, MSELoss
-from torch.optim import Adam, RMSprop, SGD
+from torch.nn import BCEWithLogitsLoss
+from torch.optim import Adam
 
 from dir_definitions import ECC_MATRICES_DIR
 from python_code import conf, DEVICE
 from python_code.datasets.coding_dataset import CodingDataset
 from python_code.utils.coding_utils import get_code_pcm_and_gm
+from python_code.utils.metrics import calculate_error_rate
 
-ITERATIONS = 3
+ITERATIONS = 5
 SNR_START = 4
 SNR_END = 7
-TOTAL_RUNS = 5
-CODEWORDS_NUM = 50
+CODEWORDS_NUM = 200
+MIN_EVAL_ERRORS = 500
 
 
 class DecoderTrainer(nn.Module):
@@ -38,34 +39,42 @@ class DecoderTrainer(nn.Module):
         """
         Sets up the optimizer and loss criterion
         """
-        if conf.optimizer_type == 'Adam':
-            self.optimizer = Adam(filter(lambda p: p.requires_grad, self.parameters()),
-                                  lr=lr)
-        elif conf.optimizer_type == 'RMSprop':
-            self.optimizer = RMSprop(filter(lambda p: p.requires_grad, self.parameters()),
-                                     lr=lr)
-        elif conf.optimizer_type == 'SGD':
-            self.optimizer = SGD(filter(lambda p: p.requires_grad, self.parameters()),
-                                 lr=lr)
-        else:
-            raise NotImplementedError("No such optimizer implemented!!!")
-        if conf.loss_type == 'CrossEntropy':
-            self.criterion = CrossEntropyLoss().to(DEVICE)
-        elif conf.loss_type == 'MSE':
-            self.criterion = MSELoss().to(DEVICE)
-        else:
-            raise NotImplementedError("No such loss function implemented!!!")
+        self.optimizer = Adam(filter(lambda p: p.requires_grad, self.parameters()), lr=lr)
+        self.criterion = BCEWithLogitsLoss().to(DEVICE)
 
     def _initialize_dataloader(self):
         """
         Sets up the data loader - a generator from which we draw batches, in iterations
         """
         self.train_dataset = CodingDataset(codewords_num=CODEWORDS_NUM)
+        self.val_dataset = CodingDataset(codewords_num=CODEWORDS_NUM)
 
     def train_model(self):
         print(f"Training {self.__str__()} on AWGN Channel")
-        for run_ind in range(TOTAL_RUNS):
+        avg_ber = self.eval()
+        print(f"Training Loop {0}, BER {avg_ber}")
+        for run_ind in range(self.total_runs):
             tx, rx = self.train_dataset.__getitem__(snr_list=list(range(SNR_START, SNR_END + 1)))
             # train the decoder
             self.single_training(tx, rx)
-            print(f"Training Loop {1 + run_ind}")
+            avg_ber = self.eval()
+            print(f"Training Loop {run_ind + 1}, BER {avg_ber}")
+
+    def eval(self) -> float:
+        """
+        The evaluation running on multiple pairs of transmitted and received blocks.
+        :return: list of ber per block
+        """
+        total_ber = []
+        total_errors = 0
+        with torch.no_grad():
+            while total_errors < MIN_EVAL_ERRORS:
+                tx, rx = self.val_dataset.__getitem__(snr_list=[SNR_END])
+                # detect data part after training on the pilot part
+                output = self.forward(rx)
+                # calculate accuracy
+                ber, errors = calculate_error_rate(output, tx)
+                total_ber.append(ber)
+                total_errors += errors
+        avg_ber = sum(total_ber) / len(total_ber)
+        return avg_ber

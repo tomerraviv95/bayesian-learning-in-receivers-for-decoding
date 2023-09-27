@@ -56,17 +56,12 @@ def get_standard_form(pc_matrix):
     return pc_matrix.astype(int)
 
 
-def get_code_pcm_and_gm(bits_num, message_bits_num, ecc_mat_path, code_type, is_systematic_encoding=True):
+def get_code_pcm_and_gm(bits_num, message_bits_num, ecc_mat_path, code_type):
     pc_matrix_path = os.path.join(ecc_mat_path, f'{code_type}_{bits_num}_{message_bits_num}')
     if code_type in [CODE_TYPE.POLAR.name, CODE_TYPE.BCH.name]:
         code_pcm = np.loadtxt(pc_matrix_path + '.txt')
     else:
         raise Exception(f'Code of type {code_type} is not supported!!!')
-    if is_systematic_encoding:
-        code_pcm = get_standard_form(code_pcm).astype(int)
-        code_gm = np.concatenate([np.mod(-code_pcm[:, min(code_pcm.shape):].transpose(), 2), np.eye(message_bits_num)],
-                                 1).astype(int)
-    else:
-        code_gm = get_generator(code_pcm)
+    code_gm = get_generator(code_pcm)
     assert np.all(np.mod((np.matmul(code_gm, code_pcm.transpose())), 2) == 0) and np.sum(code_gm) > 0
     return code_pcm.astype(np.float32), code_gm.astype(np.float32)

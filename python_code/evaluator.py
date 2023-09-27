@@ -89,7 +89,7 @@ class Evaluator(object):
             detected_words, soft_confidences = self.detector.forward(rx_data)
             # calculate accuracy for detection
             detected_symbols_words = self.get_detected_symbols_words(detected_words)
-            ser = calculate_error_rate(detected_symbols_words, tx_data)
+            ser, _ = calculate_error_rate(detected_symbols_words, tx_data)
             ser_list.append(ser)
             print(f'symbol error rate: {ser}')
             # calculate ece measure
@@ -126,7 +126,7 @@ class Evaluator(object):
             decoded_word = self.decoder.forward(current_to_decode)
             message_decoded_word = decoded_word[:, conf.code_bits - conf.message_bits:]
             decoded_words[:, user] = message_decoded_word.reshape(-1)
-        decoded_ber = calculate_error_rate(decoded_words, mx_data)
+        decoded_ber,_ = calculate_error_rate(decoded_words, mx_data)
         return decoded_ber
 
     @staticmethod
