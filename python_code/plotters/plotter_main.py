@@ -80,9 +80,9 @@ if __name__ == '__main__':
                        PlotType.detection_comparison_by_SNR_cost_QPSK,
                        PlotType.detection_comparison_by_SNR_cost_EightPSK]:
         means_sers_dict = get_mean_ser_list(all_curves)
-        plot_dict_vs_list(values_dict=means_sers_dict, xlabel='SNR [dB]', ylabel='SER', plot_type=plot_type,
+        plot_dict_vs_list(values_dict=means_sers_dict, xlabel='snr [dB]', ylabel='SER', plot_type=plot_type,
                           to_plot_by_values=to_plot_by_values, legend_type=LEGEND_TYPE.DETECTION_ONLY)
     else:
         means_bers_dict = get_mean_ber_list(all_curves)
-        plot_dict_vs_list(values_dict=means_bers_dict, xlabel='SNR [dB]', ylabel='BER', plot_type=plot_type,
+        plot_dict_vs_list(values_dict=means_bers_dict, xlabel='snr [dB]', ylabel='BER', plot_type=plot_type,
                           to_plot_by_values=to_plot_by_values, legend_type=LEGEND_TYPE.FULL)

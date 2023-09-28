@@ -9,6 +9,7 @@ import torch
 from python_code import conf, DEVICE
 from python_code.datasets.channel_dataset import ChannelModelDataset
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING, BPSKModulator
+from python_code.datasets.siso_channels.awgn_channel import compute_channel_llr, compute_channel_sigma
 from python_code.decoders import DECODERS_TYPE_DICT
 from python_code.detectors import DETECTORS_TYPE_DICT
 from python_code.utils.constants import ModulationType, HALF
@@ -19,8 +20,6 @@ random.seed(conf.seed)
 torch.manual_seed(conf.seed)
 torch.cuda.manual_seed(conf.seed)
 np.random.seed(conf.seed)
-
-MAX_CLIPPING = 20
 
 MetricOutput = namedtuple(
     "MetricOutput",
@@ -119,14 +118,21 @@ class Evaluator(object):
             confidence_word = torch.repeat_interleave(confidence_word,
                                                       int(math.log2(MODULATION_NUM_MAPPING[conf.modulation_type])),
                                                       dim=0)
-        to_decode_word = MAX_CLIPPING * BPSKModulator.modulate(detected_words) * (confidence_word - HALF)
+        rate = float(conf.message_bits / conf.code_bits)
+        sigma = compute_channel_sigma(rate, conf.snr)
+        to_decode_word = compute_channel_llr(BPSKModulator.modulate(detected_words) * (confidence_word - HALF), sigma)
         decoded_words = torch.zeros_like(mx_data)
+        no_coding_words = torch.zeros_like(mx_data)
         for user in range(conf.n_user):
             current_to_decode = to_decode_word[:, user].reshape(-1, conf.code_bits)
             decoded_word = self.decoder.forward(current_to_decode)
-            message_decoded_word = decoded_word[:, conf.code_bits - conf.message_bits:]
+            no_coding_word = current_to_decode < 0
+            message_decoded_word = decoded_word[:, conf.message_bits:]
+            message_no_coding_word = no_coding_word[:, conf.message_bits:]
             decoded_words[:, user] = message_decoded_word.reshape(-1)
-        decoded_ber,_ = calculate_error_rate(decoded_words, mx_data)
+            no_coding_words[:, user] = message_no_coding_word.reshape(-1)
+        decoded_ber, _ = calculate_error_rate(decoded_words, mx_data)
+        no_coding_ber, _ = calculate_error_rate(no_coding_words, mx_data)
         return decoded_ber
 
     @staticmethod

@@ -150,7 +150,7 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
             {'snr': 10, 'decoder_type': DecoderType.modular_bayesian_wbp.name, 'code_bits': 256, 'message_bits': 128},
         ]
         to_plot_by_values = [64, 128, 256]
-    ## Detection and decoding methods vary with SNR
+    ## Detection and decoding methods vary with snr
     elif plot_type == PlotType.final_comparison_by_SNR_QPSK:
         params_dicts = [
             {'snr': 4, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},

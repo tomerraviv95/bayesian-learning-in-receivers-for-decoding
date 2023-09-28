@@ -7,29 +7,26 @@ import torch
 from numpy.random import default_rng
 from torch.utils.data import Dataset
 
-from dir_definitions import ECC_MATRICES_DIR
 from python_code import DEVICE
 from python_code import conf
+from python_code.datasets.communication_blocks.encoder import Encoder
 from python_code.datasets.communication_blocks.modulator import BPSKModulator
 from python_code.datasets.siso_channels.awgn_channel import AWGNChannel
-from python_code.utils.coding_utils import get_code_pcm_and_gm
 
 
 class EccChannel:
     def __init__(self, codewords_num: int):
         self._codewords_num = codewords_num
         self._bits_generator = default_rng(seed=conf.seed)
-        self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits,
-                                                          ECC_MATRICES_DIR, conf.code_type)
-        self._encoding = lambda u: (np.dot(u, self.code_gm) % 2)
         self.rate = float(conf.message_bits / conf.code_bits)
+        self._encoder = Encoder()
 
     def _transmit(self, snr: float) -> Tuple[np.ndarray, np.ndarray]:
-        tx = self._bits_generator.integers(0, 2, size=(self._codewords_num, conf.message_bits))
-        x = self._encoding(tx)
-        s = BPSKModulator.modulate(x)
-        rx = AWGNChannel(tx=s, SNR=snr, R=self.rate, random=np.random.RandomState(conf.seed))
-        return x, rx
+        mx = self._bits_generator.integers(0, 2, size=(self._codewords_num, conf.message_bits))
+        tx = self._encoder.encode(mx)
+        s = BPSKModulator.modulate(tx)
+        rx = AWGNChannel(s=s, snr=snr, rate=self.rate, random=np.random.RandomState(conf.seed))
+        return tx, rx
 
     def get_vectors(self, snr: float) -> Tuple[np.ndarray, np.ndarray]:
         # get datasets values

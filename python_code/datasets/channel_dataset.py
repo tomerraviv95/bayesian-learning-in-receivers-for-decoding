@@ -50,7 +50,7 @@ class ChannelModelDataset(Dataset):
             mx = self.generator.generate()
             tx = np.empty((int(conf.block_length / conf.message_bits * conf.code_bits), conf.n_user))
             for user in range(conf.n_user):
-                tx[:, user] = self.encoder.encode(mx[:, user])
+                tx[:, user] = self.encoder.encode(mx[:, user]).reshape(-1)
             s = self.modulator.modulate(tx.T)
             if conf.modulation_type == ModulationType.QPSK.name:
                 tx = get_qpsk_symbols_from_bits(tx)

@@ -1,12 +1,23 @@
 import numpy as np
 
 
-def AWGNChannel(tx, SNR, R, random):
+def AWGNChannel(s, snr, rate, random):
     """
-        Input: tx - Transmitted codeword, SNR - dB, R - Code rate, use_llr - Return llr
+        Input: s - Transmitted codeword, snr - dB, rate - Code rate, use_llr - Return llr
         Output: rx - Codeword with AWGN noise
     """
-    [row, col] = tx.shape
-    sigma = np.sqrt(0.5 * ((10 ** ((SNR + 10 * np.log10(R)) / 10)) ** (-1)))
-    rx = tx + sigma * random.normal(0.0, 1.0, (row, col))
-    return 2 * rx / (sigma ** 2)
+    [row, col] = s.shape
+    sigma = compute_channel_sigma(rate, snr)
+    rx = s + sigma * random.normal(0.0, 1.0, (row, col))
+    llr = compute_channel_llr(rx, sigma)
+    return llr
+
+
+def compute_channel_llr(rx, sigma):
+    llr = rx * 2 / (sigma ** 2)
+    return llr
+
+
+def compute_channel_sigma(rate, snr):
+    sigma = np.sqrt(0.5 * ((10 ** ((snr + 10 * np.log10(rate)) / 10)) ** (-1)))
+    return sigma

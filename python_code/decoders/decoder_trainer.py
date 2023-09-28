@@ -30,8 +30,8 @@ class DecoderTrainer(nn.Module):
         self.iteration_num = ITERATIONS
         self._code_bits = conf.code_bits
         self._message_bits = conf.message_bits
-        self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits,
-                                                          ECC_MATRICES_DIR, conf.code_type)
+        self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits, ECC_MATRICES_DIR,
+                                                          conf.code_type)
         self.neurons = int(np.sum(self.code_pcm))
 
     # setup the optimization algorithm
@@ -54,9 +54,9 @@ class DecoderTrainer(nn.Module):
         avg_ber = self.eval()
         print(f"Training Loop {0}, BER {avg_ber}")
         for run_ind in range(self.total_runs):
-            tx, rx = self.train_dataset.__getitem__(snr_list=list(range(SNR_START, SNR_END + 1)))
+            s, rx = self.train_dataset.__getitem__(snr_list=list(range(SNR_START, SNR_END + 1)))
             # train the decoder
-            self.single_training(tx, rx)
+            self.single_training(s, rx)
             avg_ber = self.eval()
             print(f"Training Loop {run_ind + 1}, BER {avg_ber}")
 
