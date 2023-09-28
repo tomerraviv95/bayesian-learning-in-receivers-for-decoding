@@ -4,29 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Uplodaing all the polar codes files, as well as fixing bugs related to the code txt being loaded. Need only to match the training to the channel">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Working version of the WBP">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dir_definitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/dir_definitions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/datasets/channel_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/channel_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/datasets/coding_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/coding_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/datasets/communication_blocks/encoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/communication_blocks/encoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/datasets/siso_channels/awgn_channel.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/datasets/siso_channels/awgn_channel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/utils/coding_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/coding_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/ber_by_ser.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ber_by_ser.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_SNR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_SNR.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_code_length.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_code_length.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_EightPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_EightPSK.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_QPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_QPSK.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_EightPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_EightPSK.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_QPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_QPSK.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/ece_by_pilots_length.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ece_by_pilots_length.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_QPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_QPSK.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_cost_EightPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_cost_EightPSK.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_users.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_users.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -207,14 +189,7 @@
       <workItem from="1691215723035" duration="33770000" />
       <workItem from="1691762270618" duration="237000" />
       <workItem from="1695013917088" duration="15266000" />
-      <workItem from="1695666255250" duration="19973000" />
-    </task>
-    <task id="LOCAL-00082" summary="FIxed bug in the noise, where I generated only real noise">
-      <created>1675025660660</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1675025660660</updated>
+      <workItem from="1695666255250" duration="21006000" />
     </task>
     <task id="LOCAL-00083" summary="Fixed code">
       <created>1675090448962</created>
@@ -552,7 +527,14 @@
       <option name="project" value="LOCAL" />
       <updated>1695845993280</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="Working version of the WBP">
+      <created>1695883792791</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1695883792791</updated>
+    </task>
+    <option name="localTasksCounter" value="132" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -570,7 +552,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Finished and implemented the detection and decoding modules" />
     <MESSAGE value="checked that all methods are working" />
     <MESSAGE value="Prepared the experimental plotter" />
     <MESSAGE value="Added the plotting by mean decoded BER versus SNR" />
@@ -595,11 +576,12 @@
     <MESSAGE value="Added the COST 2100 channel model, and the corresponding configs for plotting it" />
     <MESSAGE value="Update version up to modular WBP" />
     <MESSAGE value="Uplodaing all the polar codes files, as well as fixing bugs related to the code txt being loaded. Need only to match the training to the channel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Uplodaing all the polar codes files, as well as fixing bugs related to the code txt being loaded. Need only to match the training to the channel" />
+    <MESSAGE value="Working version of the WBP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working version of the WBP" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1695883779535" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1695884774046" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1695832357926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />

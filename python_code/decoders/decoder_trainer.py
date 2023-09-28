@@ -1,10 +1,12 @@
+import os
+
 import numpy as np
 import torch
 from torch import nn
 from torch.nn import BCEWithLogitsLoss
 from torch.optim import Adam
 
-from dir_definitions import ECC_MATRICES_DIR
+from dir_definitions import ECC_MATRICES_DIR, BP_WEIGHTS
 from python_code import conf, DEVICE
 from python_code.datasets.coding_dataset import CodingDataset
 from python_code.utils.coding_utils import get_code_pcm_and_gm
@@ -33,6 +35,10 @@ class DecoderTrainer(nn.Module):
         self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits, ECC_MATRICES_DIR,
                                                           conf.code_type)
         self.neurons = int(np.sum(self.code_pcm))
+        if not os.path.exists(BP_WEIGHTS):
+            os.makedirs(BP_WEIGHTS)
+        self.model_name = os.path.join(BP_WEIGHTS, str(self) + "_" + str(self._code_bits) + "_" + str(
+            self._message_bits) + "_" + str(self.iteration_num))
 
     # setup the optimization algorithm
     def deep_learning_setup(self, lr: float):
@@ -50,6 +56,10 @@ class DecoderTrainer(nn.Module):
         self.val_dataset = CodingDataset(codewords_num=CODEWORDS_NUM)
 
     def train_model(self):
+        if os.path.exists(self.model_name + '.pth'):
+            print("Loading existing model")
+            self.load_state_dict(torch.load(self.model_name + '.pth'))
+            return
         print(f"Training {self.__str__()} on AWGN Channel")
         avg_ber = self.eval()
         print(f"Training Loop {0}, BER {avg_ber}")
@@ -59,6 +69,7 @@ class DecoderTrainer(nn.Module):
             self.single_training(s, rx)
             avg_ber = self.eval()
             print(f"Training Loop {run_ind + 1}, BER {avg_ber}")
+            torch.save(self.state_dict(), self.model_name + '.pth')
 
     def eval(self) -> float:
         """
