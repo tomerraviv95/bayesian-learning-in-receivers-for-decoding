@@ -86,7 +86,7 @@ def get_all_plots(dec: Evaluator, run_over: bool, save_by_name: str, trial=None)
 
 
 def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: List[int], xlabel: str, ylabel: str,
-                      plot_type: PlotType, legend_type: LEGEND_TYPE, loc='lower left'):
+                      plot_type: PlotType, legend_type: LEGEND_TYPE, xticks: List[int] = None, loc='lower left'):
     # path for the saved figure
     current_day_time = datetime.datetime.now()
     folder_name = f'{current_day_time.month}-{current_day_time.day}-{current_day_time.hour}-{current_day_time.minute}'
@@ -111,6 +111,8 @@ def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: Li
                  marker=get_marker(method_name), markersize=11,
                  linestyle=get_linestyle(method_name), linewidth=2.2)
 
+    if xticks is not None:
+        plt.xticks(to_plot_by_values)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(which='both', ls='--')
