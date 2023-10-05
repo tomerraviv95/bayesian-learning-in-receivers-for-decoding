@@ -58,7 +58,7 @@ if __name__ == '__main__':
     if plot_type is PlotType.decoding_comparison_by_code_length:
         means_bers_dict = get_mean_ber_list(all_curves)
         plot_dict_vs_list(values_dict=means_bers_dict, xlabel='Code Length', ylabel='BER',
-                          plot_type=plot_type, to_plot_by_values=to_plot_by_values, loc='upper right',
+                          plot_type=plot_type, to_plot_by_values=[1, 2, 3], loc='upper right',
                           legend_type=LEGEND_TYPE.FULL, xticks=to_plot_by_values)
     elif plot_type is PlotType.ber_by_ser:
         means_bers_dict = get_mean_ber_list(all_curves)

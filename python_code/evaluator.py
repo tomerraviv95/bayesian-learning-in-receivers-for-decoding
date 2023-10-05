@@ -67,6 +67,7 @@ class Evaluator(object):
         :return: list of ber per timestep
         """
         print(f"Detecting using {str(self.detector)}, decoding using {str(self.decoder)}")
+        torch.cuda.empty_cache()
         self.decoder.train_model()
         ser_list, ber_list, ece_list = [], [], []
         # draw words for a given snr
@@ -125,7 +126,8 @@ class Evaluator(object):
         no_coding_words = torch.zeros_like(mx_data)
         for user in range(conf.n_user):
             current_to_decode = to_decode_word[:, user].reshape(-1, conf.code_bits)
-            decoded_word = self.decoder.forward(current_to_decode)
+            with torch.no_grad():
+                decoded_word = self.decoder.forward(current_to_decode)
             no_coding_word = current_to_decode < 0
             message_decoded_word = decoded_word[:, conf.message_bits:]
             message_no_coding_word = no_coding_word[:, conf.message_bits:]

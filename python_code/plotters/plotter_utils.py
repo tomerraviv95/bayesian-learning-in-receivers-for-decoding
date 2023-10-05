@@ -112,7 +112,7 @@ def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: Li
                  linestyle=get_linestyle(method_name), linewidth=2.2)
 
     if xticks is not None:
-        plt.xticks(to_plot_by_values)
+        plt.xticks(to_plot_by_values,xticks)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
     plt.grid(which='both', ls='--')

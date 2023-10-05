@@ -15,7 +15,7 @@ from python_code.utils.metrics import calculate_error_rate
 ITERATIONS = 5
 SNR_START = 4
 SNR_END = 7
-CODEWORDS_NUM = 200
+CODEWORDS_NUM = 100
 MIN_EVAL_ERRORS = 500
 
 
