@@ -8,9 +8,9 @@
 seed: 0 # run seed
 
 # MIMO protocol
-block_length: 7680 # coherence block time, total size of pilot + data. values: int.
+block_length: 15360 # coherence block time, total size of pilot + data. values: int.
 pilots_length: 768 # pilot bits
-blocks_num: 30 # number of validation frames. values: int.
+blocks_num: 10 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
 
@@ -18,15 +18,15 @@ n_ant: 4 # number of received signals
 channel_model: 'Cost2100' # ['Synthetic','Cost2100']
 linear: True # datasets linearity. Boolean value.
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
-snr: 7 # validation snr value. values: float.
+snr: 8 # validation snr value. values: float.
 modulation_type: 'EightPSK' # ['BPSK','QPSK','EightPSK']
 detector_type: 'seq_model' # ['seq_model','model_based_bayesian','bayesian']
 
 # coding hyperparams
 code_type: 'POLAR' # ['BCH','POLAR']
-code_bits: 128
-message_bits: 64
-decoder_type: 'wbp' # ['wbp','modular_bayesian_wbp','bayesian_wbp']
+code_bits: 256
+message_bits: 128
+decoder_type: 'modular_bayesian_wbp' # ['wbp','modular_bayesian_wbp','bayesian_wbp']
 
 # training hyperparameters
 loss_type: 'CrossEntropy' # Loss type. values: 'BCE','CrossEntropy','MSE'.

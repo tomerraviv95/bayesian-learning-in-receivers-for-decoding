@@ -80,7 +80,7 @@ class Evaluator(object):
             mx, tx, rx = message_words[block_ind], transmitted_words[block_ind], received_words[block_ind]
             # split words into data and pilot part
             uncoded_pilots_end_ind = int(conf.pilots_length)
-            pilots_end_ind = int(conf.pilots_length // self.constellation_bits / conf.message_bits * conf.code_bits)
+            pilots_end_ind = int(conf.pilots_length // self.constellation_bits * (conf.code_bits // conf.message_bits))
             mx_pilot, tx_pilot, rx_pilot = mx[:uncoded_pilots_end_ind], tx[:pilots_end_ind], rx[:pilots_end_ind]
             mx_data, tx_data, rx_data = mx[uncoded_pilots_end_ind:], tx[pilots_end_ind:], rx[pilots_end_ind:]
             # run online training on the pilots part
@@ -101,6 +101,7 @@ class Evaluator(object):
             ber_list.append(ber)
             print(f'bit error rate: {ber}')
         metrics_output = MetricOutput(ber_list=ber_list, ser_list=ser_list, ece_list=ece_list)
+        print(f'Avg BER:{sum(metrics_output.ber_list)/len(metrics_output.ber_list)}')
         return metrics_output
 
     @staticmethod

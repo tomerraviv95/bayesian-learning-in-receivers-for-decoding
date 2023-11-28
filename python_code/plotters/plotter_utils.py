@@ -84,7 +84,6 @@ def get_all_plots(dec: Evaluator, run_over: bool, save_by_name: str, trial=None)
         save_pkl(plots_path, metric_output, type='ber')
     return metric_output
 
-
 def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: List[int], xlabel: str, ylabel: str,
                       plot_type: PlotType, legend_type: LEGEND_TYPE, xticks: List[int] = None, loc='lower left'):
     # path for the saved figure
@@ -137,11 +136,14 @@ def plot_dict_vs_dict(values_dict: Dict[str, List[float]], to_plot_by_values: Di
     print("Plotting")
     for method_name in values_dict.keys():
         print(method_name)
-        plt.plot(to_plot_by_values[method_name], values_dict[method_name],
+        # plt.plot(to_plot_by_values[method_name], values_dict[method_name],
+        #          label=method_name.replace(', ', '/').replace('-DeepSIC', '').replace('-WBP', ''),
+        #          color=get_color(method_name),
+        #          marker=get_marker(method_name), markersize=11,
+        #          linestyle=get_linestyle(method_name), linewidth=2.2)
+        plt.scatter(to_plot_by_values[method_name], values_dict[method_name],
                  label=method_name.replace(', ', '/').replace('-DeepSIC', '').replace('-WBP', ''),
-                 color=get_color(method_name),
-                 marker=get_marker(method_name), markersize=11,
-                 linestyle=get_linestyle(method_name), linewidth=2.2)
+                 color=get_color(method_name))
 
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
