@@ -101,6 +101,7 @@ class Evaluator(object):
             ber_list.append(ber)
             print(f'bit error rate: {ber}')
         metrics_output = MetricOutput(ber_list=ber_list, ser_list=ser_list, ece_list=ece_list)
+        print(f'Avg SER:{sum(metrics_output.ser_list)/len(metrics_output.ser_list)}')
         print(f'Avg BER:{sum(metrics_output.ber_list)/len(metrics_output.ber_list)}')
         return metrics_output
 

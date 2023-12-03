@@ -50,7 +50,7 @@ def get_mean_ece_list(all_curves, average=True):
 ## Plotter for the Paper's Figures
 if __name__ == '__main__':
     run_over = False  # whether to run over previous results
-    trial_num = 1  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
+    trial_num = 3  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
     plot_type = PlotType.ber_by_ece
     print(plot_type.name)
     run_params_obj = RunParams(run_over=run_over, trial_num=trial_num)
@@ -63,13 +63,15 @@ if __name__ == '__main__':
 
     if plot_type is PlotType.decoding_comparison_by_code_length:
         means_bers_dict = get_mean_ber_list(all_curves)
-        print(means_bers_dict)
         plot_dict_vs_list(values_dict=means_bers_dict, xlabel='Code Length', ylabel='BER',
                           plot_type=plot_type, to_plot_by_values=[1, 2, 3], loc='upper right',
                           legend_type=LEGEND_TYPE.FULL, xticks=to_plot_by_values)
     elif plot_type is PlotType.ber_by_ece:
-        means_bers_dict = get_mean_ber_list(all_curves,average=False)
-        means_ece_dict = get_mean_ece_list(all_curves,average=False)
+        means_bers_dict = get_mean_ber_list(all_curves, average=False)
+        means_ece_dict = get_mean_ece_list(all_curves, average=False)
+        print(get_mean_ser_list(all_curves))
+        print(get_mean_ber_list(all_curves))
+        print(get_mean_ece_list(all_curves))
         plot_dict_vs_dict(values_dict=means_bers_dict, to_plot_by_values=means_ece_dict, xlabel='ECE', ylabel='BER',
                           plot_type=plot_type, loc='lower right')
     elif plot_type is PlotType.ece_by_pilots_length:

@@ -1,7 +1,7 @@
 from enum import Enum
 
 HALF = 0.5
-CLIPPING_VAL = 10
+CLIPPING_VAL = 15
 
 
 class Phase(Enum):

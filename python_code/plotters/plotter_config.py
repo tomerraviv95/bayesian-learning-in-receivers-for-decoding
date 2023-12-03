@@ -107,8 +107,8 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 5b
     elif plot_type == PlotType.ber_by_ece:
         params_dicts = [
-            {'detector_type': DetectorType.seq_model.name},
-            {'detector_type': DetectorType.bayesian.name},
+            {'snr': 8.3, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 9, 'detector_type': DetectorType.bayesian.name},
         ]
         to_plot_by_values = None
     ## Detection with DeepSIC, decoding methods vary
@@ -185,7 +185,6 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
             {'snr': 13, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 14, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 15, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
-            {'snr': 16, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
             {'snr': 13, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
@@ -193,14 +192,11 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
             {'snr': 14, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
             {'snr': 15, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
-             'detector_type': DetectorType.seq_model.name},
-            {'snr': 16, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
             {'snr': 12, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 13, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 14, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 15, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 16, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 13, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
@@ -209,10 +205,8 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
              'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 15, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 16, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
-             'detector_type': DetectorType.model_based_bayesian.name},
         ]
-        to_plot_by_values = range(12, 17, 1)
+        to_plot_by_values = range(12, 16, 1)
     else:
         raise ValueError('No such plot type!!!')
 

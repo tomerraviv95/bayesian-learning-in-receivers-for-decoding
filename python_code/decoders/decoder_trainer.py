@@ -14,8 +14,9 @@ from python_code.utils.metrics import calculate_error_rate
 
 ITERATIONS = 5
 SNR_START = 4
-SNR_END = 7
-CODEWORDS_NUM = 100
+SNR_END = 8
+SNR_TEST = 7
+CODEWORDS_NUM = 80
 MIN_EVAL_ERRORS = 500
 
 
@@ -80,7 +81,7 @@ class DecoderTrainer(nn.Module):
         total_errors = 0
         with torch.no_grad():
             while total_errors < MIN_EVAL_ERRORS:
-                tx, rx = self.val_dataset.__getitem__(snr_list=[SNR_END])
+                tx, rx = self.val_dataset.__getitem__(snr_list=[SNR_TEST])
                 # detect data part after training on the pilot part
                 output = self.forward(rx)
                 # calculate accuracy
