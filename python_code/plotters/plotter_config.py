@@ -107,7 +107,7 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 5b
     elif plot_type == PlotType.ber_by_ece:
         params_dicts = [
-            {'snr': 8.3, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 8.4, 'detector_type': DetectorType.seq_model.name},
             {'snr': 9, 'detector_type': DetectorType.bayesian.name},
         ]
         to_plot_by_values = None

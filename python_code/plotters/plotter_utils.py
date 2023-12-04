@@ -138,17 +138,12 @@ def plot_dict_vs_dict(values_dict: Dict[str, List[float]], to_plot_by_values: Di
     print("Plotting")
     for method_name in values_dict.keys():
         print(method_name)
-        # plt.plot(to_plot_by_values[method_name], values_dict[method_name],
-        #          label=method_name.replace(', ', '/').replace('-DeepSIC', '').replace('-WBP', ''),
-        #          color=get_color(method_name),
-        #          marker=get_marker(method_name), markersize=11,
-        #          linestyle=get_linestyle(method_name), linewidth=2.2)
         plt.scatter(to_plot_by_values[method_name], values_dict[method_name],
                     label=method_name.replace(', ', '/').replace('-DeepSIC', '').replace('-WBP', ''),
                     color=get_color(method_name))
         plt.plot(np.linspace(0, 1, 10000), np.mean(values_dict[method_name]) * np.ones(10000),
                  color=get_color(method_name), linestyle='--')
-        plt.text(0.1, np.mean(values_dict[method_name]) + 0.5e-3, "average",
+        plt.text(0.1, np.mean(values_dict[method_name]) + 0.3e-3, "average",
                  verticalalignment='center', size=24)
 
     plt.xlabel(xlabel)

@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Updated the Ber by ece curve">
-      <change afterPath="$PROJECT_DIR$/python_code/decoders/bp/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/python_code/decoders/bp/bp_decoder.py" afterDir="false" />
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Updated the plotter fixing the ece vs ber graph">
+      <change afterPath="$PROJECT_DIR$/resources/config_runs/ber_by_ece2.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/config_runs/ber_by_ece.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ber_by_ece.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +58,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding/python_code/decoders",
+    "last_opened_file_path": "C:/Projects/bayesian-learning-in-receivers-for-decoding/resources/config_runs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -74,8 +68,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources\config_runs" />
+      <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\decoders" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\datasets\mimo_channels" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\resources" />
       <recent name="C:\Projects\bayesian-learning-in-receivers-for-decoding\python_code\channel" />
@@ -198,14 +192,7 @@
       <workItem from="1691762270618" duration="237000" />
       <workItem from="1695013917088" duration="15266000" />
       <workItem from="1695666255250" duration="51816000" />
-      <workItem from="1700731441413" duration="43333000" />
-    </task>
-    <task id="LOCAL-00087" summary="Updated env file">
-      <created>1675110144606</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1675110144606</updated>
+      <workItem from="1700731441413" duration="49358000" />
     </task>
     <task id="LOCAL-00088" summary="Updated env file">
       <created>1675110875895</created>
@@ -543,7 +530,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701185925960</updated>
     </task>
-    <option name="localTasksCounter" value="136" />
+    <task id="LOCAL-00136" summary="Updated the plotter fixing the ece vs ber graph">
+      <created>1701619002327</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1701619002327</updated>
+    </task>
+    <option name="localTasksCounter" value="137" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -561,7 +555,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fixed bugs in the QPSK constellation" />
     <MESSAGE value="Fixed bug in the black box approach" />
     <MESSAGE value="Adapted the plotter class to support the QPSK plotting" />
     <MESSAGE value="Added plotting by the SER not only BER" />
@@ -586,13 +579,14 @@
     <MESSAGE value="Updated the configs to final settings" />
     <MESSAGE value="Final updating of the Figures before Nir goes over the paper" />
     <MESSAGE value="Updated the Ber by ece curve" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the Ber by ece curve" />
+    <MESSAGE value="Updated the plotter fixing the ece vs ber graph" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the plotter fixing the ece vs ber graph" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1701614995871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1701630509671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1701618883247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1701685543086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$evaluate_par.coverage" NAME="evaluate-par Coverage Results" MODIFIED="1678741528529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/concept_drift_for_receivers$evaluate.coverage" NAME="evaluate Coverage Results" MODIFIED="1659804270637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
