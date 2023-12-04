@@ -35,6 +35,7 @@ class DecoderTrainer(nn.Module):
         self._message_bits = conf.message_bits
         self.code_pcm, self.code_gm = get_code_pcm_and_gm(conf.code_bits, conf.message_bits, ECC_MATRICES_DIR,
                                                           conf.code_type)
+        self.online_runs = 3
         self.neurons = int(np.sum(self.code_pcm))
         if not os.path.exists(BP_WEIGHTS):
             os.makedirs(BP_WEIGHTS)
@@ -90,3 +91,8 @@ class DecoderTrainer(nn.Module):
                 total_errors += errors
         avg_ber = sum(total_ber) / len(total_ber)
         return avg_ber
+
+    def online_training(self, rx, s):
+        for run_ind in range(self.online_runs):
+            # train the decoder
+            self.single_training(s, rx)

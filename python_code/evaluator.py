@@ -68,7 +68,7 @@ class Evaluator(object):
         """
         print(f"Detecting using {str(self.detector)}, decoding using {str(self.decoder)}")
         torch.cuda.empty_cache()
-        self.decoder.train_model()
+        # self.decoder.train_model()
         ser_list, ber_list, ece_list = [], [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
@@ -96,6 +96,8 @@ class Evaluator(object):
             ece = self.calculate_ece(tx_data, detected_symbols_words, soft_confidences)
             ece_list.append(ece)
             print(f'expected calibration error (ECE): {ece}')
+            # update the decoder
+            self.train_decoder(mx_pilot, rx_pilot)
             # use detected soft values to calculate the final message
             ber = self.calculate_ber(soft_confidences, detected_words, mx_data)
             ber_list.append(ber)
@@ -104,6 +106,19 @@ class Evaluator(object):
         print(f'Avg SER:{sum(metrics_output.ser_list)/len(metrics_output.ser_list)}')
         print(f'Avg BER:{sum(metrics_output.ber_list)/len(metrics_output.ber_list)}')
         return metrics_output
+
+    def train_decoder(self, mx_pilot, rx_pilot):
+        detected_pilots, soft_pilots_confidences = self.detector.forward(rx_pilot)
+        to_decode_pilots = self.get_bits_from_symbols(soft_pilots_confidences, detected_pilots)
+        current_to_decode = []
+        for user in range(conf.n_user):
+            current_to_decode.append(to_decode_pilots[:, user].reshape(-1, conf.code_bits))
+        llrs = torch.cat(current_to_decode)
+        pilots = []
+        for user in range(conf.n_user):
+            pilots.append(self.channel_dataset.encoder.encode(mx_pilot[:, user].cpu().numpy()).reshape(-1, conf.code_bits))
+        pilots = torch.cat([torch.Tensor(pilot).to(DEVICE) for pilot in pilots])
+        self.decoder.online_training(llrs, pilots)
 
     @staticmethod
     def get_detected_symbols_words(detected_words):
@@ -117,13 +132,7 @@ class Evaluator(object):
         return detected_symbols_words
 
     def calculate_ber(self, confidence_word, detected_words, mx_data):
-        if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
-            confidence_word = torch.repeat_interleave(confidence_word,
-                                                      int(math.log2(MODULATION_NUM_MAPPING[conf.modulation_type])),
-                                                      dim=0)
-        rate = float(conf.message_bits / conf.code_bits)
-        sigma = compute_channel_sigma(rate, conf.snr)
-        to_decode_word = compute_channel_llr(BPSKModulator.modulate(detected_words) * (confidence_word - HALF), sigma)
+        to_decode_word = self.get_bits_from_symbols(confidence_word, detected_words)
         decoded_words = torch.zeros_like(mx_data)
         no_coding_words = torch.zeros_like(mx_data)
         for user in range(conf.n_user):
@@ -138,6 +147,16 @@ class Evaluator(object):
         decoded_ber, _ = calculate_error_rate(decoded_words, mx_data)
         no_coding_ber, _ = calculate_error_rate(no_coding_words, mx_data)
         return decoded_ber
+
+    def get_bits_from_symbols(self, confidence_word, detected_words):
+        if conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
+            confidence_word = torch.repeat_interleave(confidence_word,
+                                                      int(math.log2(MODULATION_NUM_MAPPING[conf.modulation_type])),
+                                                      dim=0)
+        rate = float(conf.message_bits / conf.code_bits)
+        sigma = compute_channel_sigma(rate, conf.snr)
+        to_decode_word = compute_channel_llr(BPSKModulator.modulate(detected_words) * (confidence_word - HALF), sigma)
+        return to_decode_word
 
     @staticmethod
     def calculate_ece(tx_data, detected_symbols_words, soft_confidences):
