@@ -34,7 +34,7 @@ def get_linestyle(method_name: str) -> str:
     elif 'F-D' in method_name:
         return 'dotted'
     else:
-        raise ValueError('No such detector!!!')
+        return 'solid'
 
 
 def get_color(method_name: str) -> str:
@@ -45,7 +45,7 @@ def get_color(method_name: str) -> str:
     elif 'F-D' in method_name:
         return 'red'
     else:
-        raise ValueError('No such method!!!')
+        return 'green'
 
 
 def get_marker(method_name: str) -> str:
@@ -56,7 +56,7 @@ def get_marker(method_name: str) -> str:
     elif 'F-W' in method_name:
         return 's'
     else:
-        raise ValueError('No such method!!!')
+        return 'p'
 
 
 class LEGEND_TYPE(Enum):
@@ -143,7 +143,7 @@ def plot_dict_vs_dict(values_dict: Dict[str, List[float]], to_plot_by_values: Di
                     color=get_color(method_name))
         plt.plot(np.linspace(0, 1, 10000), np.mean(values_dict[method_name]) * np.ones(10000),
                  color=get_color(method_name), linestyle='--')
-        plt.text(0.1, np.mean(values_dict[method_name]) + 0.3e-3, "average",
+        plt.text(0.1, np.mean(values_dict[method_name]) + 0.5e-3, "average",
                  verticalalignment='center', size=24)
 
     plt.xlabel(xlabel)

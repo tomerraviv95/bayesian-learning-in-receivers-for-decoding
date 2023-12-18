@@ -10,15 +10,13 @@ from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_M
 from python_code.utils.bayesian_utils import dropout_ori, dropout_tilde, entropy, LossVariable
 from python_code.utils.constants import Phase, ModulationType
 
-HIDDEN_BASE_SIZE = 64
-
 
 class BayesianDeepSICDetector(nn.Module):
 
     def __init__(self, ensemble_num, kl_scale):
         super(BayesianDeepSICDetector, self).__init__()
         classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
-        hidden_size = HIDDEN_BASE_SIZE * classes_num
+        hidden_size = conf.hidden_base_size * classes_num
         base_rx_size = conf.n_ant if conf.modulation_type == ModulationType.BPSK.name else 2 * conf.n_ant
         linear_input = base_rx_size + (classes_num - 1) * (conf.n_user - 1)  # from DeepSIC paper
         self.fc1 = nn.Linear(linear_input, hidden_size)

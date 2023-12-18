@@ -5,9 +5,7 @@ from torch import nn
 
 from python_code import DEVICE
 from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS
-
-EPOCHS = 400
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS, EPOCHS
 
 
 class SeqDeepSICTrainer(DeepSICTrainer):
@@ -48,7 +46,6 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         """
         if self.train_from_scratch:
             self._initialize_detector()
-
         initial_probs = self._initialize_probs(tx)
         tx_all, rx_all = self.prepare_data_for_training(tx, rx, initial_probs)
         # Training the DeepSIC network for each user for iteration=1

@@ -5,12 +5,10 @@ import torch
 from torch import nn
 
 from python_code import DEVICE
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS, EPOCHS
 from python_code.detectors.deepsic.modular_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
     BayesianDeepSICDetector
 from python_code.utils.constants import HALF, Phase
-
-EPOCHS = 400
 
 
 class ModularBayesianDeepSICTrainer(DeepSICTrainer):

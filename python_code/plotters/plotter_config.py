@@ -11,10 +11,12 @@ class PlotType(Enum):
     detection_comparison_by_SNR_cost_EightPSK = 'detection_comparison_by_SNR_cost_EightPSK'
     ece_by_pilots_length = 'ece_by_pilots_length'
     ber_by_ece = 'ber_by_ece'
+    ber_by_ece2 = 'ber_by_ece2'
     decoding_comparison_by_SNR = 'decoding_comparison_by_SNR'
     decoding_comparison_by_code_length = 'decoding_comparison_by_code_length'
     final_comparison_by_SNR_EightPSK = 'final_comparison_by_SNR_EightPSK'
     final_comparison_by_SNR_cost_EightPSK = 'final_comparison_by_SNR_cost_EightPSK'
+    hidden_size = 'hidden_size'
 
 
 def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
@@ -107,10 +109,48 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 5b
     elif plot_type == PlotType.ber_by_ece:
         params_dicts = [
-            {'snr': 8.4, 'detector_type': DetectorType.seq_model.name},
-            {'snr': 9, 'detector_type': DetectorType.bayesian.name},
+            {'snr': 5, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 6, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 7, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 8, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 9, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 5, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 6, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 7, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 8, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 9, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 5, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 6, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 7, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 8, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 9, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
         ]
-        to_plot_by_values = None
+        to_plot_by_values = range(5, 11, 1)
+    elif plot_type == PlotType.ber_by_ece2:
+        params_dicts = [
+            {'snr': 8, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 9, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 11, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 12, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 13, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.end_to_end.name},
+            {'snr': 8, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 9, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 11, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 12, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 13, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 8, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 9, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 11, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 12, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+            {'snr': 13, 'decoder_type': DecoderType.wbp.name,'detector_type': DetectorType.bayesian.name},
+        ]
+        to_plot_by_values = range(8, 14, 1)
     ## Detection with DeepSIC, decoding methods vary
     elif plot_type == PlotType.decoding_comparison_by_SNR:
         params_dicts = [
@@ -207,6 +247,32 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
              'detector_type': DetectorType.model_based_bayesian.name},
         ]
         to_plot_by_values = range(12, 16, 1)
+    elif plot_type == PlotType.hidden_size:
+        constellation = 'QPSK'
+        snr = 8
+        params_dicts = [
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 8},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 16},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 24},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 32},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 40},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 48},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 56},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 64},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 72},
+            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
+             'modulation_type': constellation, 'hidden_base_size': 80},
+        ]
+        to_plot_by_values = range(8, 81, 8)
     else:
         raise ValueError('No such plot type!!!')
 

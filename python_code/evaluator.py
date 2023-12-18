@@ -68,7 +68,6 @@ class Evaluator(object):
         """
         print(f"Detecting using {str(self.detector)}, decoding using {str(self.decoder)}")
         torch.cuda.empty_cache()
-        # self.decoder.train_model()
         ser_list, ber_list, ece_list = [], [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
@@ -97,7 +96,7 @@ class Evaluator(object):
             ece_list.append(ece)
             print(f'expected calibration error (ECE): {ece}')
             # update the decoder
-            self.train_decoder(mx_pilot, rx_pilot)
+            # self.train_decoder(mx_pilot, rx_pilot)
             # use detected soft values to calculate the final message
             ber = self.calculate_ber(soft_confidences, detected_words, mx_data)
             ber_list.append(ber)

@@ -8,13 +8,8 @@ from python_code import DEVICE, conf
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.detectors.deepsic.bayesian_deepsic.masked_deep_sic_detector import LossVariable, \
     MaskedDeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS, EPOCHS
 from python_code.utils.constants import HALF, Phase, ModulationType
-
-EPOCHS = 400
-
-BASE_HIDDEN_SIZE = 64
-
 
 class BayesianDeepSICTrainer(DeepSICTrainer):
     """
@@ -24,10 +19,10 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
     def __init__(self):
         self.ensemble_num = 5
         self.kl_scale = 5
-        self.kl_beta = 1e-2
+        self.kl_beta = 1e-4
         self.arm_beta = 1
         self.classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
-        self.hidden_size = BASE_HIDDEN_SIZE * self.classes_num
+        self.hidden_size = conf.hidden_base_size * self.classes_num
         base_rx_size = conf.n_ant if conf.modulation_type == ModulationType.BPSK.name else 2 * conf.n_ant
         self.linear_input = base_rx_size + (self.classes_num - 1) * (conf.n_user - 1)  # from DeepSIC paper
         super().__init__()
@@ -66,10 +61,10 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                 arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
                 grad_logit = arm_delta * (cur_loss_var.u_list - HALF)
                 arm_loss = torch.matmul(grad_logit, cur_loss_var.dropout_logit.T)
-                arm_loss = torch.mean(arm_loss)
+                arm_loss = self.arm_beta * torch.mean(arm_loss)
                 # KL Loss
                 kl_term = self.kl_beta * cur_loss_var.kl_term
-                loss += self.arm_beta * arm_loss + kl_term
+                loss += arm_loss + kl_term
         return loss
 
     def infer_model(self, single_model: nn.Module, dropout_logit: nn.Parameter, rx: torch.Tensor):

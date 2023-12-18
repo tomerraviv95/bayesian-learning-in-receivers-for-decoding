@@ -10,7 +10,7 @@ from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.probs_utils import prob_to_EightPSK_symbol, prob_to_QPSK_symbol, prob_to_BPSK_symbol
 
 ITERATIONS = 3
-
+EPOCHS = 200
 
 class DeepSICTrainer(Detector):
 
