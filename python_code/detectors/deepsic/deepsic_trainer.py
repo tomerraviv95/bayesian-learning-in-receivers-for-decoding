@@ -9,7 +9,7 @@ from python_code.detectors.detector_trainer import Detector
 from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.probs_utils import prob_to_EightPSK_symbol, prob_to_QPSK_symbol, prob_to_BPSK_symbol
 
-ITERATIONS = 3
+NITERATIONS = 2
 EPOCHS = 200
 
 class DeepSICTrainer(Detector):
@@ -45,12 +45,13 @@ class DeepSICTrainer(Detector):
             return torch.cat([y_input, rx[:, conf.n_ant:].float()], dim=1)
 
     def forward(self, rx: torch.Tensor, h: torch.Tensor = None) -> torch.Tensor:
-        # detect and decode
-        probs_vec = self._initialize_probs_for_infer(rx)
-        for i in range(ITERATIONS):
-            probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
-        detected_words, soft_confidences = self.compute_output(probs_vec)
-        return detected_words, soft_confidences
+        with torch.no_grad():
+            # detect and decode
+            probs_vec = self._initialize_probs_for_infer(rx)
+            for i in range(NITERATIONS):
+                probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
+            detected_words, soft_confidences = self.compute_output(probs_vec)
+            return detected_words, soft_confidences
 
     def compute_output(self, probs_vec):
         if conf.modulation_type == ModulationType.BPSK.name:

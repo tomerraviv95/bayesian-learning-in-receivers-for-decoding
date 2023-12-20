@@ -28,11 +28,8 @@ class DeepSICDetector(nn.Module):
         self.fc1 = nn.Linear(linear_input, hidden_size)
         self.activation = nn.ReLU()
         self.fc2 = nn.Linear(hidden_size, classes_num)
-        self.dropout_logits = torch.rand(hidden_size).reshape(1, -1).to(DEVICE)
 
     def forward(self, rx: torch.Tensor) -> torch.Tensor:
         x = self.activation(self.fc1(rx))
-        u = torch.rand(x.shape).to(DEVICE)
-        x_after_dropout = dropout_ori(x, self.dropout_logits, u)
-        out1 = self.fc2(x_after_dropout)
+        out1 = self.fc2(x)
         return out1

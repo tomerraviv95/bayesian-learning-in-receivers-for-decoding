@@ -5,7 +5,7 @@ from torch import nn
 
 from python_code import DEVICE
 from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS, EPOCHS
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 
 
 class SeqDeepSICTrainer(DeepSICTrainer):
@@ -17,7 +17,7 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         return 'F-DeepSIC'
 
     def _initialize_detector(self):
-        self.detector = [[DeepSICDetector().to(DEVICE) for _ in range(ITERATIONS)] for _ in
+        self.detector = [[DeepSICDetector().to(DEVICE) for _ in range(NITERATIONS)] for _ in
                          range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
 
     def train_model(self, single_model: nn.Module, tx: torch.Tensor, rx: torch.Tensor):
@@ -27,12 +27,10 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         self.optimizer = torch.optim.Adam(single_model.parameters(), lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
         single_model = single_model.to(DEVICE)
-        loss = 0
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
             soft_estimation = single_model(y_total)
-            current_loss = self.run_train_loop(soft_estimation, tx)
-            loss += current_loss
+            self.run_train_loop(soft_estimation, tx)
 
     def train_models(self, model: List[List[DeepSICDetector]], i: int, tx_all: List[torch.Tensor],
                      rx_all: List[torch.Tensor]):
@@ -53,7 +51,7 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         # Initializing the probabilities
         probs_vec = self._initialize_probs_for_training(tx)
         # Training the DeepSICNet for each user-symbol/iteration
-        for i in range(1, ITERATIONS):
+        for i in range(1, NITERATIONS):
             # Generating soft symbols for training purposes
             probs_vec = self.calculate_posteriors(self.detector, i, probs_vec, rx)
             # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration

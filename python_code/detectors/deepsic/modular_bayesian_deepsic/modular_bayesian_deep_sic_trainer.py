@@ -5,7 +5,7 @@ import torch
 from torch import nn
 
 from python_code import DEVICE
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS, EPOCHS
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 from python_code.detectors.deepsic.modular_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
     BayesianDeepSICDetector
 from python_code.utils.constants import HALF, Phase
@@ -28,7 +28,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
 
     def _initialize_detector(self):
         self.detector = [
-            [BayesianDeepSICDetector(self.ensemble_num, self.kl_scale).to(DEVICE) for _ in range(ITERATIONS)] for _ in
+            [BayesianDeepSICDetector(self.ensemble_num, self.kl_scale).to(DEVICE) for _ in range(NITERATIONS)] for _ in
             range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
 
     def calc_loss(self, est: LossVariable, tx: torch.IntTensor) -> torch.Tensor:
@@ -57,12 +57,10 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         self.optimizer = torch.optim.Adam(single_model.parameters(), lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
         single_model = single_model.to(DEVICE)
-        loss = 0
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
             soft_estimation = single_model(y_total, phase=Phase.TRAIN)
-            current_loss = self.run_train_loop(soft_estimation, tx)
-            loss += current_loss
+            self.run_train_loop(soft_estimation, tx)
 
     def train_models(self, model: List[List[BayesianDeepSICDetector]], i: int, tx_all: List[torch.Tensor],
                      rx_all: List[torch.Tensor]):
@@ -83,7 +81,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         # Initializing the probabilities
         probs_vec = self._initialize_probs_for_training(tx)
         # Training the DeepSICNet for each user-symbol/iteration
-        for i in range(1, ITERATIONS):
+        for i in range(1, NITERATIONS):
             # Generating soft symbols for training purposes
             probs_vec = self.calculate_posteriors(self.detector, i, probs_vec, rx)
             # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration

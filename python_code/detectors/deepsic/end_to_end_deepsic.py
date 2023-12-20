@@ -5,19 +5,18 @@ from torch import nn
 
 from python_code import DEVICE, conf
 from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, ITERATIONS, EPOCHS
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 
 
 class EndToEndDeepSICTrainer(DeepSICTrainer):
     def __init__(self):
-
         super().__init__()
 
     def __str__(self):
         return 'End-To-End DeepSIC'
 
     def _initialize_detector(self):
-        detectors_list = [[DeepSICDetector().to(DEVICE) for _ in range(ITERATIONS)] for _ in
+        detectors_list = [[DeepSICDetector().to(DEVICE) for _ in range(NITERATIONS)] for _ in
                           range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
         flat_detectors_list = [detector for sublist in detectors_list for detector in sublist]
         self.detector = nn.ModuleList(flat_detectors_list)
@@ -34,7 +33,8 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
     def train_models(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor]):
         cur_loss = 0
         for user in range(self.n_user):
-            cur_loss += self.train_model(self.detector[user * ITERATIONS + ITERATIONS - 1], tx_all[user], rx_all[user])
+            for iter in range(NITERATIONS):
+                cur_loss += self.train_model(self.detector[user * NITERATIONS + iter], tx_all[user], rx_all[user])
         return cur_loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
@@ -50,7 +50,7 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
             # Initializing the probabilities
             probs_vec = self._initialize_probs_for_training(tx)
             # Training the DeepSICNet for each user-symbol/iteration
-            for i in range(ITERATIONS):
+            for i in range(NITERATIONS):
                 # Generating soft symbols for training purposes
                 probs_vec = self.calculate_posteriors(self.detector, i, probs_vec, rx)
             # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
@@ -71,7 +71,6 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
             idx = [user_i for user_i in range(self.n_user) if user_i != user]
             input = torch.cat((rx, probs_vec[:, idx].reshape(rx.shape[0], -1)), dim=1)
             preprocessed_input = self.preprocess(input)
-            with torch.no_grad():
-                output = self.softmax(model[user * ITERATIONS + i - 1](preprocessed_input))
+            output = self.softmax(model[user * NITERATIONS + i - 1](preprocessed_input))
             next_probs_vec[:, user] = output[:, 1:].reshape(next_probs_vec[:, user].shape)
         return next_probs_vec
