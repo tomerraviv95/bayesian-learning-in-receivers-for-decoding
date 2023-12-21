@@ -4,7 +4,7 @@ from torch import nn
 from python_code import conf, DEVICE
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.utils.bayesian_utils import dropout_ori
-from python_code.utils.constants import ModulationType
+from python_code.utils.constants import ModulationType, LOGITS_INIT
 
 
 class DeepSICDetector(nn.Module):
@@ -28,8 +28,12 @@ class DeepSICDetector(nn.Module):
         self.fc1 = nn.Linear(linear_input, hidden_size)
         self.activation = nn.ReLU()
         self.fc2 = nn.Linear(hidden_size, classes_num)
+        self.dropout_logits = LOGITS_INIT * torch.rand([1, hidden_size], device=DEVICE)
 
-    def forward(self, rx: torch.Tensor) -> torch.Tensor:
+    def forward(self, rx: torch.Tensor, apply_dropout: bool = False) -> torch.Tensor:
         x = self.activation(self.fc1(rx))
+        if apply_dropout:
+            u = torch.rand(x.shape).to(DEVICE)
+            x = dropout_ori(x, self.dropout_logits, u)
         out1 = self.fc2(x)
         return out1

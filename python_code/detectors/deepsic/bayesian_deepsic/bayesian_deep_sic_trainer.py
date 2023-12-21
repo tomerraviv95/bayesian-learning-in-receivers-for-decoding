@@ -8,7 +8,7 @@ from python_code import DEVICE, conf
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.detectors.deepsic.bayesian_deepsic.masked_deep_sic_detector import MaskedDeepSICDetector
 from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
-from python_code.utils.constants import Phase, ModulationType, HALF
+from python_code.utils.constants import Phase, ModulationType, HALF, LOGITS_INIT
 
 
 class BayesianDeepSICTrainer(DeepSICTrainer):
@@ -19,7 +19,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
     def __init__(self):
         self.ensemble_num = 3
         self.kl_scale = 5
-        self.kl_beta = 1e-3
+        self.kl_beta = 1e-4
         self.arm_beta = 1
         self.classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
         self.hidden_size = conf.hidden_base_size * self.classes_num
@@ -39,8 +39,10 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
         flat_detectors_list = [detector for sublist in detectors_list for detector in sublist]
         self.detector = nn.ModuleList(flat_detectors_list)
-        self.dropout_logits = [torch.rand([1, self.hidden_size], requires_grad=True, device=DEVICE)
+        self.dropout_logits = [LOGITS_INIT * torch.rand([1, self.hidden_size], device=DEVICE)
                                for _ in range(self.n_user * NITERATIONS)]
+        for dropout_logit in self.dropout_logits:
+            dropout_logit.requires_grad = True
 
     def infer_model(self, single_model: nn.Module, dropout_logit: nn.Parameter, rx: torch.Tensor):
         """
@@ -118,7 +120,6 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         """
         Propagates the probabilities through the learnt networks.
         """
-
         next_probs_vec = torch.zeros(probs_vec.shape).to(DEVICE)
         for user in range(self.n_user):
             idx = [user_i for user_i in range(self.n_user) if user_i != user]

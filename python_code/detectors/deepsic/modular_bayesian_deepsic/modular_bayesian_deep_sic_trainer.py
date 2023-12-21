@@ -17,9 +17,9 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 5
+        self.ensemble_num = 3
         self.kl_scale = 5
-        self.kl_beta = 1e-2
+        self.kl_beta = 1e-4
         self.arm_beta = 1
         super().__init__()
 
@@ -44,10 +44,10 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
             arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
             grad_logit = arm_delta * (est.u_list[i] - HALF)
             arm_loss += torch.matmul(grad_logit, est.dropout_logit.T)
-        arm_loss = torch.mean(arm_loss)
+        arm_loss = self.arm_beta *torch.mean(arm_loss)
         # KL Loss
         kl_term = self.kl_beta * est.kl_term
-        loss += self.arm_beta * arm_loss + kl_term
+        loss += arm_loss + kl_term
         return loss
 
     def train_model(self, single_model: nn.Module, tx: torch.Tensor, rx: torch.Tensor):
@@ -78,9 +78,10 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         probs_vec = self._initialize_probs_for_training(tx)
         # Training the DeepSICNet for each user-symbol/iteration
         for i in range(NITERATIONS):
-            # Generating soft symbols for training purposes
-            probs_vec = self.calculate_posteriors(self.detector, i, probs_vec, rx)
             # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
             tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
             # Training the DeepSIC networks for the iteration>1
             self.train_models(self.detector, i, tx_all, rx_all)
+            # Generating soft symbols for training purposes
+            probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
+

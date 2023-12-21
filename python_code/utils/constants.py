@@ -2,6 +2,7 @@ from enum import Enum
 
 HALF = 0.5
 CLIPPING_VAL = 15
+LOGITS_INIT = 5
 
 class Phase(Enum):
     TRAIN = 'train'

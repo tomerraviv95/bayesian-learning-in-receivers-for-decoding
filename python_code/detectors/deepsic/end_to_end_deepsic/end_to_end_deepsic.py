@@ -26,7 +26,7 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
         Trains a DeepSIC Network
         """
         y_total = self.preprocess(rx)
-        soft_estimation = single_model(y_total)
+        soft_estimation = single_model(y_total, apply_dropout=True)
         loss = self.calc_loss(est=soft_estimation, tx=tx.int())
         return loss
 

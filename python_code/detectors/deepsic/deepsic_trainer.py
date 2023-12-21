@@ -15,7 +15,6 @@ EPOCHS = 200
 class DeepSICTrainer(Detector):
 
     def __init__(self):
-        self.memory_length = 1
         self.n_user = conf.n_user
         self.n_ant = conf.n_ant
         self.lr = 5e-3
