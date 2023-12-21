@@ -18,7 +18,7 @@ n_ant: 4 # number of received signals
 channel_model: 'Synthetic' # ['Synthetic','Cost2100']
 linear: True # datasets linearity. Boolean value.
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
-snr: 9 # validation snr value. values: float.
+snr: 6 # validation snr value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 detector_type: 'bayesian' # ['seq_model','model_based_bayesian','bayesian','end_to_end']
 
@@ -31,4 +31,4 @@ decoder_type: 'wbp' # ['bp','wbp','modular_bayesian_wbp','bayesian_wbp']
 # training hyperparameters
 loss_type: 'CrossEntropy' # Loss type. values: 'BCE','CrossEntropy','MSE'.
 optimizer_type: 'Adam' # Optimizer type. values: 'Adam','RMSprop','SGD'.
-hidden_base_size: 16 # size of the hidden layer in DeepSIC
+hidden_base_size: 32 # size of the hidden layer in DeepSIC

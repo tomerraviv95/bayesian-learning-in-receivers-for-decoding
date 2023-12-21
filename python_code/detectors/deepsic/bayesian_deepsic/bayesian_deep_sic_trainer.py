@@ -17,10 +17,10 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 1
+        self.ensemble_num = 3
         self.kl_scale = 5
         self.kl_beta = 1e-3
-        self.arm_beta = 10
+        self.arm_beta = 1
         self.classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
         self.hidden_size = conf.hidden_base_size * self.classes_num
         base_rx_size = conf.n_ant if conf.modulation_type == ModulationType.BPSK.name else 2 * conf.n_ant
@@ -70,7 +70,6 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             if not only_bayesian_loss:
                 fq_loss = self.criterion(input=loss_var.priors, target=tx_all[user].long())
                 loss += fq_loss
-                print(fq_loss)
         return loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
@@ -99,6 +98,20 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
+
+    def forward(self, rx: torch.Tensor, h: torch.Tensor = None) -> torch.Tensor:
+        with torch.no_grad():
+            # detect and decode
+            total_probs_vec = 0
+            for ind_ensemble in range(self.ensemble_num):
+                # detect and decode
+                probs_vec = self._initialize_probs_for_infer(rx)
+                for i in range(NITERATIONS):
+                    probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
+                total_probs_vec += probs_vec
+            total_probs_vec /= self.ensemble_num
+        detected_words, soft_confidences = self.compute_output(total_probs_vec)
+        return detected_words, soft_confidences
 
     def calculate_posteriors(self, model: nn.ModuleList, i: int, probs_vec: torch.Tensor,
                              rx: torch.Tensor) -> torch.Tensor:
