@@ -6,10 +6,9 @@ from torch import nn
 
 from python_code import DEVICE, conf
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
-from python_code.detectors.deepsic.bayesian_deepsic.masked_deep_sic_detector import LossVariable, \
-    MaskedDeepSICDetector
+from python_code.detectors.deepsic.bayesian_deepsic.masked_deep_sic_detector import MaskedDeepSICDetector
 from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
-from python_code.utils.constants import HALF, Phase, ModulationType
+from python_code.utils.constants import Phase, ModulationType, HALF
 
 
 class BayesianDeepSICTrainer(DeepSICTrainer):
@@ -21,7 +20,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         self.ensemble_num = 1
         self.kl_scale = 5
         self.kl_beta = 1e-3
-        self.arm_beta = 1
+        self.arm_beta = 10
         self.classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
         self.hidden_size = conf.hidden_base_size * self.classes_num
         base_rx_size = conf.n_ant if conf.modulation_type == ModulationType.BPSK.name else 2 * conf.n_ant
@@ -40,30 +39,8 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
         flat_detectors_list = [detector for sublist in detectors_list for detector in sublist]
         self.detector = nn.ModuleList(flat_detectors_list)
-        self.dropout_logits = [10000* torch.ones([1, self.hidden_size], requires_grad=True, device=DEVICE)
+        self.dropout_logits = [torch.rand([1, self.hidden_size], requires_grad=True, device=DEVICE)
                                for _ in range(self.n_user * NITERATIONS)]
-
-    def calc_loss(self, cur_est: List[LossVariable], tx: torch.IntTensor) -> torch.Tensor:
-        """
-        Cross Entropy loss - distribution over states versus the gt state label
-        """
-        loss = 0
-        for user in range(self.n_user):
-            cur_loss_var = cur_est[user]
-            cur_tx = tx[user]
-            # point loss
-            loss += self.criterion(input=cur_loss_var.priors, target=cur_tx.long())
-            # # ARM Loss
-            # loss_term_arm_original = self.criterion(input=cur_loss_var.arm_original, target=cur_tx.long())
-            # loss_term_arm_tilde = self.criterion(input=cur_loss_var.arm_tilde, target=cur_tx.long())
-            # arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
-            # grad_logit = arm_delta * (cur_loss_var.u_list - HALF)
-            # arm_loss = torch.matmul(grad_logit, cur_loss_var.dropout_logit.T)
-            # arm_loss = self.arm_beta * torch.mean(arm_loss)
-            # # KL Loss
-            # kl_term = self.kl_beta * cur_loss_var.kl_term
-            # loss += arm_loss + kl_term
-        return loss
 
     def infer_model(self, single_model: nn.Module, dropout_logit: nn.Parameter, rx: torch.Tensor):
         """
@@ -72,59 +49,63 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         y_total = self.preprocess(rx)
         return single_model(y_total, dropout_logit, phase=Phase.TRAIN)
 
-    def infer_models(self, rx_all: List[torch.Tensor], iter: int):
-        loss_vars = [0 for _ in range(self.n_user)]
+    def calc_loss(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor], iter: int,
+                  only_bayesian_loss: bool):
+        loss = 0
         for user in range(self.n_user):
             loss_var = self.infer_model(self.detector[user * NITERATIONS + iter],
                                         self.dropout_logits[user * NITERATIONS + iter],
                                         rx_all[user])
-            loss_vars[user] = loss_var
-        return loss_vars
+            # ARM Loss
+            loss_term_arm_original = self.criterion(input=loss_var.arm_original, target=tx_all[user].long())
+            loss_term_arm_tilde = self.criterion(input=loss_var.arm_tilde, target=tx_all[user].long())
+            arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
+            grad_logit = arm_delta * (loss_var.u_list - HALF)
+            arm_loss = torch.matmul(grad_logit, loss_var.dropout_logit.T)
+            arm_loss = self.arm_beta * torch.mean(arm_loss)
+            # KL Loss
+            kl_term = self.kl_beta * loss_var.kl_term
+            loss += arm_loss + kl_term
+            # Frequentist loss
+            if not only_bayesian_loss:
+                fq_loss = self.criterion(input=loss_var.priors, target=tx_all[user].long())
+                loss += fq_loss
+                print(fq_loss)
+        return loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         if not conf.fading_in_channel:
             self._initialize_detector()
-        params = list(self.detector.parameters())  # + self.dropout_logits
+        params = list(self.detector.parameters()) + self.dropout_logits
         self.optimizer = torch.optim.Adam(params, lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
         for _ in range(EPOCHS):
-            for ind_ensemble in range(self.ensemble_num):
-                # Initializing the probabilities
-                probs_vec = self._initialize_probs_for_training(tx)
-                # Training the DeepSICNet for each user-symbol/iteration
-                loss = 0
-                for i in range(NITERATIONS):
-                    # Generating soft symbols for training purposes
-                    probs_vec = self.calculate_posteriors(self.detector, i, probs_vec, rx)
-                    # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
-                    tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
-                    # adding the loss. In contrast to sequential learning - we do not update yet
-                    loss_vars = self.infer_models(rx_all, i)
-                    loss += self.calc_loss(loss_vars, tx_all)
+            # Initializing the probabilities
+            probs_vec = self._initialize_probs_for_training(tx)
+            # Training the DeepSICNet for each user-symbol/iteration
+            loss = 0
+            for i in range(NITERATIONS):
+                # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
+                tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
+                if i == NITERATIONS - 1:
+                    break
+                # Compute the ARM and KL losses
+                loss += self.calc_loss(tx_all, rx_all, i, only_bayesian_loss=True)
+                # Generating soft symbols for training purposes
+                probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
+            # adding the loss. In contrast to sequential learning - we do not update yet
+            loss += self.calc_loss(tx_all, rx_all, NITERATIONS - 1, only_bayesian_loss=False)
             # back propagation
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
-
-    def forward(self, rx: torch.Tensor, h: torch.Tensor = None) -> torch.Tensor:
-        with torch.no_grad():
-            # detect and decode
-            total_probs_vec = 0
-            for ind_ensemble in range(self.ensemble_num):
-                # detect and decode
-                probs_vec = self._initialize_probs_for_infer(rx)
-                for i in range(NITERATIONS):
-                    probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
-                total_probs_vec += probs_vec
-            total_probs_vec /= self.ensemble_num
-            detected_words, soft_confidences = self.compute_output(total_probs_vec)
-            return detected_words, soft_confidences
 
     def calculate_posteriors(self, model: nn.ModuleList, i: int, probs_vec: torch.Tensor,
                              rx: torch.Tensor) -> torch.Tensor:
         """
         Propagates the probabilities through the learnt networks.
         """
+
         next_probs_vec = torch.zeros(probs_vec.shape).to(DEVICE)
         for user in range(self.n_user):
             idx = [user_i for user_i in range(self.n_user) if user_i != user]
