@@ -15,7 +15,7 @@ class MaskedDeepSICDetector(nn.Module):
         self.activation = nn.ReLU()
         self.fc2 = nn.Linear(hidden_size, classes_num)
         self.kl_scale = kl_scale
-        # self.log_softmax = nn.LogSoftmax(dim=1)
+        self.log_softmax = nn.LogSoftmax(dim=1)
 
     def forward(self, rx: torch.Tensor, dropout_logit: torch.Tensor, phase: Phase = Phase.TEST) -> LossVariable:
         # first layer

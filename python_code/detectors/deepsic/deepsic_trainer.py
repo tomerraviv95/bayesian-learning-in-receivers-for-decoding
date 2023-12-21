@@ -9,7 +9,7 @@ from python_code.detectors.detector_trainer import Detector
 from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.probs_utils import prob_to_EightPSK_symbol, prob_to_QPSK_symbol, prob_to_BPSK_symbol
 
-NITERATIONS = 2
+NITERATIONS = 5
 EPOCHS = 200
 
 class DeepSICTrainer(Detector):
@@ -86,32 +86,6 @@ class DeepSICTrainer(Detector):
             rx_all.append(current_y_train)
         return tx_all, rx_all
 
-    def _initialize_probs_for_training(self, tx):
-        if conf.modulation_type == ModulationType.BPSK.name:
-            probs_vec = HALF * torch.ones(tx.shape).to(DEVICE)
-        elif conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
-            probs_vec = (1 / MODULATION_NUM_MAPPING[conf.modulation_type]) * torch.ones(tx.shape).to(DEVICE).unsqueeze(
-                -1).repeat([1, 1, MODULATION_NUM_MAPPING[conf.modulation_type] - 1])
-        else:
-            raise ValueError("No such constellation!")
-        return probs_vec
-
-    def _initialize_probs(self, tx):
-        if conf.modulation_type == ModulationType.BPSK.name:
-            initial_probs = tx.clone()
-        elif conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
-            initial_probs = torch.zeros(tx.shape).to(DEVICE).unsqueeze(-1).repeat(
-                [1, 1, MODULATION_NUM_MAPPING[conf.modulation_type] - 1])
-            relevant_inds = []
-            for i in range(MODULATION_NUM_MAPPING[conf.modulation_type] - 1):
-                relevant_ind = (tx == i + 1)
-                relevant_inds.append(relevant_ind.unsqueeze(-1))
-            relevant_inds = torch.cat(relevant_inds, dim=2)
-            initial_probs[relevant_inds] = 1
-        else:
-            raise ValueError("No such constellation!")
-        return initial_probs
-
     def calculate_posteriors(self, model: List[List[nn.Module]], i: int, probs_vec: torch.Tensor,
                              rx: torch.Tensor) -> torch.Tensor:
         """
@@ -126,6 +100,16 @@ class DeepSICTrainer(Detector):
                 output = self.softmax(model[user][i - 1](preprocessed_input))
             next_probs_vec[:, user] = output[:, 1:].reshape(next_probs_vec[:, user].shape)
         return next_probs_vec
+
+    def _initialize_probs_for_training(self, tx):
+        if conf.modulation_type == ModulationType.BPSK.name:
+            probs_vec = HALF * torch.ones(tx.shape).to(DEVICE)
+        elif conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
+            probs_vec = (1 / MODULATION_NUM_MAPPING[conf.modulation_type]) * torch.ones(tx.shape).to(DEVICE).unsqueeze(
+                -1).repeat([1, 1, MODULATION_NUM_MAPPING[conf.modulation_type] - 1])
+        else:
+            raise ValueError("No such constellation!")
+        return probs_vec
 
     def _initialize_probs_for_infer(self, rx):
         if conf.modulation_type == ModulationType.BPSK.name:

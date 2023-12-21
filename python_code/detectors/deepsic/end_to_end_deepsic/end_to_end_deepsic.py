@@ -30,11 +30,10 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
         loss = self.calc_loss(est=soft_estimation, tx=tx.int())
         return loss
 
-    def train_models(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor]):
+    def train_models(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor], iter: int):
         cur_loss = 0
         for user in range(self.n_user):
-            for iter in range(NITERATIONS):
-                cur_loss += self.train_model(self.detector[user * NITERATIONS + iter], tx_all[user], rx_all[user])
+            cur_loss += self.train_model(self.detector[user * NITERATIONS + iter], tx_all[user], rx_all[user])
         return cur_loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
@@ -46,16 +45,18 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
             self._initialize_detector()
         self.optimizer = torch.optim.Adam(self.detector.parameters(), lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
-        for _ in range(EPOCHS):
+        for epoch in range(EPOCHS):
             # Initializing the probabilities
             probs_vec = self._initialize_probs_for_training(tx)
             # Training the DeepSICNet for each user-symbol/iteration
+            loss = 0
             for i in range(NITERATIONS):
+                # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
+                tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
+                # adding the loss. In contrast to sequential learning - we do not update yet
+                loss += self.train_models(tx_all, rx_all, i)
                 # Generating soft symbols for training purposes
-                probs_vec = self.calculate_posteriors(self.detector, i, probs_vec, rx)
-            # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
-            tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
-            loss = self.train_models(tx_all, rx_all)
+                probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
             # back propagation
             self.optimizer.zero_grad()
             loss.backward()

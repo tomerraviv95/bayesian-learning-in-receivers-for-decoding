@@ -1,5 +1,5 @@
 from python_code.detectors.deepsic.bayesian_deepsic.bayesian_deep_sic_trainer import BayesianDeepSICTrainer
-from python_code.detectors.deepsic.end_to_end_deepsic import EndToEndDeepSICTrainer
+from python_code.detectors.deepsic.end_to_end_deepsic.end_to_end_deepsic import EndToEndDeepSICTrainer
 from python_code.detectors.deepsic.modular_bayesian_deepsic.modular_bayesian_deep_sic_trainer import \
     ModularBayesianDeepSICTrainer
 from python_code.detectors.deepsic.seq_deepsic.seq_deep_sic_trainer import SeqDeepSICTrainer

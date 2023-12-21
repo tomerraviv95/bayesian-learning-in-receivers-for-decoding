@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Added the end to end training and validated the output of the detector">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Implemented correctly the end to end variation of the DeepSIC module">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/masked_deep_sic_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/masked_deep_sic_detector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/modular_bayesian_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/modular_bayesian_deep_sic_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/seq_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/seq_deep_sic_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/ber_by_ece.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ber_by_ece.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/config_runs/ber_by_ece2.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ber_by_ece2.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +61,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Projects/modular-concept-drift-for-receivers",
+    "last_opened_file_path": "C:/Projects/bayesian-learning-for-receivers",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -200,14 +196,7 @@
       <workItem from="1695013917088" duration="15266000" />
       <workItem from="1695666255250" duration="51816000" />
       <workItem from="1700731441413" duration="82389000" />
-      <workItem from="1702543624472" duration="36997000" />
-    </task>
-    <task id="LOCAL-00091" summary="Initial commit">
-      <created>1686388203391</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1686388203391</updated>
+      <workItem from="1702543624472" duration="47847000" />
     </task>
     <task id="LOCAL-00092" summary="added the decoding files">
       <created>1686389270982</created>
@@ -545,7 +534,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702921092497</updated>
     </task>
-    <option name="localTasksCounter" value="140" />
+    <task id="LOCAL-00140" summary="Implemented correctly the end to end variation of the DeepSIC module">
+      <created>1703081041475</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1703081041475</updated>
+    </task>
+    <option name="localTasksCounter" value="141" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -563,7 +559,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added and validated that the Bayesian DeepSIC method works" />
     <MESSAGE value="Now reading the pcm by the standard format of the coding database. This will allow me to change to polar codes easily." />
     <MESSAGE value="does not need the tanner reduction file, and moved the coding utils to the same file" />
     <MESSAGE value="Added polar codes of lengths up to 1000" />
@@ -588,11 +583,12 @@
     <MESSAGE value="last commit and push before trying to make the training end to end using the outputs of the detector as inputs of the decoder" />
     <MESSAGE value="Added online training of the decoder" />
     <MESSAGE value="Added the end to end training and validated the output of the detector" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added the end to end training and validated the output of the detector" />
+    <MESSAGE value="Implemented correctly the end to end variation of the DeepSIC module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented correctly the end to end variation of the DeepSIC module" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1703080814642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1703164130549" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1702996407604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
