@@ -17,9 +17,9 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 3
+        self.ensemble_num = 5
         self.kl_scale = 5
-        self.kl_beta = 1e-4
+        self.kl_beta = 1e-3
         self.arm_beta = 1
         super().__init__()
 
@@ -38,13 +38,12 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         loss = self.criterion(input=est.priors, target=tx.long())
         # ARM Loss
         arm_loss = 0
-        for i in range(self.ensemble_num):
-            loss_term_arm_original = self.criterion(input=est.arm_original[i], target=tx.long())
-            loss_term_arm_tilde = self.criterion(input=est.arm_tilde[i], target=tx.long())
-            arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
-            grad_logit = arm_delta * (est.u_list[i] - HALF)
-            arm_loss += torch.matmul(grad_logit, est.dropout_logit.T)
-        arm_loss = self.arm_beta *torch.mean(arm_loss)
+        loss_term_arm_original = self.criterion(input=est.arm_original[0], target=tx.long())
+        loss_term_arm_tilde = self.criterion(input=est.arm_tilde[0], target=tx.long())
+        arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
+        grad_logit = arm_delta * (est.u_list[0] - HALF)
+        arm_loss += torch.matmul(grad_logit, est.dropout_logit.T)
+        arm_loss = self.arm_beta * torch.mean(arm_loss)
         # KL Loss
         kl_term = self.kl_beta * est.kl_term
         loss += arm_loss + kl_term
@@ -84,4 +83,3 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
             self.train_models(self.detector, i, tx_all, rx_all)
             # Generating soft symbols for training purposes
             probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
-

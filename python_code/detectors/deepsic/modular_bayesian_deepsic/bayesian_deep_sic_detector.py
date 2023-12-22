@@ -24,15 +24,23 @@ class BayesianDeepSICDetector(nn.Module):
         self.fc2 = nn.Linear(hidden_size, classes_num)
         self.ensemble_num = ensemble_num
         self.kl_scale = kl_scale
-        self.dropout_logit = LOGITS_INIT * torch.rand(hidden_size).reshape(1, -1).to(DEVICE)
-        for dropout_logit in self.dropout_logit:
-            dropout_logit.requires_grad = True
+        self.dropout_logit = nn.Parameter(LOGITS_INIT * torch.rand(hidden_size).reshape(1, -1).to(DEVICE))
 
     def forward(self, rx: torch.Tensor, phase: Phase = Phase.TEST) -> Union[LossVariable, torch.Tensor]:
         log_probs = 0
         arm_original, arm_tilde, u_list, kl_term = [], [], [], 0
 
-        for ind_ensemble in range(self.ensemble_num):
+        if phase == Phase.TEST:
+            for ind_ensemble in range(self.ensemble_num):
+                # first layer
+                x = self.activation(self.fc1(rx))
+                u = torch.rand(x.shape).to(DEVICE)
+                x_after_dropout = dropout_ori(x, self.dropout_logit, u)
+                # second layer
+                out = self.fc2(x_after_dropout)
+                # if in train phase, keep parameters in list and compute the tilde output for arm loss calculation
+                log_probs += out
+        else:
             # first layer
             x = self.activation(self.fc1(rx))
             u = torch.rand(x.shape).to(DEVICE)
@@ -40,21 +48,16 @@ class BayesianDeepSICDetector(nn.Module):
             # second layer
             out = self.fc2(x_after_dropout)
             # if in train phase, keep parameters in list and compute the tilde output for arm loss calculation
-            if phase == Phase.TRAIN:
-                log_probs += out
-                u_list.append(u)
-                # compute first variable output
-                arm_original.append(out)
-                # compute second variable output
-                x_tilde = dropout_tilde(x, self.dropout_logit, u)
-                out_tilde = self.fc2(x_tilde)
-                arm_tilde.append(out_tilde)
-            else:
-                log_probs += out
+            log_probs += out
+            u_list.append(u)
+            # compute first variable output
+            arm_original.append(out)
+            # compute second variable output
+            x_tilde = dropout_tilde(x, self.dropout_logit, u)
+            out_tilde = self.fc2(x_tilde)
+            arm_tilde.append(out_tilde)
 
-        log_probs /= self.ensemble_num
-
-        # add KL term if training
+        # add KL term if in training
         if phase == Phase.TRAIN:
             # KL term
             scaling1 = (self.kl_scale ** 2 / 2) * (torch.sigmoid(self.dropout_logit).reshape(-1))
@@ -63,4 +66,4 @@ class BayesianDeepSICDetector(nn.Module):
             kl_term = torch.mean(first_layer_kl - H1)
             return LossVariable(priors=log_probs, arm_original=arm_original, arm_tilde=arm_tilde,
                                 u_list=u_list, kl_term=kl_term, dropout_logit=self.dropout_logit)
-        return log_probs
+        return log_probs / self.ensemble_num
