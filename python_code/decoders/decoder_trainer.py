@@ -23,6 +23,7 @@ MIN_EVAL_ERRORS = 500
 class DecoderTrainer(nn.Module):
     def __init__(self):
         super().__init__()
+        self.train_from_scratch = not conf.fading_in_channel
         self.softmax = torch.nn.Softmax(dim=1)  # Single symbol probability inference
         self.odd_llr_mask_only = True
         self.even_mask_only = True
@@ -50,6 +51,8 @@ class DecoderTrainer(nn.Module):
         self.criterion = BCEWithLogitsLoss().to(DEVICE)
 
     def online_training(self, rx, s):
+        if self.train_from_scratch:
+            self.initialize_layers()
         for run_ind in range(self.online_runs):
             # train the decoder
             self.single_training(s, rx)

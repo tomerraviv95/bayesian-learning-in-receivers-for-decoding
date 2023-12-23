@@ -17,7 +17,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 3
+        self.ensemble_num = 5
         self.kl_scale = 5
         self.kl_beta = 1e-4
         self.arm_beta = 1
@@ -75,7 +75,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         return loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         params = list(self.detector.parameters()) + self.dropout_logits
         self.optimizer = torch.optim.Adam(params, lr=self.lr)

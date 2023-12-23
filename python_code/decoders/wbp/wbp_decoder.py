@@ -2,7 +2,7 @@ import torch
 
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
 from python_code.decoders.decoder_trainer import DecoderTrainer
-from python_code.utils.constants import CLIPPING_VAL
+from python_code.utils.constants import CLIPPING_VAL, Phase
 
 EPOCHS = 500
 BATCH_SIZE = 120
@@ -45,14 +45,14 @@ class WBPDecoder(DecoderTrainer):
             # select BATCH_SIZE samples randomly
             idx = torch.randperm(tx.shape[0])[:BATCH_SIZE]
             cur_tx, cur_rx = tx[idx], rx[idx]
-            output_list = self.forward(cur_rx, mode='train')
+            output_list = self.forward(cur_rx, mode=Phase.TRAIN)
             # calculate loss
             loss = self.calc_loss(decision=output_list[-self.iteration_num:], labels=cur_tx)
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
 
-    def forward(self, x, mode='inference'):
+    def forward(self, x, mode: Phase = Phase.TEST):
         """
         compute forward pass in the network
         :param x: [batch_size,N]
@@ -75,8 +75,7 @@ class WBPDecoder(DecoderTrainer):
             output = x + self.output_layer.forward(even_output, mask_only=self.output_mask_only)
             output_list[i + 1] = output.clone()
 
-        if mode == 'inference':
+        if mode == Phase.TEST:
             decoded_words = torch.round(torch.sigmoid(-output_list[-1]))
             return decoded_words
-        else:
-            return output_list
+        return output_list

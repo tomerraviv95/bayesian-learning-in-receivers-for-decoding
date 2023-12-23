@@ -96,7 +96,7 @@ class Evaluator(object):
             ece_list.append(ece)
             print(f'expected calibration error (ECE): {ece}')
             # update the decoder
-            # self.train_decoder(mx_pilot, rx_pilot)
+            self.train_decoder(mx_pilot, rx_pilot)
             # use detected soft values to calculate the final message
             ber = self.calculate_ber(soft_confidences, detected_words, mx_data)
             ber_list.append(ber)

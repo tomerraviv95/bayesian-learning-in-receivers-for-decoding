@@ -3,7 +3,7 @@ from typing import List
 import torch
 from torch import nn
 
-from python_code import DEVICE, conf
+from python_code import DEVICE
 from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
 from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 
@@ -30,7 +30,8 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
             soft_estimation = single_model(y_total, apply_dropout=True)
-            self.run_train_loop(soft_estimation, tx)
+            cur_loss = self.run_train_loop(soft_estimation, tx)
+            print(cur_loss)
 
     def train_models(self, model: List[List[DeepSICDetector]], i: int, tx_all: List[torch.Tensor],
                      rx_all: List[torch.Tensor]):
@@ -42,7 +43,7 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         Main training function for DeepSIC evaluater. Initializes the probabilities, then propagates them through the
         network, training sequentially each network and not by end-to-end manner (each one individually).
         """
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         # Initializing the probabilities
         probs_vec = self._initialize_probs_for_training(tx)

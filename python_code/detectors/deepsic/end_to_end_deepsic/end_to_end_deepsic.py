@@ -41,7 +41,7 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
         Main training function for DeepSIC trainer. Initializes the probabilities, then propagates them through the
         network, training the entire networks by end-to-end manner.
         """
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         self.optimizer = torch.optim.Adam(self.detector.parameters(), lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()

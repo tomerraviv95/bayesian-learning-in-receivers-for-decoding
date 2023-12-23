@@ -2,7 +2,7 @@ import torch
 
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
 from python_code.decoders.decoder_trainer import DecoderTrainer
-from python_code.utils.constants import CLIPPING_VAL
+from python_code.utils.constants import CLIPPING_VAL, Phase
 
 
 class BPDecoder(DecoderTrainer):
@@ -33,7 +33,7 @@ class BPDecoder(DecoderTrainer):
     def single_training(self, tx: torch.Tensor, rx: torch.Tensor):
         pass
 
-    def forward(self, x, mode='inference'):
+    def forward(self, x, mode: Phase = Phase.TEST):
         """
         compute forward pass in the network
         :param x: [batch_size,N]
@@ -56,8 +56,7 @@ class BPDecoder(DecoderTrainer):
             output = x + self.output_layer.forward(even_output, mask_only=self.output_mask_only)
             output_list[i + 1] = output.clone()
 
-        if mode == 'inference':
+        if mode == Phase.TEST:
             decoded_words = torch.round(torch.sigmoid(-output_list[-1]))
             return decoded_words
-        else:
-            return output_list
+        return output_list

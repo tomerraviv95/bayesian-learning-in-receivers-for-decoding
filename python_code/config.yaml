@@ -9,7 +9,7 @@ seed: 10 # run seed
 
 # MIMO protocol
 block_length: 7680 # coherence block time, total size of pilot + data. values: int.
-pilots_length: 256 # pilot bits
+pilots_length: 512 # pilot bits
 blocks_num: 5 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
@@ -18,9 +18,9 @@ n_ant: 4 # number of received signals
 channel_model: 'Synthetic' # ['Synthetic','Cost2100']
 linear: True # datasets linearity. Boolean value.
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
-snr: 6 # validation snr value. values: float.
+snr: 8 # validation snr value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
-detector_type: 'seq_model' # ['seq_model','model_based_bayesian','bayesian','end_to_end']
+detector_type: 'model_based_bayesian' # ['seq_model','model_based_bayesian','bayesian','end_to_end']
 
 # coding hyperparams
 code_type: 'POLAR' # ['BCH','POLAR']

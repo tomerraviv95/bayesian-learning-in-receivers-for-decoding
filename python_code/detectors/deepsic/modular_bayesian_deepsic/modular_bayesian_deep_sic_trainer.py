@@ -17,7 +17,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 5
+        self.ensemble_num = 3
         self.kl_scale = 5
         self.kl_beta = 1e-3
         self.arm_beta = 1
@@ -46,8 +46,8 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         arm_loss = self.arm_beta * torch.mean(arm_loss)
         # KL Loss
         kl_term = self.kl_beta * est.kl_term
-        loss += arm_loss + kl_term
-        return loss
+        # loss += arm_loss + kl_term
+        return arm_loss
 
     def train_model(self, single_model: nn.Module, tx: torch.Tensor, rx: torch.Tensor):
         """
@@ -59,7 +59,8 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
             soft_estimation = single_model(y_total, phase=Phase.TRAIN)
-            self.run_train_loop(soft_estimation, tx)
+            loss = self.run_train_loop(soft_estimation, tx)
+            print(loss)
 
     def train_models(self, model: List[List[BayesianDeepSICDetector]], i: int, tx_all: List[torch.Tensor],
                      rx_all: List[torch.Tensor]):
@@ -71,7 +72,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         Main training function for DeepSIC evaluater. Initializes the probabilities, then propagates them through the
         network, training sequentially each network and not by end-to-end manner (each one individually).
         """
-        if not conf.fading_in_channel:
+        if self.train_from_scratch:
             self._initialize_detector()
         # Initializing the probabilities
         probs_vec = self._initialize_probs_for_training(tx)
