@@ -8,6 +8,10 @@ from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_M
 from python_code.utils.constants import HALF, ModulationType
 
 
+import math
+
+def sigmoid(x):
+  return 1 / (1 + math.exp(-x))
 
 def generate_bits_by_state(state: int, n_state: int) -> torch.Tensor:
     """

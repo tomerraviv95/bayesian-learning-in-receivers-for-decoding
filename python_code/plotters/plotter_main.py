@@ -51,7 +51,7 @@ def get_mean_ece_list(all_curves, average=True):
 if __name__ == '__main__':
     run_over = False  # whether to run over previous results
     trial_num = 1  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
-    plot_type = PlotType.ber_by_ece2
+    plot_type = PlotType.hidden_size
     print(plot_type.name)
     run_params_obj = RunParams(run_over=run_over, trial_num=trial_num)
     params_dicts, to_plot_by_values = get_config(plot_type)
@@ -66,15 +66,15 @@ if __name__ == '__main__':
         plot_dict_vs_list(values_dict=means_bers_dict, xlabel='Code Length', ylabel='BER',
                           plot_type=plot_type, to_plot_by_values=[1, 2, 3], loc='upper right',
                           legend_type=LEGEND_TYPE.FULL, xticks=to_plot_by_values)
-    elif plot_type is PlotType.ber_by_ece or plot_type is PlotType.ber_by_ece2 or plot_type is PlotType.hidden_size:
+    elif plot_type is PlotType.hidden_size:
         means_bers_dict = get_mean_ber_list(all_curves)
         means_sers_dict = get_mean_ser_list(all_curves)
         means_ece_dict = get_mean_ece_list(all_curves)
-        plot_dict_vs_list(values_dict=means_bers_dict, to_plot_by_values=to_plot_by_values, xlabel='SNR', ylabel='BER',
+        plot_dict_vs_list(values_dict=means_bers_dict, to_plot_by_values=to_plot_by_values, xlabel='Hidden Size', ylabel='BER',
                           plot_type=plot_type, loc='lower left', legend_type=LEGEND_TYPE.FULL)
-        plot_dict_vs_list(values_dict=means_sers_dict, to_plot_by_values=to_plot_by_values, xlabel='SNR', ylabel='SER',
+        plot_dict_vs_list(values_dict=means_sers_dict, to_plot_by_values=to_plot_by_values, xlabel='Hidden Size', ylabel='SER',
                           plot_type=plot_type, loc='lower left', legend_type=LEGEND_TYPE.FULL)
-        plot_dict_vs_list(values_dict=means_ece_dict, to_plot_by_values=to_plot_by_values, xlabel='SNR', ylabel='ECE',
+        plot_dict_vs_list(values_dict=means_ece_dict, to_plot_by_values=to_plot_by_values, xlabel='Hidden Size', ylabel='ECE',
                           plot_type=plot_type, loc='lower right', legend_type=LEGEND_TYPE.FULL)
     elif plot_type is PlotType.ece_by_pilots_length:
         means_ece_dict = get_mean_ece_list(all_curves)

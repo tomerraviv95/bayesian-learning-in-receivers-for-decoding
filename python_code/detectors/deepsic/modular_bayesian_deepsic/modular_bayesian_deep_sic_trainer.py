@@ -17,8 +17,8 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 3
-        self.kl_scale = 5
+        self.ensemble_num = 5
+        self.kl_scale = 1
         self.kl_beta = 1e-3
         self.arm_beta = 1
         super().__init__()
@@ -37,17 +37,16 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         """
         loss = self.criterion(input=est.priors, target=tx.long())
         # ARM Loss
-        arm_loss = 0
-        loss_term_arm_original = self.criterion(input=est.arm_original[0], target=tx.long())
-        loss_term_arm_tilde = self.criterion(input=est.arm_tilde[0], target=tx.long())
+        loss_term_arm_original = self.criterion_arm(input=est.arm_original[0], target=tx.long())
+        loss_term_arm_tilde = self.criterion_arm(input=est.arm_tilde[0], target=tx.long())
         arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
-        grad_logit = arm_delta * (est.u_list[0] - HALF)
-        arm_loss += torch.matmul(grad_logit, est.dropout_logit.T)
+        grad_logit = arm_delta.unsqueeze(-1) * (est.u - HALF)
+        arm_loss = grad_logit * est.dropout_logit
         arm_loss = self.arm_beta * torch.mean(arm_loss)
         # KL Loss
         kl_term = self.kl_beta * est.kl_term
-        # loss += arm_loss + kl_term
-        return arm_loss
+        loss += arm_loss + kl_term
+        return loss
 
     def train_model(self, single_model: nn.Module, tx: torch.Tensor, rx: torch.Tensor):
         """
@@ -55,12 +54,12 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         """
         self.optimizer = torch.optim.Adam(single_model.parameters(), lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
+        self.criterion_arm = torch.nn.CrossEntropyLoss(reduction='none')
         single_model = single_model.to(DEVICE)
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
             soft_estimation = single_model(y_total, phase=Phase.TRAIN)
-            loss = self.run_train_loop(soft_estimation, tx)
-            print(loss)
+            self.run_train_loop(soft_estimation, tx)
 
     def train_models(self, model: List[List[BayesianDeepSICDetector]], i: int, tx_all: List[torch.Tensor],
                      rx_all: List[torch.Tensor]):

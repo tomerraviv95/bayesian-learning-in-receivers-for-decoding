@@ -4,17 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Finished working on the modular Bayesian Learning approach">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Before trying concrete dropout">
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/cmodular_bayesian_deepsic/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/cmodular_bayesian_deepsic/cbayesian_deep_sic_detector.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/cmodular_bayesian_deepsic/cmodular_bayesian_deep_sic_trainer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/condrop/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/condrop/concrete_dropout.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/condrop/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python_code/utils/condrop/utils/concrete_regulariser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/bp/bp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/bp/bp_decoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/decoders/wbp/wbp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/wbp/wbp_decoder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/end_to_end_deepsic.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/end_to_end_deepsic/end_to_end_deepsic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/deepsic_detector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/bayesian_deep_sic_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/bayesian_deep_sic_detector.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/modular_bayesian_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/modular_bayesian_deep_sic_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/seq_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/seq_deepsic/seq_deep_sic_trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/plotters/plotter_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/utils/bayesian_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/bayesian_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/utils/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/constants.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/utils/probs_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/utils/probs_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/ber_by_ece.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ber_by_ece.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/ber_by_ece2.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ber_by_ece2.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_SNR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_SNR.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_code_length.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/decoding_comparison_by_code_length.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_EightPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_EightPSK.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_QPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_QPSK.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_EightPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_EightPSK.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_QPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/detection_comparison_by_SNR_cost_QPSK.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/ece_by_pilots_length.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/ece_by_pilots_length.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_EightPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_EightPSK.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_cost_EightPSK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/final_comparison_by_SNR_cost_EightPSK.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/config_runs/hidden_size.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/resources/config_runs/hidden_size.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +83,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Projects/bayesian-learning-for-receivers",
+    "last_opened_file_path": "C:/Projects/modular-concept-drift-for-receivers",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -197,14 +218,7 @@
       <workItem from="1695013917088" duration="15266000" />
       <workItem from="1695666255250" duration="51816000" />
       <workItem from="1700731441413" duration="82389000" />
-      <workItem from="1702543624472" duration="75749000" />
-    </task>
-    <task id="LOCAL-00097" summary="worked on the detection part, seems to work now">
-      <created>1686406457151</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1686406457151</updated>
+      <workItem from="1702543624472" duration="93242000" />
     </task>
     <task id="LOCAL-00098" summary="Finished and implemented the detection and decoding modules">
       <created>1686413778467</created>
@@ -542,7 +556,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703255276203</updated>
     </task>
-    <option name="localTasksCounter" value="146" />
+    <task id="LOCAL-00146" summary="Before trying concrete dropout">
+      <created>1703313475947</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1703313475947</updated>
+    </task>
+    <option name="localTasksCounter" value="147" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -560,7 +581,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added the modular bayesian wbp model to the available trianing decoders" />
     <MESSAGE value="Updated the parameters for plotting in the plotter config" />
     <MESSAGE value="Added the simulation over varying number of users and antennas, and modified the graph markers and colors to match that of the tuple detector + decoder" />
     <MESSAGE value="fixed according to Osvaldo's comments focusing on the B,MB and F models" />
@@ -585,24 +605,14 @@
     <MESSAGE value="Finally managed to set the Bayesian learning working" />
     <MESSAGE value="Finalized the Bayesian detector" />
     <MESSAGE value="Finished working on the modular Bayesian Learning approach" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished working on the modular Bayesian Learning approach" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/modular_bayesian_deep_sic_trainer.py</url>
-          <line>44</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Before trying concrete dropout" />
+    <option name="LAST_COMMIT_MESSAGE" value="Before trying concrete dropout" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1703311309369" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1703336900264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1702996407604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1703330499453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$evaluate_par.coverage" NAME="evaluate-par Coverage Results" MODIFIED="1678741528529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/concept_drift_for_receivers$evaluate.coverage" NAME="evaluate Coverage Results" MODIFIED="1659804270637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />

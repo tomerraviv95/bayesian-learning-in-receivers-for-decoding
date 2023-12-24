@@ -20,7 +20,7 @@ linear: True # datasets linearity. Boolean value.
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
 snr: 8 # validation snr value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
-detector_type: 'bayesian' # ['seq_model','model_based_bayesian','bayesian','end_to_end']
+detector_type: 'bayesian' # ['seq_model','cmodel_based_bayesian','bayesian','end_to_end']
 
 # coding hyperparams
 code_type: 'POLAR' # ['BCH','POLAR']
