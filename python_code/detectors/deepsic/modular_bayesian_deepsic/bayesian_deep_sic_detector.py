@@ -16,19 +16,18 @@ class BayesianDeepSICDetector(nn.Module):
     def __init__(self, ensemble_num, kl_scale):
         super(BayesianDeepSICDetector, self).__init__()
         classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
-        hidden_size = conf.hidden_base_size * classes_num
+        self.hidden_size = conf.hidden_base_size * classes_num
         base_rx_size = conf.n_ant if conf.modulation_type == ModulationType.BPSK.name else 2 * conf.n_ant
         linear_input = base_rx_size + (classes_num - 1) * (conf.n_user - 1)  # from DeepSIC paper
         self.activation = nn.ReLU()
         self.ensemble_num = ensemble_num
         self.kl_scale = kl_scale
-        self.fc1 = nn.Linear(linear_input, hidden_size)
-        self.fc2 = nn.Linear(hidden_size, hidden_size)
-        self.fc3 = nn.Linear(hidden_size, classes_num)
-        self.dropout_logits = nn.Parameter(LOGITS_INIT * torch.ones(hidden_size).reshape(1, -1).to(DEVICE))
+        self.fc1 = nn.Linear(linear_input, self.hidden_size)
+        self.fc2 = nn.Linear(self.hidden_size, self.hidden_size)
+        self.fc3 = nn.Linear(self.hidden_size, classes_num)
+        self.dropout_logits = nn.Parameter(LOGITS_INIT * torch.ones(self.hidden_size).reshape(1, -1).to(DEVICE))
 
     def forward(self, rx: torch.Tensor, phase: Phase = Phase.TEST) -> Union[LossVariable, torch.Tensor]:
-
         if phase == Phase.TEST:
             log_probs = 0
             for ind_ensemble in range(self.ensemble_num):

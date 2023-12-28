@@ -8,7 +8,7 @@ from python_code import DEVICE
 from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 from python_code.detectors.deepsic.modular_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
     BayesianDeepSICDetector
-from python_code.utils.constants import HALF, Phase
+from python_code.utils.constants import HALF, Phase, LOGITS_INIT
 
 
 class ModularBayesianDeepSICTrainer(DeepSICTrainer):

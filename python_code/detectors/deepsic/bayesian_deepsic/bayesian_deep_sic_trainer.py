@@ -18,7 +18,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
 
     def __init__(self):
         self.ensemble_num = 5
-        self.kl_scale = 5
+        self.kl_scale = 1
         self.kl_beta = 1e-4
         self.arm_beta = 1
         self.classes_num = MODULATION_NUM_MAPPING[conf.modulation_type]
@@ -39,7 +39,10 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
         flat_detectors_list = [detector for sublist in detectors_list for detector in sublist]
         self.detector = nn.ModuleList(flat_detectors_list)
-        self.dropout_logits = [LOGITS_INIT * torch.rand([1, self.hidden_size], device=DEVICE)
+        self._initialize_logits()
+
+    def _initialize_logits(self):
+        self.dropout_logits = [LOGITS_INIT * torch.ones([1, self.hidden_size], device=DEVICE)
                                for _ in range(self.n_user * NITERATIONS)]
         for dropout_logit in self.dropout_logits:
             dropout_logit.requires_grad = True
@@ -51,32 +54,33 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         y_total = self.preprocess(rx)
         return single_model(y_total, dropout_logit, phase=Phase.TRAIN)
 
-    def calc_loss(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor], iter: int,
-                  only_bayesian_loss: bool):
+    def calc_loss(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor], iter: int, only_bayesian_loss: bool):
         loss = 0
         for user in range(self.n_user):
-            loss_var = self.infer_model(self.detector[user * NITERATIONS + iter],
-                                        self.dropout_logits[user * NITERATIONS + iter],
-                                        rx_all[user])
+            est = self.infer_model(self.detector[user * NITERATIONS + iter],
+                                   self.dropout_logits[user * NITERATIONS + iter],
+                                   rx_all[user])
             # ARM Loss
-            loss_term_arm_original = self.criterion(input=loss_var.arm_original, target=tx_all[user].long())
-            loss_term_arm_tilde = self.criterion(input=loss_var.arm_tilde, target=tx_all[user].long())
+            loss_term_arm_original = self.criterion(input=est.arm_original, target=tx_all[user].long())
+            loss_term_arm_tilde = self.criterion(input=est.arm_tilde, target=tx_all[user].long())
             arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
-            grad_logit = arm_delta * (loss_var.u_list - HALF)
-            arm_loss = torch.matmul(grad_logit, loss_var.dropout_logit.T)
+            grad_logit = arm_delta.unsqueeze(-1) * (est.u - HALF)
+            grad_logit[grad_logit < 0] *= -1
+            arm_loss = grad_logit * est.dropout_logit
             arm_loss = self.arm_beta * torch.mean(arm_loss)
             # KL Loss
-            kl_term = self.kl_beta * loss_var.kl_term
+            kl_term = self.kl_beta * est.kl_term
             loss += arm_loss + kl_term
             # Frequentist loss
             if not only_bayesian_loss:
-                fq_loss = self.criterion(input=loss_var.priors, target=tx_all[user].long())
+                fq_loss = self.criterion(input=est.priors, target=tx_all[user].long())
                 loss += fq_loss
         return loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         if self.train_from_scratch:
             self._initialize_detector()
+        self._initialize_logits()
         params = list(self.detector.parameters()) + self.dropout_logits
         self.optimizer = torch.optim.Adam(params, lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
