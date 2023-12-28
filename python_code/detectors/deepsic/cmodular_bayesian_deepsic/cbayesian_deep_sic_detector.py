@@ -10,8 +10,7 @@ from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_M
 from python_code.utils import condrop
 from python_code.utils.bayesian_utils import LossVariable, dropout
 from python_code.utils.condrop import ConcreteDropout
-from python_code.utils.constants import Phase, ModulationType, LOGITS_INIT
-from python_code.utils.probs_utils import sigmoid
+from python_code.utils.constants import Phase, ModulationType
 
 
 @condrop.concrete_regulariser
@@ -27,8 +26,7 @@ class CBayesianDeepSICDetector(nn.Module):
         self.activation = nn.ReLU()
         self.fc1 = nn.Linear(linear_input, hidden_size)
         w, d = 1e-6, 1e-3
-        self.cd1 = ConcreteDropout(weight_regulariser=w, dropout_regulariser=d,
-                                   init_max=sigmoid(LOGITS_INIT) + 0.001, init_min=sigmoid(LOGITS_INIT) - 0.001)
+        self.cd1 = ConcreteDropout(weight_regulariser=w, dropout_regulariser=d, init_max=0.9, init_min=0.6)
         self.fc2 = nn.Linear(hidden_size, hidden_size)
         self.fc3 = nn.Linear(hidden_size, classes_num)
 

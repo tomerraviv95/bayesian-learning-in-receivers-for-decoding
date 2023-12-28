@@ -10,7 +10,8 @@ from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.probs_utils import prob_to_EightPSK_symbol, prob_to_QPSK_symbol, prob_to_BPSK_symbol
 
 NITERATIONS = 3
-EPOCHS = 200
+EPOCHS = 300
+
 
 class DeepSICTrainer(Detector):
 
@@ -24,9 +25,6 @@ class DeepSICTrainer(Detector):
         return 'DeepSIC'
 
     def _initialize_detector(self):
-        pass
-
-    def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         pass
 
     def calc_loss(self, est: torch.Tensor, tx: torch.IntTensor) -> torch.Tensor:
@@ -120,3 +118,21 @@ class DeepSICTrainer(Detector):
         else:
             raise ValueError("No such constellation!")
         return probs_vec
+
+    def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
+        """
+        Main training function for DeepSIC evaluater. Initializes the probabilities, then propagates them through the
+        network, training sequentially each network and not by end-to-end manner (each one individually).
+        """
+        if self.train_from_scratch:
+            self._initialize_detector()
+        # Initializing the probabilities
+        probs_vec = self._initialize_probs_for_training(tx)
+        # Training the DeepSICNet for each user-symbol/iteration
+        for i in range(NITERATIONS):
+            # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
+            tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
+            # Training the DeepSIC networks for the iteration>1
+            self.train_models(self.detector, i, tx_all, rx_all)
+            # Generating soft symbols for training purposes
+            probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
