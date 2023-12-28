@@ -1,8 +1,12 @@
 from enum import Enum
 
+import torch
+
+from python_code import DEVICE
+
 HALF = 0.5
 CLIPPING_VAL = 15
-LOGITS_INIT = 1
+LOGITS_INIT = torch.exp(torch.Tensor([0.8])).to(DEVICE)
 
 class Phase(Enum):
     TRAIN = 'train'

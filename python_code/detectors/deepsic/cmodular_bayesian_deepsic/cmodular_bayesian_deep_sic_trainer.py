@@ -4,12 +4,11 @@ from typing import List
 import torch
 from torch import nn
 
-from python_code import DEVICE, conf
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code import DEVICE
 from python_code.detectors.deepsic.cmodular_bayesian_deepsic.cbayesian_deep_sic_detector import LossVariable, \
     CBayesianDeepSICDetector
-from python_code.utils.condrop import ConcreteDropout
-from python_code.utils.constants import HALF, Phase
+from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code.utils.constants import Phase
 
 
 class CModularBayesianDeepSICTrainer(DeepSICTrainer):
@@ -22,7 +21,7 @@ class CModularBayesianDeepSICTrainer(DeepSICTrainer):
         super().__init__()
 
     def __str__(self):
-        return 'MB-DeepSIC'
+        return 'CMB-DeepSIC'
 
     def _initialize_detector(self):
         self.detector = [
@@ -46,7 +45,7 @@ class CModularBayesianDeepSICTrainer(DeepSICTrainer):
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
             log_loss = single_model(y_total, phase=Phase.TRAIN)
-            est = [log_loss,single_model.regularisation()]
+            est = [log_loss, single_model.regularisation()]
             self.run_train_loop(est, tx)
 
     def train_models(self, model: List[List[CBayesianDeepSICDetector]], i: int, tx_all: List[torch.Tensor],
