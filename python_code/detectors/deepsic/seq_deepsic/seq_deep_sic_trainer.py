@@ -29,7 +29,7 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         single_model = single_model.to(DEVICE)
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
-            soft_estimation = single_model(y_total, apply_dropout=True)
+            soft_estimation = single_model(y_total, apply_dropout=self.apply_dropout)
             self.run_train_loop(soft_estimation, tx)
 
     def train_models(self, model: List[List[DeepSICDetector]], i: int, tx_all: List[torch.Tensor],

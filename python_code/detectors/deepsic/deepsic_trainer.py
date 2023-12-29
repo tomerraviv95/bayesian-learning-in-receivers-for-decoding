@@ -19,6 +19,7 @@ class DeepSICTrainer(Detector):
         self.n_user = conf.n_user
         self.n_ant = conf.n_ant
         self.lr = 5e-3
+        self.apply_dropout = False
         super().__init__()
 
     def __str__(self):

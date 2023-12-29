@@ -9,6 +9,6 @@ from python_code.utils.constants import DetectorType
 
 DETECTORS_TYPE_DICT = {DetectorType.seq_model.name: SeqDeepSICTrainer,
                        DetectorType.end_to_end.name: EndToEndDeepSICTrainer,
-                       DetectorType.cmodel_based_bayesian.name: CModularBayesianDeepSICTrainer,
+                       DetectorType.model_based_bayesian.name: CModularBayesianDeepSICTrainer,
                        DetectorType.model_based_bayesian.name: ModularBayesianDeepSICTrainer,
                        DetectorType.bayesian.name: BayesianDeepSICTrainer}

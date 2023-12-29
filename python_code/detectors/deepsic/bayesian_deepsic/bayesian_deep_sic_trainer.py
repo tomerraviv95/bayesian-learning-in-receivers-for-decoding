@@ -17,7 +17,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 5
+        self.ensemble_num = 3
         self.kl_scale = 1
         self.kl_beta = 1e-4
         self.arm_beta = 1
@@ -39,9 +39,6 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
         flat_detectors_list = [detector for sublist in detectors_list for detector in sublist]
         self.detector = nn.ModuleList(flat_detectors_list)
-        self._initialize_logits()
-
-    def _initialize_logits(self):
         self.dropout_logits = [LOGITS_INIT * torch.ones([1, self.hidden_size], device=DEVICE)
                                for _ in range(self.n_user * NITERATIONS)]
         for dropout_logit in self.dropout_logits:
@@ -54,33 +51,51 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
         y_total = self.preprocess(rx)
         return single_model(y_total, dropout_logit, phase=Phase.TRAIN)
 
-    def calc_loss(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor], iter: int, only_bayesian_loss: bool):
+    def calc_loss(self, tx_all: List[torch.Tensor], rx_all: List[torch.Tensor]):
         loss = 0
+        # get all values of the intermediate blocks
+        u_dict = {}
+        logits_dict = {}
+        kls_dict = {}
+        for iter in range(NITERATIONS - 1):
+            for user in range(self.n_user):
+                est = self.infer_model(self.detector[user * NITERATIONS + iter],
+                                       self.dropout_logits[user * NITERATIONS + iter],
+                                       rx_all[user])
+                u_dict[user * NITERATIONS + iter] = est.u
+                logits_dict[user * NITERATIONS + iter] = est.dropout_logit
+                kls_dict[user * NITERATIONS + iter] = est.kl_term
+        iter = NITERATIONS - 1
+        f_loss, arm_loss, kl_term = 0, 0, 0
+        # calculate the loss based on the output of the network. Note that we cannot use the middle layers' outputs
+        # for these calculations when assuming end-to-end training, similar to end-to-end training of DeepSIC. See
+        # the original DeepSIC paper for more details.
         for user in range(self.n_user):
             est = self.infer_model(self.detector[user * NITERATIONS + iter],
                                    self.dropout_logits[user * NITERATIONS + iter],
                                    rx_all[user])
+            u_dict[user * NITERATIONS + iter] = est.u
+            logits_dict[user * NITERATIONS + iter] = est.dropout_logit
+            kls_dict[user * NITERATIONS + iter] = est.kl_term
             # ARM Loss
             loss_term_arm_original = self.criterion(input=est.arm_original, target=tx_all[user].long())
             loss_term_arm_tilde = self.criterion(input=est.arm_tilde, target=tx_all[user].long())
             arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
-            grad_logit = arm_delta.unsqueeze(-1) * (est.u - HALF)
-            grad_logit[grad_logit < 0] *= -1
-            arm_loss = grad_logit * est.dropout_logit
-            arm_loss = self.arm_beta * torch.mean(arm_loss)
-            # KL Loss
-            kl_term = self.kl_beta * est.kl_term
-            loss += arm_loss + kl_term
+            for n_iter in range(NITERATIONS):
+                grad_logit = arm_delta.unsqueeze(-1) * (u_dict[user * NITERATIONS + n_iter] - HALF)
+                grad_logit[grad_logit < 0] *= -1
+                arm_loss_before_avg = grad_logit * logits_dict[user * NITERATIONS + n_iter]
+                arm_loss += self.arm_beta * torch.mean(arm_loss_before_avg)
+                # KL Loss
+                kl_term += self.kl_beta * kls_dict[user * NITERATIONS + n_iter]
             # Frequentist loss
-            if not only_bayesian_loss:
-                fq_loss = self.criterion(input=est.priors, target=tx_all[user].long())
-                loss += fq_loss
+            f_loss += self.criterion(input=est.priors, target=tx_all[user].long())
+        loss += arm_loss + kl_term + f_loss
         return loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         if self.train_from_scratch:
             self._initialize_detector()
-        self._initialize_logits()
         params = list(self.detector.parameters()) + self.dropout_logits
         self.optimizer = torch.optim.Adam(params, lr=self.lr)
         self.criterion = torch.nn.CrossEntropyLoss()
@@ -94,12 +109,10 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                 tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
                 if i == NITERATIONS - 1:
                     break
-                # Compute the ARM and KL losses
-                loss += self.calc_loss(tx_all, rx_all, i, only_bayesian_loss=True)
                 # Generating soft symbols for training purposes
                 probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
             # adding the loss. In contrast to sequential learning - we do not update yet
-            loss += self.calc_loss(tx_all, rx_all, NITERATIONS - 1, only_bayesian_loss=False)
+            loss += self.calc_loss(tx_all, rx_all)
             # back propagation
             self.optimizer.zero_grad()
             loss.backward()
