@@ -3,7 +3,7 @@ from typing import List
 import torch
 from torch import nn
 
-from python_code import DEVICE, conf
+from python_code import DEVICE
 from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
 from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 
@@ -13,7 +13,7 @@ class EndToEndDeepSICTrainer(DeepSICTrainer):
         super().__init__()
 
     def __str__(self):
-        return 'End-To-End DeepSIC'
+        return 'End-To-End F-DeepSIC'
 
     def _initialize_detector(self):
         detectors_list = [[DeepSICDetector().to(DEVICE) for _ in range(NITERATIONS)] for _ in
