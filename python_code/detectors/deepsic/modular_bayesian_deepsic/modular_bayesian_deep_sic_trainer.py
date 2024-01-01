@@ -42,7 +42,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
         grad_logit = arm_delta.unsqueeze(-1) * (est.u - HALF)
         grad_logit[grad_logit < 0] *= -1
-        arm_loss = grad_logit * est.dropout_logit
+        arm_loss = grad_logit * est.dropout_logits
         arm_loss = self.arm_beta * torch.mean(arm_loss)
         # KL Loss
         kl_term = self.kl_beta * est.kl_term
@@ -59,8 +59,8 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         single_model = single_model.to(DEVICE)
         y_total = self.preprocess(rx)
         for _ in range(EPOCHS):
-            soft_estimation = single_model(y_total, phase=Phase.TRAIN)
-            self.run_train_loop(soft_estimation, tx)
+            est = single_model(y_total, phase=Phase.TRAIN)
+            self.run_train_loop(est, tx)
 
     def train_models(self, model: List[List[BayesianDeepSICDetector]], i: int, tx_all: List[torch.Tensor],
                      rx_all: List[torch.Tensor]):

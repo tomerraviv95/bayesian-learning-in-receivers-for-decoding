@@ -73,13 +73,13 @@ class Detector(nn.Module):
         Sets up the optimizer and loss criterion
         """
         if conf.optimizer_type == 'Adam':
-            self.optimizer = Adam(filter(lambda p: p.requires_grad, self.detector.net.dropout_logit),
+            self.optimizer = Adam(filter(lambda p: p.requires_grad, self.detector.net.dropout_logits),
                                   lr=self.lr)
         elif conf.optimizer_type == 'RMSprop':
-            self.optimizer = RMSprop(filter(lambda p: p.requires_grad, self.detector.net.dropout_logit),
+            self.optimizer = RMSprop(filter(lambda p: p.requires_grad, self.detector.net.dropout_logits),
                                      lr=self.lr)
         elif conf.optimizer_type == 'SGD':
-            self.optimizer = SGD(filter(lambda p: p.requires_grad, self.detector.net.dropout_logit),
+            self.optimizer = SGD(filter(lambda p: p.requires_grad, self.detector.net.dropout_logits),
                                  lr=self.lr)
         else:
             raise NotImplementedError("No such optimizer implemented!!!")

@@ -34,7 +34,7 @@ class MaskedDeepSICDetector(nn.Module):
             H1 = entropy(torch.sigmoid(dropout_logits).reshape(-1))
             kl_term = torch.mean(first_layer_kl - H1)
             return LossVariable(priors=out, u=u, arm_original=out, arm_tilde=out_tilde,
-                                dropout_logit=dropout_logits, kl_term=kl_term)
+                                dropout_logits=dropout_logits, kl_term=kl_term)
         x = self.activation(self.fc1(rx))
         x = self.activation(self.fc2(x))
         u = torch.rand(x.shape).to(DEVICE)

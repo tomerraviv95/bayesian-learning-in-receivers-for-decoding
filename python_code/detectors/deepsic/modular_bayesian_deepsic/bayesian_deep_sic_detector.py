@@ -56,4 +56,4 @@ class BayesianDeepSICDetector(nn.Module):
         H1 = entropy(torch.sigmoid(self.dropout_logits).reshape(-1))
         kl_term = torch.mean(first_layer_kl - H1)
         return LossVariable(priors=out, arm_original=arm_original, arm_tilde=arm_tilde,
-                            u=u, kl_term=kl_term, dropout_logit=self.dropout_logits)
+                            u=u, kl_term=kl_term, dropout_logits=self.dropout_logits)

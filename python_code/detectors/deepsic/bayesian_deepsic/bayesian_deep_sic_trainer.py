@@ -63,7 +63,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                                        self.dropout_logits[user * NITERATIONS + iter],
                                        rx_all[user])
                 u_dict[user * NITERATIONS + iter] = est.u
-                logits_dict[user * NITERATIONS + iter] = est.dropout_logit
+                logits_dict[user * NITERATIONS + iter] = est.dropout_logits
                 kls_dict[user * NITERATIONS + iter] = est.kl_term
         iter = NITERATIONS - 1
         f_loss, arm_loss, kl_term = 0, 0, 0
@@ -75,7 +75,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                                    self.dropout_logits[user * NITERATIONS + iter],
                                    rx_all[user])
             u_dict[user * NITERATIONS + iter] = est.u
-            logits_dict[user * NITERATIONS + iter] = est.dropout_logit
+            logits_dict[user * NITERATIONS + iter] = est.dropout_logits
             kls_dict[user * NITERATIONS + iter] = est.kl_term
             # ARM Loss
             loss_term_arm_original = self.criterion(input=est.arm_original, target=tx_all[user].long())

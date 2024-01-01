@@ -4,8 +4,7 @@ from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLa
 from python_code.decoders.decoder_trainer import DecoderTrainer
 from python_code.utils.constants import CLIPPING_VAL, Phase
 
-EPOCHS = 500
-BATCH_SIZE = 120
+EPOCHS = 100
 LR = 1e-3
 
 
@@ -13,8 +12,6 @@ class WBPDecoder(DecoderTrainer):
     def __init__(self):
         super().__init__()
         self.initialize_layers()
-        self.deep_learning_setup(LR)
-        self.total_runs = 20
 
     def __str__(self):
         return 'F-WBP'
@@ -41,13 +38,11 @@ class WBPDecoder(DecoderTrainer):
         return loss
 
     def single_training(self, tx: torch.Tensor, rx: torch.Tensor):
+        self.deep_learning_setup(LR)
         for _ in range(EPOCHS):
-            # select BATCH_SIZE samples randomly
-            idx = torch.randperm(tx.shape[0])[:BATCH_SIZE]
-            cur_tx, cur_rx = tx[idx], rx[idx]
-            output_list = self.forward(cur_rx, mode=Phase.TRAIN)
+            output_list = self.forward(rx, mode=Phase.TRAIN)
             # calculate loss
-            loss = self.calc_loss(decision=output_list[-self.iteration_num:], labels=cur_tx)
+            loss = self.calc_loss(decision=output_list[-self.iteration_num:], labels=tx)
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
@@ -66,7 +61,7 @@ class WBPDecoder(DecoderTrainer):
         output_list[0] = x + self.output_layer.forward(even_output, mask_only=self.output_layer)
 
         # now start iterating through all hidden layers i>2 (iteration 2 - Imax)
-        for i in range(0, self.iteration_num - 1):
+        for i in range(self.iteration_num - 1):
             # odd - variables to check
             odd_output = self.odd_layer.forward(even_output, x, llr_mask_only=self.odd_llr_mask_only)
             # even - check to variables

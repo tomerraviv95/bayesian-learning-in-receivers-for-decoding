@@ -69,7 +69,7 @@ class BayesianWBPDecoder(DecoderTrainer):
                 even_output = self.input_layer.forward(cur_rx)
                 for i in range(0, self.iteration_num - 1):
                     # odd - variables to check
-                    odd_output = self.odd_layer.forward(even_output, cur_rx, llr_mask_only=self.odd_llr_mask_only)
+                    odd_output = self.odd_layer.forward(even_output, cur_rx, mask_only=self.odd_llr_mask_only)
                     # even - check to variables
                     even_output = self.even_layer.forward(odd_output, mask_only=self.even_mask_only)
                 # output layer
@@ -82,7 +82,7 @@ class BayesianWBPDecoder(DecoderTrainer):
                 u_list.append(self.odd_layer.u)
                 total_output += output
             total_output /= self.ensemble_num
-            self.calc_loss(cur_tx, total_output, arm_original, arm_tilde, u_list, self.odd_layer.dropout_logit, kl_term)
+            self.calc_loss(cur_tx, total_output, arm_original, arm_tilde, u_list, self.odd_layer.dropout_logits, kl_term)
 
     def propagate(self, cur_rx, odd_output):
         # even - check to variables
@@ -106,7 +106,7 @@ class BayesianWBPDecoder(DecoderTrainer):
             output_list[0] = x + self.output_layer.forward(even_output, mask_only=self.output_layer)
             for i in range(0, self.iteration_num - 1):
                 # odd - variables to check
-                odd_output = self.odd_layer.forward(even_output, x, llr_mask_only=self.odd_llr_mask_only)
+                odd_output = self.odd_layer.forward(even_output, x, mask_only=self.odd_llr_mask_only)
                 # even - check to variables
                 even_output = self.even_layer.forward(odd_output, mask_only=self.even_mask_only)
                 # output layer

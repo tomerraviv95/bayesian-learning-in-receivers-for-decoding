@@ -4,7 +4,7 @@ import collections
 
 import torch
 
-LossVariable = collections.namedtuple('LossVariable', 'priors u arm_original arm_tilde dropout_logit kl_term')
+LossVariable = collections.namedtuple('LossVariable', 'priors u arm_original arm_tilde dropout_logits kl_term')
 
 
 def dropout(x: torch.Tensor, logit: torch.Tensor, u: torch.Tensor) -> torch.Tensor:
