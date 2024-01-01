@@ -103,7 +103,6 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             # Initializing the probabilities
             probs_vec = self._initialize_probs_for_training(tx)
             # Training the DeepSICNet for each user-symbol/iteration
-            loss = 0
             for i in range(NITERATIONS):
                 # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
                 tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
@@ -112,7 +111,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                 # Generating soft symbols for training purposes
                 probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
             # adding the loss. In contrast to sequential learning - we do not update yet
-            loss += self.calc_loss(tx_all, rx_all)
+            loss = self.calc_loss(tx_all, rx_all)
             # back propagation
             self.optimizer.zero_grad()
             loss.backward()

@@ -1,8 +1,7 @@
 import torch
 
-from python_code.decoders.bp_nn import InputLayer, EvenLayer, OutputLayer
+from python_code.decoders.bp_nn import InputLayer, EvenLayer, OutputLayer, OddLayer
 from python_code.decoders.decoder_trainer import DecoderTrainer
-from python_code.decoders.modular_bayesian_wbp.bayesian_bp_nn import BayesianOddLayer
 from python_code.utils.constants import HALF, CLIPPING_VAL
 
 EPOCHS = 100
@@ -29,10 +28,10 @@ class BayesianWBPDecoder(DecoderTrainer):
         self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
                                       code_pcm=self.code_pcm, clip_tanh=CLIPPING_VAL,
                                       bits_num=self._code_bits)
-        self.odd_layer = BayesianOddLayer(clip_tanh=CLIPPING_VAL,
-                                          input_output_layer_size=self._code_bits,
-                                          neurons=self.neurons,
-                                          code_pcm=self.code_pcm)
+        self.odd_layer = OddLayer(clip_tanh=CLIPPING_VAL,
+                                  input_output_layer_size=self._code_bits,
+                                  neurons=self.neurons,
+                                  code_pcm=self.code_pcm)
         self.even_layer = EvenLayer(CLIPPING_VAL, self.neurons, self.code_pcm)
         self.output_layer = OutputLayer(neurons=self.neurons,
                                         input_output_layer_size=self._code_bits,
@@ -82,7 +81,8 @@ class BayesianWBPDecoder(DecoderTrainer):
                 u_list.append(self.odd_layer.u)
                 total_output += output
             total_output /= self.ensemble_num
-            self.calc_loss(cur_tx, total_output, arm_original, arm_tilde, u_list, self.odd_layer.dropout_logits, kl_term)
+            self.calc_loss(cur_tx, total_output, arm_original, arm_tilde, u_list, self.odd_layer.dropout_logits,
+                           kl_term)
 
     def propagate(self, cur_rx, odd_output):
         # even - check to variables

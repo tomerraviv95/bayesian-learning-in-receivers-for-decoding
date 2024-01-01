@@ -5,7 +5,7 @@
 # For the same reason, in 8-PSK this quantity x has to divisible by 4.
 
 # general
-seed: 11 # run seed
+seed: 10 # run seed
 
 # MIMO protocol
 block_length: 15360 # coherence block time, total size of pilot + data. values: int.

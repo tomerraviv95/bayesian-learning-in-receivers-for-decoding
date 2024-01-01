@@ -30,7 +30,7 @@ class BayesianDeepSICDetector(nn.Module):
     def forward(self, rx: torch.Tensor, phase: Phase = Phase.TEST) -> Union[LossVariable, torch.Tensor]:
         if phase == Phase.TEST:
             log_probs = 0
-            for ind_ensemble in range(self.ensemble_num):
+            for _ in range(self.ensemble_num):
                 x = self.activation(self.fc1(rx))
                 x = self.activation(self.fc2(x))
                 u = torch.rand(x.shape).to(DEVICE)

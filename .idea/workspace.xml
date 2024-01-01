@@ -4,12 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Update the training of the Modular Bayesian WBP">
+    <list default="true" id="c060da9f-e268-4987-968e-f46dd6638d76" name="Changes" comment="Updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/decoders/bayesian_wbp/bayesian_wbp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/bayesian_wbp/bayesian_wbp_decoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/decoders/bp_nn.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/bp_nn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/decoder_trainer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/bayesian_bp_nn.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/bayesian_bp_nn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/modular_bayesian_wbp.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/modular_bayesian_wbp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python_code/decoders/wbp/wbp_decoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/decoders/wbp/wbp_decoder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/bayesian_deepsic/bayesian_deep_sic_trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/bayesian_deep_sic_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/detectors/deepsic/modular_bayesian_deepsic/bayesian_deep_sic_detector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_code/evaluator.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_code/evaluator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,14 +201,7 @@
       <workItem from="1702543624472" duration="93282000" />
       <workItem from="1703759229334" duration="35539000" />
       <workItem from="1704007108981" duration="2748000" />
-      <workItem from="1704094552101" duration="13955000" />
-    </task>
-    <task id="LOCAL-00106" summary="Fixed bug in the black box approach">
-      <created>1686913207717</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1686913207717</updated>
+      <workItem from="1704094552101" duration="20928000" />
     </task>
     <task id="LOCAL-00107" summary="Adapted the plotter class to support the QPSK plotting">
       <created>1686913686178</created>
@@ -540,7 +539,14 @@
       <option name="project" value="LOCAL" />
       <updated>1704109456521</updated>
     </task>
-    <option name="localTasksCounter" value="155" />
+    <task id="LOCAL-00155" summary="Updated">
+      <created>1704113547701</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1704113547701</updated>
+    </task>
+    <option name="localTasksCounter" value="156" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,7 +564,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update version up to modular WBP" />
     <MESSAGE value="Uplodaing all the polar codes files, as well as fixing bugs related to the code txt being loaded. Need only to match the training to the channel" />
     <MESSAGE value="Working version of the WBP" />
     <MESSAGE value="Added saving to the decoder" />
@@ -583,11 +588,23 @@
     <MESSAGE value="Have all the detection plots." />
     <MESSAGE value="Updated wbp to a working version, improves on regular BP" />
     <MESSAGE value="Update the training of the Modular Bayesian WBP" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update the training of the Modular Bayesian WBP" />
+    <MESSAGE value="Updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/python_code/decoders/modular_bayesian_wbp/bayesian_bp_nn.py</url>
+          <line>16</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$plotter_main2.coverage" NAME="plotter_main2 Coverage Results" MODIFIED="1669660477141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
-    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1704113203671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
+    <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator_par.coverage" NAME="evaluator-par Coverage Results" MODIFIED="1704127293248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />
     <SUITE FILE_PATH="coverage/bayesian_learning_for_receivers$channel_dataset.coverage" NAME="channel_dataset Coverage Results" MODIFIED="1673295383172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/channel" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$plotter_par.coverage" NAME="plotter-par Coverage Results" MODIFIED="1704049510837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code/plotters" />
     <SUITE FILE_PATH="coverage/bayesian_learning_in_receivers_for_decoding$evaluator.coverage" NAME="evaluator Coverage Results" MODIFIED="1686406481216" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/python_code" />

@@ -4,6 +4,8 @@ from torch.nn.parameter import Parameter
 from python_code import DEVICE
 from python_code.decoders.bp_nn_weights import initialize_w_init, initialize_w_c2v, init_w_skipconn2even, \
     initialize_w_v2c, init_w_output
+from python_code.utils.bayesian_utils import dropout, dropout_ori, dropout_tilde, entropy, LossVariable
+from python_code.utils.constants import LOGITS_INIT, Phase
 
 
 class InputLayer(torch.nn.Module):
@@ -84,3 +86,4 @@ class OutputLayer(torch.nn.Module):
         if mask_only:
             return torch.matmul(x, self.w_output_mask)
         return torch.matmul(x, self.w_output_mask * self.output_weights)
+

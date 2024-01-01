@@ -25,6 +25,7 @@ MetricOutput = namedtuple(
     "MetricOutput",
     "ser_list ber_list ece_list"
 )
+DEBUG = False
 
 
 class Evaluator(object):
@@ -68,8 +69,8 @@ class Evaluator(object):
         """
         print(f"Detecting using {str(self.detector)}, decoding using {str(self.decoder)}")
         torch.cuda.empty_cache()
-        self.decoder.train_model()
-        exit()
+        if DEBUG:
+            self.decoder.train_model()
         ser_list, ber_list, ece_list = [], [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
@@ -104,9 +105,9 @@ class Evaluator(object):
             ber_list.append(ber)
             print(f'bit error rate: {ber}')
         metrics_output = MetricOutput(ber_list=ber_list, ser_list=ser_list, ece_list=ece_list)
-        print(f'Avg SER:{sum(metrics_output.ser_list)/len(metrics_output.ser_list)}')
-        print(f'Avg ECE:{sum(metrics_output.ece_list)/len(metrics_output.ece_list)}')
-        print(f'Avg BER:{sum(metrics_output.ber_list)/len(metrics_output.ber_list)}')
+        print(f'Avg SER:{sum(metrics_output.ser_list) / len(metrics_output.ser_list)}')
+        print(f'Avg ECE:{sum(metrics_output.ece_list) / len(metrics_output.ece_list)}')
+        print(f'Avg BER:{sum(metrics_output.ber_list) / len(metrics_output.ber_list)}')
         return metrics_output
 
     def train_decoder(self, mx_pilot, rx_pilot):
@@ -118,7 +119,8 @@ class Evaluator(object):
         llrs = torch.cat(current_to_decode)
         pilots = []
         for user in range(conf.n_user):
-            pilots.append(self.channel_dataset.encoder.encode(mx_pilot[:, user].cpu().numpy()).reshape(-1, conf.code_bits))
+            pilots.append(
+                self.channel_dataset.encoder.encode(mx_pilot[:, user].cpu().numpy()).reshape(-1, conf.code_bits))
         pilots = torch.cat([torch.Tensor(pilot).to(DEVICE) for pilot in pilots])
         self.decoder.online_training(llrs, pilots)
 
