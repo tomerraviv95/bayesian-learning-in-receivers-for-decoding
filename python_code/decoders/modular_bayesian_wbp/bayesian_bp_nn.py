@@ -18,7 +18,7 @@ class BayesianOddLayer(torch.nn.Module):
         self.odd_weights = Parameter(w_odd2even.to(DEVICE))
         self.llr_weights = Parameter(w_skipconn2even.to(DEVICE))
         self.w_odd2even_mask = w_odd2even_mask.to(device=DEVICE)
-        self.dropout_logits = Parameter(1000*LOGITS_INIT * torch.ones(w_odd2even_mask.shape[0]).to(DEVICE))
+        self.dropout_logits = Parameter(10000* LOGITS_INIT * torch.ones(w_odd2even_mask.shape[0]).to(DEVICE))
         self.w_skipconn2even_mask = w_skipconn2even_mask.to(device=DEVICE)
         self.clip_tanh = clip_tanh
         self.kl_scale = 1

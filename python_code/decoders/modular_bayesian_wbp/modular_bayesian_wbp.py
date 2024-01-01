@@ -1,4 +1,5 @@
 import torch
+from torch import nn
 from torch.nn import BCEWithLogitsLoss
 
 from python_code import DEVICE
@@ -12,7 +13,7 @@ from python_code.utils.constants import CLIPPING_VAL, Phase, HALF
 class ModularBayesianWBPDecoder(DecoderTrainer):
     def __init__(self):
         super().__init__()
-        self.ensemble_num = 1
+        self.ensemble_num = 5
         self.kl_beta = 1e-4
         self.arm_beta = 10
         self.initialize_layers()
@@ -22,10 +23,11 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
 
     def initialize_layers(self):
         self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
-                                       code_pcm=self.code_pcm, clip_tanh=CLIPPING_VAL, bits_num=self._code_bits)
-        self.odd_layers = [BayesianOddLayer(clip_tanh=CLIPPING_VAL, input_output_layer_size=self._code_bits,
-                                            neurons=self.neurons, code_pcm=self.code_pcm) for _ in
-                           range(self.iteration_num - 1)]
+                                      code_pcm=self.code_pcm, clip_tanh=CLIPPING_VAL, bits_num=self._code_bits)
+        self.odd_layers = nn.ModuleList(
+            [BayesianOddLayer(clip_tanh=CLIPPING_VAL, input_output_layer_size=self._code_bits,
+                              neurons=self.neurons, code_pcm=self.code_pcm) for _ in
+             range(self.iteration_num - 1)])
         self.even_layer = EvenLayer(CLIPPING_VAL, self.neurons, self.code_pcm)
         self.output_layer = OutputLayer(neurons=self.neurons, input_output_layer_size=self._code_bits,
                                         code_pcm=self.code_pcm)
@@ -40,7 +42,7 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
         loss_term_arm_tilde = self.criterion_arm(input=-output_tilde, target=tx)
         arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
         grad_logit = torch.matmul(arm_delta, self.odd_layers[0].w_skipconn2even_mask) * (est.u - HALF).unsqueeze(0)
-        # grad_logit[grad_logit < 0] *= -1
+        grad_logit[grad_logit < 0] *= -1
         arm_loss = grad_logit * est.dropout_logits.unsqueeze(0)
         arm_loss = self.arm_beta * torch.mean(arm_loss)
         # KL Loss
@@ -51,13 +53,14 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
     def single_training(self, tx: torch.Tensor, rx: torch.Tensor):
         # initialize
         self.deep_learning_setup(LR)
-        # new = list(filter(lambda p: p.requires_grad, self.parameters()))
+        new = list(filter(lambda p: p.requires_grad, self.parameters()))
         self.criterion_arm = BCEWithLogitsLoss(reduction='none').to(DEVICE)
         even_output = self.input_layer.forward(rx)
-        for i in range(self.iteration_num - 1):
-            for e in range(EPOCHS):
+        for _ in range(EPOCHS):
+            loss = 0
+            for i in range(self.iteration_num - 1):
                 est = self.odd_layers[i].forward(even_output, rx, mask_only=self.odd_llr_mask_only,
-                                             phase=Phase.TRAIN)
+                                                 phase=Phase.TRAIN)
                 # even - check to variables
                 cur_even_output = self.even_layer.forward(est.priors, mask_only=self.even_mask_only)
                 # compute output
@@ -66,20 +69,24 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
                 cur_even_output_tilde = self.even_layer.forward(est.arm_tilde, mask_only=self.even_mask_only)
                 output_tilde = rx + self.output_layer.forward(cur_even_output_tilde, mask_only=self.output_mask_only)
                 # calculate loss and backtrack
-                loss = self.calc_loss(tx=tx, output=output, output_tilde=output_tilde, est=est)
-                self.optimizer.zero_grad()
-                loss.backward()
-                self.optimizer.step()
+                loss += self.calc_loss(tx=tx, output=output, output_tilde=output_tilde, est=est)
+                # odd - variables to check
+                # odd_output = self.odd_layers[i].forward(even_output, rx, mask_only=self.odd_llr_mask_only)
+                # even - check to variables
+                # even_output = self.even_layer.forward(est.priors, mask_only=self.even_mask_only)
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
 
-            with torch.no_grad():
-                next_even_output = 0
-                for _ in range(self.ensemble_num):
-                    # odd - variables to check
-                    odd_output = self.odd_layers[i].forward(even_output, rx, mask_only=self.odd_llr_mask_only)
-                    # even - check to variables
-                    cur_even_output = self.even_layer.forward(odd_output, mask_only=self.even_mask_only)
-                    next_even_output += cur_even_output
-                even_output = next_even_output / self.ensemble_num
+            # with torch.no_grad():
+
+                # next_even_output = 0
+                # for _ in range(self.ensemble_num):
+                #
+                #     next_even_output += cur_even_output
+                # even_output = next_even_output / self.ensemble_num
+
+
 
         # def single_training(self, tx: torch.Tensor, rx: torch.Tensor):
         #     # initialize

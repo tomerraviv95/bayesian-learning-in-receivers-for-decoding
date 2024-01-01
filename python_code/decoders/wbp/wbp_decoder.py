@@ -1,4 +1,5 @@
 import torch
+from torch import nn
 
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
 from python_code.decoders.decoder_trainer import DecoderTrainer, LR, EPOCHS
@@ -18,9 +19,9 @@ class WBPDecoder(DecoderTrainer):
         if self.type == "FC":
             self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
                                           code_pcm=self.code_pcm, clip_tanh=CLIPPING_VAL, bits_num=self._code_bits)
-            self.odd_layers = [OddLayer(clip_tanh=CLIPPING_VAL, input_output_layer_size=self._code_bits,
+            self.odd_layers = nn.ModuleList([OddLayer(clip_tanh=CLIPPING_VAL, input_output_layer_size=self._code_bits,
                                         neurons=self.neurons, code_pcm=self.code_pcm) for _ in
-                               range(self.iteration_num - 1)]
+                               range(self.iteration_num - 1)])
             self.even_layer = EvenLayer(CLIPPING_VAL, self.neurons, self.code_pcm)
             self.output_layer = OutputLayer(neurons=self.neurons, input_output_layer_size=self._code_bits,
                                             code_pcm=self.code_pcm)
