@@ -17,6 +17,8 @@ SNR_START = 4
 SNR_END = 7
 CODEWORDS_NUM = 200
 MIN_EVAL_ERRORS = 500
+EPOCHS = 100
+LR = 1e-3
 
 
 class DecoderTrainer(nn.Module):

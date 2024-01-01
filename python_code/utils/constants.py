@@ -5,7 +5,7 @@ import torch
 from python_code import DEVICE
 
 HALF = 0.5
-CLIPPING_VAL = 15
+CLIPPING_VAL = 20
 LOGITS_INIT = torch.exp(torch.Tensor([0.85])).to(DEVICE)
 
 

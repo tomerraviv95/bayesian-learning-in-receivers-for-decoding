@@ -1,12 +1,11 @@
 import torch
-from torch import nn
 from torch.nn.parameter import Parameter
 
 from python_code import DEVICE
 from python_code.decoders.bp_nn_weights import init_w_skipconn2even, \
     initialize_w_v2c
 from python_code.utils.bayesian_utils import dropout_ori, dropout_tilde, entropy, dropout, LossVariable
-from python_code.utils.constants import Phase
+from python_code.utils.constants import Phase, LOGITS_INIT
 
 
 class BayesianOddLayer(torch.nn.Module):
@@ -19,13 +18,13 @@ class BayesianOddLayer(torch.nn.Module):
         self.odd_weights = Parameter(w_odd2even.to(DEVICE))
         self.llr_weights = Parameter(w_skipconn2even.to(DEVICE))
         self.w_odd2even_mask = w_odd2even_mask.to(device=DEVICE)
-        self.dropout_logits = nn.Parameter(torch.ones(w_odd2even_mask.shape[0])).to(DEVICE)
+        self.dropout_logits = Parameter(1000*LOGITS_INIT * torch.ones(w_odd2even_mask.shape[0]).to(DEVICE))
         self.w_skipconn2even_mask = w_skipconn2even_mask.to(device=DEVICE)
         self.clip_tanh = clip_tanh
         self.kl_scale = 1
 
     def forward(self, x, llr, mask_only=False, phase=Phase.TEST):
-        u = torch.rand(self.odd_weights.shape).to(DEVICE)
+        u = torch.rand(self.odd_weights.shape[0]).to(DEVICE)
         total_mask = self.w_odd2even_mask * self.odd_weights
         if phase == Phase.TEST:
             mask_after_dropout = dropout(total_mask, self.dropout_logits, u)

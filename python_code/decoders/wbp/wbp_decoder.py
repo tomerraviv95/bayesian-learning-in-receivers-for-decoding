@@ -1,33 +1,37 @@
 import torch
 
 from python_code.decoders.bp_nn import InputLayer, OddLayer, EvenLayer, OutputLayer
-from python_code.decoders.decoder_trainer import DecoderTrainer
+from python_code.decoders.decoder_trainer import DecoderTrainer, LR, EPOCHS
 from python_code.utils.constants import CLIPPING_VAL, Phase
-
-EPOCHS = 100
-LR = 1e-3
 
 
 class WBPDecoder(DecoderTrainer):
     def __init__(self):
         super().__init__()
+        self.type = "FC"
         self.initialize_layers()
 
     def __str__(self):
         return 'F-WBP'
 
     def initialize_layers(self):
-        self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
-                                      code_pcm=self.code_pcm, clip_tanh=CLIPPING_VAL,
-                                      bits_num=self._code_bits)
-        self.odd_layer = OddLayer(clip_tanh=CLIPPING_VAL,
-                                  input_output_layer_size=self._code_bits,
-                                  neurons=self.neurons,
-                                  code_pcm=self.code_pcm)
-        self.even_layer = EvenLayer(CLIPPING_VAL, self.neurons, self.code_pcm)
-        self.output_layer = OutputLayer(neurons=self.neurons,
-                                        input_output_layer_size=self._code_bits,
-                                        code_pcm=self.code_pcm)
+        if self.type == "FC":
+            self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
+                                          code_pcm=self.code_pcm, clip_tanh=CLIPPING_VAL, bits_num=self._code_bits)
+            self.odd_layers = [OddLayer(clip_tanh=CLIPPING_VAL, input_output_layer_size=self._code_bits,
+                                        neurons=self.neurons, code_pcm=self.code_pcm) for _ in
+                               range(self.iteration_num - 1)]
+            self.even_layer = EvenLayer(CLIPPING_VAL, self.neurons, self.code_pcm)
+            self.output_layer = OutputLayer(neurons=self.neurons, input_output_layer_size=self._code_bits,
+                                            code_pcm=self.code_pcm)
+        else:
+            self.input_layer = InputLayer(input_output_layer_size=self._code_bits, neurons=self.neurons,
+                                          code_pcm=self.code_pcm, clip_tanh=CLIPPING_VAL, bits_num=self._code_bits)
+            self.odd_layer = OddLayer(clip_tanh=CLIPPING_VAL, input_output_layer_size=self._code_bits,
+                                      neurons=self.neurons, code_pcm=self.code_pcm)
+            self.even_layer = EvenLayer(CLIPPING_VAL, self.neurons, self.code_pcm)
+            self.output_layer = OutputLayer(neurons=self.neurons, input_output_layer_size=self._code_bits,
+                                            code_pcm=self.code_pcm)
 
     def calc_loss(self, decision, labels):
         loss = self.criterion(input=-decision[-1], target=labels)
@@ -63,7 +67,7 @@ class WBPDecoder(DecoderTrainer):
         # now start iterating through all hidden layers i>2 (iteration 2 - Imax)
         for i in range(self.iteration_num - 1):
             # odd - variables to check
-            odd_output = self.odd_layer.forward(even_output, x, llr_mask_only=self.odd_llr_mask_only)
+            odd_output = self.odd_layers[i].forward(even_output, x, llr_mask_only=self.odd_llr_mask_only)
             # even - check to variables
             even_output = self.even_layer.forward(odd_output, mask_only=self.even_mask_only)
             # output layer
