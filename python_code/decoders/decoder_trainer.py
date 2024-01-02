@@ -17,7 +17,7 @@ SNR_START = 4
 SNR_END = 7
 CODEWORDS_NUM = 200
 MIN_EVAL_ERRORS = 500
-EPOCHS = 50
+EPOCHS = 400
 LR = 1e-3
 
 
@@ -91,6 +91,7 @@ class DecoderTrainer(nn.Module):
         return avg_ber
 
     def online_training(self, rx, s):
-        for run_ind in range(self.online_runs):
-            # train the decoder
-            self.single_training(s, rx)
+        if self.train_from_scratch:
+            self.initialize_layers()
+        # train the decoder
+        self.single_training(s, rx)

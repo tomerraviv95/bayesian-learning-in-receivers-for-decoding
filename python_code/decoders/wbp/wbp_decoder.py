@@ -8,7 +8,6 @@ from python_code.utils.constants import CLIPPING_VAL, Phase
 class WBPDecoder(DecoderTrainer):
     def __init__(self):
         super().__init__()
-        self.type = "FC"
         self.initialize_layers()
 
     def __str__(self):

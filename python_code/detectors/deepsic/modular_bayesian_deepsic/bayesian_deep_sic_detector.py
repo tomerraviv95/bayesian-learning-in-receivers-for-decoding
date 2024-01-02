@@ -34,7 +34,7 @@ class BayesianDeepSICDetector(nn.Module):
                 x = self.activation(self.fc1(rx))
                 x = self.activation(self.fc2(x))
                 u = torch.rand(x.shape).to(DEVICE)
-                x = dropout(x, self.dropout_logits, u)
+                x = dropout_ori(x, self.dropout_logits, u)
                 log_probs += self.fc3(x)
             return log_probs / self.ensemble_num
         # else in train phase
