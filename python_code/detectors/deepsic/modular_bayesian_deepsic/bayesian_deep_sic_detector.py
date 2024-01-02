@@ -7,7 +7,7 @@ from torch import nn
 
 from python_code import DEVICE, conf
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
-from python_code.utils.bayesian_utils import dropout_ori, dropout_tilde, entropy, LossVariable, dropout
+from python_code.utils.bayesian_utils import dropout_ori, dropout_tilde, entropy, LossVariable
 from python_code.utils.constants import Phase, ModulationType, LOGITS_INIT
 
 
@@ -30,12 +30,12 @@ class BayesianDeepSICDetector(nn.Module):
     def forward(self, rx: torch.Tensor, phase: Phase = Phase.TEST) -> Union[LossVariable, torch.Tensor]:
         if phase == Phase.TEST:
             log_probs = 0
+            x = self.activation(self.fc1(rx))
+            x = self.activation(self.fc2(x))
             for _ in range(self.ensemble_num):
-                x = self.activation(self.fc1(rx))
-                x = self.activation(self.fc2(x))
                 u = torch.rand(x.shape).to(DEVICE)
-                x = dropout_ori(x, self.dropout_logits, u)
-                log_probs += self.fc3(x)
+                out = dropout_ori(x, self.dropout_logits, u)
+                log_probs += self.fc3(out)
             return log_probs / self.ensemble_num
         # else in train phase
         arm_original, arm_tilde, kl_term = [], [], 0

@@ -6,7 +6,7 @@ from python_code import DEVICE
 
 HALF = 0.5
 CLIPPING_VAL = 20
-LOGITS_INIT = torch.exp(torch.Tensor([0.85])).to(DEVICE)
+LOGITS_INIT = torch.special.logit(torch.Tensor([0.6])).to(DEVICE)
 
 
 class Phase(Enum):

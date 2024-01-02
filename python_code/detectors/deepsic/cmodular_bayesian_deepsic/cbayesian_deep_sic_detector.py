@@ -8,7 +8,7 @@ from torch import nn
 from python_code import conf, DEVICE
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.utils import condrop
-from python_code.utils.bayesian_utils import LossVariable, dropout
+from python_code.utils.bayesian_utils import LossVariable, dropout_ori
 from python_code.utils.condrop import ConcreteDropout
 from python_code.utils.constants import Phase, ModulationType
 
@@ -44,6 +44,6 @@ class CBayesianDeepSICDetector(nn.Module):
             x = self.activation(self.fc1(rx))
             x = self.activation(self.fc2(x))
             u = torch.rand(x.shape).to(DEVICE)
-            x = dropout(x, torch.exp(self.cd1.p), u)
+            x = dropout_ori(x, torch.exp(self.cd1.p), u)
             log_probs += self.fc3(x)
         return log_probs / self.ensemble_num

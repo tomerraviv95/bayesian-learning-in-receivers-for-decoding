@@ -3,7 +3,7 @@ from torch import nn
 
 from python_code import conf, DEVICE
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
-from python_code.utils.bayesian_utils import dropout
+from python_code.utils.bayesian_utils import dropout_ori
 from python_code.utils.constants import ModulationType, LOGITS_INIT
 
 
@@ -36,6 +36,6 @@ class DeepSICDetector(nn.Module):
         x = self.activation(self.fc2(x))
         if apply_dropout:
             u = torch.rand(x.shape).to(DEVICE)
-            x = dropout(x, self.dropout_logits, u)
+            x = dropout_ori(x, self.dropout_logits, u)
         out1 = self.fc3(x)
         return out1

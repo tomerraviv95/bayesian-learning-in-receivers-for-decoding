@@ -6,13 +6,6 @@ import torch
 
 LossVariable = collections.namedtuple('LossVariable', 'priors u arm_original arm_tilde dropout_logits kl_term')
 
-
-def dropout(x: torch.Tensor, logit: torch.Tensor, u: torch.Tensor) -> torch.Tensor:
-    dropout_prob = torch.log(logit)
-    z = (u < dropout_prob).float()
-    return x * z
-
-
 def entropy(prob: torch.Tensor) -> torch.Tensor:
     return -prob * torch.log2(prob) - (1 - prob) * torch.log2(1 - prob)
 

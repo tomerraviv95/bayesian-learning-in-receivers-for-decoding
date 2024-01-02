@@ -3,7 +3,7 @@ from torch.nn.parameter import Parameter
 
 from python_code import DEVICE
 from python_code.decoders.bp_nn_weights import init_w_output
-from python_code.utils.bayesian_utils import dropout_ori, dropout_tilde, entropy, LossVariable, dropout
+from python_code.utils.bayesian_utils import dropout_ori, dropout_tilde, entropy, LossVariable
 from python_code.utils.constants import Phase, LOGITS_INIT
 
 
