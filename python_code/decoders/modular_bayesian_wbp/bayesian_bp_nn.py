@@ -23,7 +23,7 @@ class BayesianOutputLayer(torch.nn.Module):
             log_probs = 0
             for _ in range(self.ensemble_num):
                 u = torch.rand(x.shape).to(DEVICE)
-                x_after_dropout = dropout(x, self.dropout_logits, u)
+                x_after_dropout = dropout_ori(x, self.dropout_logits, u)
                 if mask_only:
                     log_probs += torch.matmul(x_after_dropout, self.w_output_mask)
                 else:

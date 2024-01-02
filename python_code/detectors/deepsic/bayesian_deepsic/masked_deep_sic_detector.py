@@ -38,6 +38,6 @@ class MaskedDeepSICDetector(nn.Module):
         x = self.activation(self.fc1(rx))
         x = self.activation(self.fc2(x))
         u = torch.rand(x.shape).to(DEVICE)
-        x = dropout(x, dropout_logits, u)
+        x = dropout_ori(x, dropout_logits, u)
         out = self.fc3(x)
         return out
