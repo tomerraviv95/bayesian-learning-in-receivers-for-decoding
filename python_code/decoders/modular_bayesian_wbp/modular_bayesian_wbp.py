@@ -54,7 +54,6 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
         self.criterion_arm = BCEWithLogitsLoss(reduction='none').to(DEVICE)
         even_output = self.input_layer.forward(rx)
         for i in range(self.iteration_num - 1):
-            print(f"Iterations Number {i}")
             for _ in range(EPOCHS):
                 odd_output = self.odd_layer.forward(even_output, rx, llr_mask_only=self.odd_llr_mask_only)
                 # even - check to variables

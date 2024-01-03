@@ -15,7 +15,6 @@ class PlotType(Enum):
     decoding_comparison_by_code_length = 'decoding_comparison_by_code_length'
     final_comparison_by_SNR_EightPSK = 'final_comparison_by_SNR_EightPSK'
     final_comparison_by_SNR_cost_EightPSK = 'final_comparison_by_SNR_cost_EightPSK'
-    hidden_size = 'hidden_size'
 
 
 def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
@@ -155,85 +154,59 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     elif plot_type == PlotType.final_comparison_by_SNR_EightPSK:
         params_dicts = [
             {'snr': 6, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
-            {'snr': 7, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 8, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
-            {'snr': 9, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 12, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 6, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
-             'detector_type': DetectorType.seq_model.name},
-            {'snr': 7, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
             {'snr': 8, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
-            {'snr': 9, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
-             'detector_type': DetectorType.seq_model.name},
             {'snr': 10, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+             'detector_type': DetectorType.seq_model.name},
+            {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
             {'snr': 6, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 7, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 8, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 9, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
+            {'snr': 12, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 6, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
-             'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 7, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 8, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 9, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
-             'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 10, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
+            {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+             'detector_type': DetectorType.model_based_bayesian.name},
         ]
-        to_plot_by_values = range(6, 11, 1)
+        to_plot_by_values = range(6, 13, 2)
     elif plot_type == PlotType.final_comparison_by_SNR_cost_EightPSK:
         params_dicts = [
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 12, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
-            {'snr': 13, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
             {'snr': 14, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
-            {'snr': 15, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
-            {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+            {'snr': 16, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.seq_model.name},
+            {'snr': 10, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
-            {'snr': 13, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+            {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
             {'snr': 14, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
-            {'snr': 15, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+            {'snr': 16, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.seq_model.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 12, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 13, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 14, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 15, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+            {'snr': 16, 'decoder_type': DecoderType.wbp.name, 'detector_type': DetectorType.model_based_bayesian.name},
+            {'snr': 10, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 13, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+            {'snr': 12, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
             {'snr': 14, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
-            {'snr': 15, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
+            {'snr': 16, 'decoder_type': DecoderType.modular_bayesian_wbp.name,
              'detector_type': DetectorType.model_based_bayesian.name},
         ]
-        to_plot_by_values = range(12, 16, 1)
-    elif plot_type == PlotType.hidden_size:
-        constellation = 'EightPSK'
-        snr = 14
-        params_dicts = [
-            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
-             'modulation_type': constellation, 'hidden_base_size': 4},
-            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
-             'modulation_type': constellation, 'hidden_base_size': 8},
-            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
-             'modulation_type': constellation, 'hidden_base_size': 12},
-            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
-             'modulation_type': constellation, 'hidden_base_size': 16},
-            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
-             'modulation_type': constellation, 'hidden_base_size': 20},
-            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
-             'modulation_type': constellation, 'hidden_base_size': 24},
-            {'snr': snr, 'decoder_type': DecoderType.bp.name, 'detector_type': DetectorType.seq_model.name,
-             'modulation_type': constellation, 'hidden_base_size': 28},
-        ]
-        to_plot_by_values = range(4, 30, 4)
+        to_plot_by_values = range(10, 17, 2)
     else:
         raise ValueError('No such plot type!!!')
 
