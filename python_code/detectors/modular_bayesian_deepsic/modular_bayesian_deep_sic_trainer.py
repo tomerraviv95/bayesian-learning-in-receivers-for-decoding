@@ -5,8 +5,8 @@ import torch
 from torch import nn
 
 from python_code import DEVICE
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
-from python_code.detectors.deepsic.modular_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
+from python_code.detectors.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code.detectors.modular_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
     BayesianDeepSICDetector
 from python_code.utils.constants import HALF, Phase
 

@@ -6,8 +6,8 @@ from torch import nn
 
 from python_code import DEVICE, conf
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
-from python_code.detectors.deepsic.bayesian_deepsic.masked_deep_sic_detector import MaskedDeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code.detectors.bayesian_deepsic.masked_deep_sic_detector import MaskedDeepSICDetector
+from python_code.detectors.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 from python_code.utils.constants import Phase, ModulationType, HALF, LOGITS_INIT
 
 

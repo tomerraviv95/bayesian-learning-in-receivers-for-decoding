@@ -4,16 +4,17 @@ import torch
 from torch import nn
 
 from python_code import DEVICE
-from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code.detectors.deepsic_detector import DeepSICDetector
+from python_code.detectors.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 
 
 class EndToEndDeepSICTrainer(DeepSICTrainer):
     def __init__(self):
         super().__init__()
+        self.apply_dropout = True
 
     def __str__(self):
-        return 'End-To-End F-DeepSIC'
+        return 'F-DeepSIC'
 
     def _initialize_detector(self):
         detectors_list = [[DeepSICDetector().to(DEVICE) for _ in range(NITERATIONS)] for _ in

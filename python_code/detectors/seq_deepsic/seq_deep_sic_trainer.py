@@ -4,8 +4,8 @@ import torch
 from torch import nn
 
 from python_code import DEVICE
-from python_code.detectors.deepsic.deepsic_detector import DeepSICDetector
-from python_code.detectors.deepsic.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code.detectors.deepsic_detector import DeepSICDetector
+from python_code.detectors.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
 
 
 class SeqDeepSICTrainer(DeepSICTrainer):
