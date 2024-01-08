@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from torch import nn
 from torch.nn import BCEWithLogitsLoss
-from torch.optim import Adam
+from torch.optim import Adam, SGD
 
 from dir_definitions import ECC_MATRICES_DIR, BP_WEIGHTS
 from python_code import conf, DEVICE

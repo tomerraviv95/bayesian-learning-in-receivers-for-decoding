@@ -44,9 +44,9 @@ class BayesianDeepSICDetector(nn.Module):
         u = torch.rand(x.shape).to(DEVICE)
         x_after_dropout = dropout_ori(x, self.dropout_logits, u)
         out = self.fc3(x_after_dropout)
-        # compute first variable output
+        # compute first variable outputs
         arm_original.append(out)
-        # compute second variable output
+        # compute second variable outputs
         x_tilde = dropout_tilde(x, self.dropout_logits, u)
         out_tilde = self.fc3(x_tilde)
         arm_tilde.append(out_tilde)

@@ -138,18 +138,13 @@ class Evaluator(object):
     def calculate_ber(self, confidence_word, detected_words, mx_data):
         to_decode_word = self.get_bits_from_symbols(confidence_word, detected_words)
         decoded_words = torch.zeros_like(mx_data)
-        no_coding_words = torch.zeros_like(mx_data)
         for user in range(conf.n_user):
             current_to_decode = to_decode_word[:, user].reshape(-1, conf.code_bits)
             with torch.no_grad():
                 decoded_word = self.decoder.forward(current_to_decode)
-            no_coding_word = current_to_decode < 0
             message_decoded_word = decoded_word[:, conf.message_bits:]
-            message_no_coding_word = no_coding_word[:, conf.message_bits:]
             decoded_words[:, user] = message_decoded_word.reshape(-1)
-            no_coding_words[:, user] = message_no_coding_word.reshape(-1)
         decoded_ber, _ = calculate_error_rate(decoded_words, mx_data)
-        no_coding_ber, _ = calculate_error_rate(no_coding_words, mx_data)
         return decoded_ber
 
     def get_bits_from_symbols(self, confidence_word, detected_words):

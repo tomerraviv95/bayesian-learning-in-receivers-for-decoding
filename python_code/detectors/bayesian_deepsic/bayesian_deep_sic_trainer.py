@@ -67,7 +67,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                 kls_dict[user * NITERATIONS + iter] = est.kl_term
         iter = NITERATIONS - 1
         f_loss, arm_loss, kl_term = 0, 0, 0
-        # calculate the loss based on the output of the network. Note that we cannot use the middle layers' outputs
+        # calculate the loss based on the outputs of the network. Note that we cannot use the middle layers' outputs
         # for these calculations when assuming end-to-end training, similar to end-to-end training of DeepSIC. See
         # the original DeepSIC paper for more details.
         for user in range(self.n_user):

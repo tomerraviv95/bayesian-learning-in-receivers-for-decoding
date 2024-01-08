@@ -55,7 +55,7 @@ class BayesianWBPDecoder(DecoderTrainer):
                 odd_output = self.odd_layer.forward(even_output, rx, llr_mask_only=self.odd_llr_mask_only)
                 # even - check to variables
                 even_output = self.even_layer.forward(odd_output, mask_only=self.even_mask_only)
-                # compute original output
+                # compute original outputs
                 est = self.output_layers[i].forward(even_output, mask_only=self.output_mask_only, phase=Phase.TRAIN)
                 ests.append(est)
                 outputs.append(rx + est.priors)
@@ -83,7 +83,7 @@ class BayesianWBPDecoder(DecoderTrainer):
                 odd_output = self.odd_layer.forward(even_output, x, llr_mask_only=self.odd_llr_mask_only)
                 # even - check to variables
                 even_output = self.even_layer.forward(odd_output, mask_only=self.even_mask_only)
-                # output layer
+                # outputs layer
                 output = x + self.output_layers[i].forward(even_output, mask_only=self.output_mask_only)
             avg_output += output
         avg_output /= self.ensemble_num

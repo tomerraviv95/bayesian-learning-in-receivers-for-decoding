@@ -59,7 +59,7 @@ class WBPDecoder(DecoderTrainer):
             odd_output = self.odd_layer.forward(even_output, x, llr_mask_only=self.odd_llr_mask_only)
             # even - check to variables
             even_output = self.even_layer.forward(odd_output, mask_only=self.even_mask_only)
-            # output layer
+            # outputs layer
             output = x + self.output_layer.forward(even_output, mask_only=self.output_mask_only)
             output_list[i + 1] = output.clone()
 
