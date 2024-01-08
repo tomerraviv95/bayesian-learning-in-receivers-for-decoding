@@ -1,6 +1,6 @@
 import torch
-from torch.nn import BCEWithLogitsLoss, ModuleList
-from torch.optim import SGD, Adam
+from torch.nn import BCEWithLogitsLoss, ModuleList, MSELoss
+from torch.optim import Adam
 
 from python_code import DEVICE
 from python_code.decoders.bp_nn import InputLayer, EvenLayer, OutputLayer
@@ -8,19 +8,6 @@ from python_code.decoders.decoder_trainer import DecoderTrainer, LR, EPOCHS
 from python_code.decoders.modular_bayesian_wbp.bayesian_bp_nn_odd import BayesianOddLayer
 from python_code.utils.bayesian_utils import LossVariable
 from python_code.utils.constants import CLIPPING_VAL, Phase, HALF
-
-
-class MultipleOptimizer(object):
-    def __init__(self, *op):
-        self.optimizers = op
-
-    def zero_grad(self):
-        for op in self.optimizers:
-            op.zero_grad()
-
-    def step(self):
-        for op in self.optimizers:
-            op.step()
 
 
 class ModularBayesianWBPDecoder(DecoderTrainer):
@@ -45,44 +32,30 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
         self.output_layer = OutputLayer(neurons=self.neurons, input_output_layer_size=self._code_bits,
                                         code_pcm=self.code_pcm)
 
-    def calc_loss(self, only_frequentist: bool, tx: torch.Tensor, output: torch.Tensor,
-                  output_tilde: torch.Tensor = None, est: LossVariable = None):
+    def calc_loss(self, tx: torch.Tensor, output: torch.Tensor, arm_output=None,
+                  output_tilde: torch.Tensor = None, est: LossVariable = None, arm_tx=None):
         """
         Cross Entropy loss - distribution over states versus the gt state label
         """
-        loss = self.criterion(input=output, target=tx)
-        if only_frequentist:
-            return loss
+        loss = self.criterion(input=-output, target=tx)
         # ARM Loss
-        loss_term_arm_original = self.criterion_arm(input=-output, target=tx)
-        loss_term_arm_tilde = self.criterion_arm(input=-output_tilde, target=tx)
-        arm_delta = loss_term_arm_tilde - loss_term_arm_original
-        scaled_arm_delta = torch.matmul(arm_delta, self.odd_layers[0].w_skipconn2even_mask)
-        grad_logit = scaled_arm_delta * (est.u - HALF)
+        loss_term_arm_original = self.criterion_arm(input=arm_output, target=arm_tx)
+        loss_term_arm_tilde = self.criterion_arm(input=output_tilde, target=arm_tx)
+        arm_delta = torch.mean(loss_term_arm_tilde - loss_term_arm_original, dim=1)
+        grad_logit = arm_delta.unsqueeze(-1) * (est.u - HALF)
         arm_loss = grad_logit * est.dropout_logits.unsqueeze(0)
         arm_loss = self.arm_beta * torch.mean(arm_loss)
         # KL Loss
         kl_term = self.kl_beta * est.kl_term
-        # loss += arm_loss + kl_term
+        loss += arm_loss + kl_term
         return loss
 
     def single_training(self, tx: torch.Tensor, rx: torch.Tensor):
-        logits_optimizer = SGD(list(filter(lambda p: len(p.shape) == 1, self.parameters())), lr=LR, weight_decay=0.0005)
-        non_logits_optimizer = Adam(list(filter(lambda p: p.requires_grad and len(p.shape) > 1, self.parameters())),
-                                    lr=LR,
-                                    weight_decay=0.0005,
-                                    betas=(0.5, 0.999))
-        self.optimizer = MultipleOptimizer(logits_optimizer, non_logits_optimizer)
+        self.optimizer = Adam(filter(lambda p: p.requires_grad, self.parameters()), lr=LR,
+                              weight_decay=0.0005, betas=(0.5, 0.999))
         self.criterion = BCEWithLogitsLoss().to(DEVICE)
-        self.criterion_arm = BCEWithLogitsLoss(reduction='none').to(DEVICE)
-        print(self.odd_layers[0].dropout_logits[:10])
-        for _ in range(EPOCHS):
-            even_output = self.input_layer.forward(rx)
-            output = rx + self.output_layer.forward(even_output, mask_only=self.output_mask_only)
-            loss = self.calc_loss(only_frequentist=True, tx=tx, output=output)
-            self.optimizer.zero_grad()
-            loss.backward()
-            self.optimizer.step()
+        self.criterion_arm = MSELoss(reduction='none').to(DEVICE)
+        even_output = self.input_layer.forward(rx)
         for i in range(self.iteration_num - 1):
             for _ in range(EPOCHS):
                 cur_even_output = even_output.clone()
@@ -97,7 +70,8 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
                 output_tilde = rx + self.output_layer.forward(even_output_tilde,
                                                               mask_only=self.output_mask_only)
                 # calculate loss and backtrack
-                loss = self.calc_loss(only_frequentist=False, tx=tx, output=output, output_tilde=output_tilde, est=est)
+                loss = self.calc_loss(tx=tx, output=output, arm_output=output, output_tilde=output_tilde, est=est,
+                                      arm_tx=tx)
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
@@ -106,7 +80,6 @@ class ModularBayesianWBPDecoder(DecoderTrainer):
                                                  phase=Phase.TRAIN)
                 # even - check to variables
                 even_output = self.even_layer.forward(est.priors, mask_only=self.even_mask_only)
-        print(self.odd_layers[0].dropout_logits[:10])
 
     # def calc_loss(self, ests: List[LossVariable], tx: torch.Tensor, outputs: List[torch.Tensor],
     #               outputs_tilde: List[torch.Tensor]):

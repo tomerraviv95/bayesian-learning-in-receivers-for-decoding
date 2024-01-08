@@ -27,10 +27,10 @@ class DecoderTrainer(nn.Module):
         self.train_from_scratch = not conf.fading_in_channel
         self._initialize_dataloader()
         self.softmax = torch.nn.Softmax(dim=1)  # Single symbol probability inference
-        self.odd_llr_mask_only = True
+        self.odd_llr_mask_only = False
         self.even_mask_only = True
         self.multiloss_output_mask_only = True
-        self.output_mask_only = False
+        self.output_mask_only = True
         self.multi_loss_flag = True
         self.iteration_num = ITERATIONS
         self._code_bits = conf.code_bits

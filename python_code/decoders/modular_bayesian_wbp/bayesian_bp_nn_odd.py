@@ -19,53 +19,43 @@ class BayesianOddLayer(torch.nn.Module):
         self.w_odd2even_mask = w_odd2even_mask.to(device=DEVICE).bool()
         self.w_skipconn2even_mask = w_skipconn2even_mask.to(device=DEVICE)
         self.clip_tanh = clip_tanh
-        self.dropout_logits = Parameter(
-            LOGITS_INIT * torch.ones(self.w_skipconn2even_mask.shape[1]).to(DEVICE))
+        self.dropout_logits = Parameter(LOGITS_INIT * torch.ones(self.w_odd2even_mask.shape[1]).to(DEVICE))
         self.ensemble_num = ensemble_num
         self.kl_scale = 1
 
     def forward(self, x, llr, llr_mask_only=False, phase=Phase.TEST):
         mask = self.w_odd2even_mask * self.odd_weights
         x_after_mask = torch.matmul(x, mask)
-        if phase == Phase.TEST:
-            log_probs = 0
-            for _ in range(self.ensemble_num):
-                if llr_mask_only:
-                    odd_weights_llrs_mask = self.w_skipconn2even_mask
-                else:
-                    odd_weights_llrs_mask = self.w_skipconn2even_mask * self.llr_weights
-                odd_weights_times_llr = torch.matmul(llr, odd_weights_llrs_mask)
-                u = torch.rand(odd_weights_times_llr.shape).to(DEVICE)
-                odd_weights_times_llr = dropout_ori(odd_weights_times_llr, self.dropout_logits, u)
-                odd_clamp = torch.clamp(x_after_mask + odd_weights_times_llr, min=-self.clip_tanh,
-                                        max=self.clip_tanh)
-                log_probs += torch.tanh(0.5 * odd_clamp)
-            return log_probs / self.ensemble_num
-        ## in training
         if llr_mask_only:
             odd_weights_llrs_mask = self.w_skipconn2even_mask
         else:
             odd_weights_llrs_mask = self.w_skipconn2even_mask * self.llr_weights
         odd_weights_times_llr = torch.matmul(llr, odd_weights_llrs_mask)
-        u = torch.rand(odd_weights_times_llr.shape).to(DEVICE)
-        odd_weights_times_llr = dropout_ori(odd_weights_times_llr, self.dropout_logits, u)
-        # odd_clamp = torch.clamp(, min=-self.clip_tanh,
-        #                         max=self.clip_tanh)
-        out = torch.tanh(0.5 * x_after_mask + odd_weights_times_llr)
+        if phase == Phase.TEST:
+            log_probs = 0
+            for _ in range(self.ensemble_num):
+                u = torch.rand(x_after_mask.shape).to(DEVICE)
+                x_after_mask_after_dropout = dropout_ori(x_after_mask, self.dropout_logits, u)
+                odd_clamp = torch.clamp(x_after_mask_after_dropout + odd_weights_times_llr, min=-self.clip_tanh,
+                                        max=self.clip_tanh)
+                log_probs += torch.tanh(0.5 * odd_clamp)
+            return log_probs / self.ensemble_num
+        ## in training
+        u = torch.rand(x_after_mask.shape).to(DEVICE)
+        x_after_mask_after_dropout = dropout_ori(x_after_mask, self.dropout_logits, u)
+        odd_clamp = torch.clamp(x_after_mask_after_dropout + odd_weights_times_llr, min=-self.clip_tanh,
+                                max=self.clip_tanh)
+        out = torch.tanh(0.5 * odd_clamp)
         # tilde computations for ARM loss
-        if llr_mask_only:
-            odd_weights_llrs_mask = self.w_skipconn2even_mask
-        else:
-            odd_weights_llrs_mask = self.w_skipconn2even_mask * self.llr_weights
-        odd_weights_times_llr_tilde = torch.matmul(llr, odd_weights_llrs_mask)
-        odd_weights_times_llr_tilde = dropout_tilde(odd_weights_times_llr_tilde, self.dropout_logits, u)
-        odd_clamp_tilde = torch.clamp(x_after_mask + odd_weights_times_llr_tilde, min=-self.clip_tanh,
+        x_after_mask_after_dropout_tilde = dropout_tilde(x_after_mask, self.dropout_logits, u)
+        odd_clamp_tilde = torch.clamp(x_after_mask_after_dropout_tilde + odd_weights_times_llr, min=-self.clip_tanh,
                                       max=self.clip_tanh)
         out_tilde = torch.tanh(0.5 * odd_clamp_tilde)
         # kl term
         scaling1 = (self.kl_scale ** 2 / 2) * (torch.sigmoid(self.dropout_logits).reshape(-1))
-        first_layer_kl = scaling1 * torch.norm(odd_weights_llrs_mask,dim=0) ** 2
+        first_layer_kl = scaling1 * torch.norm(mask, dim=0) ** 2
         H1 = entropy(torch.sigmoid(self.dropout_logits).reshape(-1))
         kl_term = torch.mean(first_layer_kl - H1)
-        return LossVariable(priors=out, arm_original=out, arm_tilde=out_tilde, u=u, kl_term=kl_term,
+        return LossVariable(priors=out, arm_original=out,
+                            arm_tilde=out_tilde, u=u, kl_term=kl_term,
                             dropout_logits=self.dropout_logits)
