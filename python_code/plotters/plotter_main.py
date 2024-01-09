@@ -2,7 +2,7 @@ from collections import OrderedDict
 
 from python_code.plotters.plotter_config import get_config, PlotType
 from python_code.plotters.plotter_methods import compute_for_method, RunParams
-from python_code.plotters.plotter_utils import plot_dict_vs_list, plot_dict_vs_dict, LEGEND_TYPE
+from python_code.plotters.plotter_utils import plot_dict_vs_list, LEGEND_TYPE
 
 
 def get_mean_ser_list(all_curves):
@@ -51,7 +51,7 @@ def get_mean_ece_list(all_curves, average=True):
 if __name__ == '__main__':
     run_over = True  # whether to run over previous results
     trial_num = 1  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
-    plot_type = PlotType.detection_comparison_by_SNR_QPSK
+    plot_type = PlotType.decoding_comparison_by_code_length
     print(plot_type.name)
     run_params_obj = RunParams(run_over=run_over, trial_num=trial_num)
     params_dicts, to_plot_by_values = get_config(plot_type)
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     elif plot_type is PlotType.decoding_comparison_by_code_length:
         means_bers_dict = get_mean_ber_list(all_curves)
         plot_dict_vs_list(values_dict=means_bers_dict, xlabel='Code Length', ylabel='BER',
-                          plot_type=plot_type, to_plot_by_values=[1, 2, 3], loc='upper right',
+                          plot_type=plot_type, to_plot_by_values=[1, 2, 3], loc='lower right',
                           legend_type=LEGEND_TYPE.FULL, xticks=to_plot_by_values)
     elif plot_type is PlotType.ece_by_pilots_length:
         means_ece_dict = get_mean_ece_list(all_curves)

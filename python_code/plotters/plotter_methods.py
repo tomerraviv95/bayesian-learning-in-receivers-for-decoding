@@ -41,8 +41,8 @@ def gather_plots_by_trials(all_curves: List[Tuple[str, List, List, List]], conf:
         conf.set_value('seed', 1 + trial)
         evaluater.__init__()
         metric_output = get_all_plots(evaluater, run_over=run_over,
-                                  save_by_name=name,
-                                  trial=trial)
+                                      save_by_name=name,
+                                      trial=trial)
         metric_outputs.append(metric_output)
     all_curves.append((method_name, metric_outputs))
 

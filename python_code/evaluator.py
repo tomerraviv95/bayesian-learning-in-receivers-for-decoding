@@ -25,7 +25,6 @@ MetricOutput = namedtuple(
     "MetricOutput",
     "ser_list ber_list ece_list"
 )
-DEBUG = False
 
 
 class Evaluator(object):
@@ -69,8 +68,6 @@ class Evaluator(object):
         """
         print(f"Detecting using {str(self.detector)}, decoding using {str(self.decoder)}")
         torch.cuda.empty_cache()
-        if DEBUG:
-            self.decoder.train_model()
         ser_list, ber_list, ece_list = [], [], []
         # draw words for a given snr
         message_words, transmitted_words, received_words = self.channel_dataset.__getitem__(snr_list=[conf.snr])
