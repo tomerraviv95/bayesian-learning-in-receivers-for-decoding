@@ -107,8 +107,7 @@ def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: Li
         else:
             label = ''
         plt.plot(to_plot_by_values, values_dict[method_name],
-                 label=label,
-                 color=get_color(method_name),
+                 label=label, color=get_color(method_name),
                  marker=get_marker(method_name), markersize=11,
                  linestyle=get_linestyle(method_name), linewidth=2.2)
 
