@@ -5,7 +5,7 @@ from torch import nn
 
 from python_code import DEVICE
 from python_code.detectors.deepsic_detector import DeepSICDetector
-from python_code.detectors.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code.detectors.deepsic_trainer import DeepSICTrainer, EPOCHS
 
 
 class SeqDeepSICTrainer(DeepSICTrainer):
@@ -17,7 +17,7 @@ class SeqDeepSICTrainer(DeepSICTrainer):
         return 'F-DeepSIC'
 
     def _initialize_detector(self):
-        self.detector = [[DeepSICDetector().to(DEVICE) for _ in range(NITERATIONS)] for _ in
+        self.detector = [[DeepSICDetector().to(DEVICE) for _ in range(self.iterations)] for _ in
                          range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
 
     def train_model(self, single_model: nn.Module, tx: torch.Tensor, rx: torch.Tensor):

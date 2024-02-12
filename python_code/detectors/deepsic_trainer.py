@@ -9,7 +9,6 @@ from python_code.detectors.detector_trainer import Detector
 from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.probs_utils import prob_to_EightPSK_symbol, prob_to_QPSK_symbol, prob_to_BPSK_symbol
 
-NITERATIONS = conf.deepsic_iterations
 EPOCHS = 500
 
 
@@ -20,6 +19,7 @@ class DeepSICTrainer(Detector):
         self.n_ant = conf.n_ant
         self.lr = 5e-3
         self.apply_dropout = False
+        self.iterations = conf.deepsic_iterations
         super().__init__()
 
     def __str__(self):
@@ -46,7 +46,7 @@ class DeepSICTrainer(Detector):
         with torch.no_grad():
             # detect and decode
             probs_vec = self._initialize_probs_for_infer(rx)
-            for i in range(NITERATIONS):
+            for i in range(conf.deepsic_iterations):
                 probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
             detected_words, soft_confidences = self.compute_output(probs_vec)
             return detected_words, soft_confidences
@@ -130,7 +130,7 @@ class DeepSICTrainer(Detector):
         # Initializing the probabilities
         probs_vec = self._initialize_probs_for_training(tx)
         # Training the DeepSICNet for each user-symbol/iteration
-        for i in range(NITERATIONS):
+        for i in range(conf.deepsic_iterations):
             # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
             tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
             # Training the DeepSIC networks for the iteration>1

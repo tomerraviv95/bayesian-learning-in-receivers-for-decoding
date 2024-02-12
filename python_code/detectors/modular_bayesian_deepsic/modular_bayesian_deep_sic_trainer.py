@@ -5,7 +5,7 @@ import torch
 from torch import nn
 
 from python_code import DEVICE
-from python_code.detectors.deepsic_trainer import DeepSICTrainer, NITERATIONS, EPOCHS
+from python_code.detectors.deepsic_trainer import DeepSICTrainer, EPOCHS
 from python_code.detectors.modular_bayesian_deepsic.bayesian_deep_sic_detector import LossVariable, \
     BayesianDeepSICDetector
 from python_code.utils.constants import HALF, Phase
@@ -28,7 +28,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
 
     def _initialize_detector(self):
         self.detector = [
-            [BayesianDeepSICDetector(self.ensemble_num, self.kl_scale).to(DEVICE) for _ in range(NITERATIONS)] for _ in
+            [BayesianDeepSICDetector(self.ensemble_num, self.kl_scale).to(DEVICE) for _ in range(self.iterations)] for _ in
             range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
 
     def calc_loss(self, est: LossVariable, tx: torch.IntTensor) -> torch.Tensor:
