@@ -32,3 +32,4 @@ decoder_type: 'bp' # ['bp','wbp','modular_bayesian_wbp','bayesian_wbp']
 loss_type: 'CrossEntropy' # Loss type. values: 'BCE','CrossEntropy','MSE'.
 optimizer_type: 'Adam' # Optimizer type. values: 'Adam','RMSprop','SGD'.
 hidden_base_size: 48 # size of the hidden layer in DeepSIC
+deepsic_iterations: 3 # number of iterations for DeepSIC
