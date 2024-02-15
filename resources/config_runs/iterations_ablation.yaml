@@ -5,7 +5,7 @@
 # For the same reason, in 8-PSK this quantity x has to divisible by 4.
 
 # general
-seed: 10 # run seed
+seed: 5 # run seed
 
 # MIMO protocol
 block_length: 15360 # coherence block time, total size of pilot + data. values: int.
@@ -32,4 +32,4 @@ decoder_type: 'wbp' # ['bp','wbp','modular_bayesian_wbp','bayesian_wbp']
 loss_type: 'CrossEntropy' # Loss type. values: 'BCE','CrossEntropy','MSE'.
 optimizer_type: 'Adam' # Optimizer type. values: 'Adam','RMSprop','SGD'.
 hidden_base_size: 48 # size of the hidden layer in DeepSIC
-deepsic_iterations: 3 # number of iterations for DeepSIC
+deepsic_iterations: 2 # number of iterations for DeepSIC

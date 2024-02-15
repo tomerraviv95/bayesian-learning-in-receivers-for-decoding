@@ -90,7 +90,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                 kl_term += self.kl_beta * kls_dict[user * self.iterations + n_iter]
             # Frequentist loss
             f_loss += self.criterion(input=est.priors, target=tx_all[user].long())
-        loss += arm_loss + kl_term + f_loss
+        loss += f_loss + arm_loss + kl_term
         return loss
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
@@ -106,8 +106,6 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
             for i in range(self.iterations):
                 # Obtaining the DeepSIC networks for each user-symbol and the i-th iteration
                 tx_all, rx_all = self.prepare_data_for_training(tx, rx, probs_vec)
-                if i == self.iterations - 1:
-                    break
                 # Generating soft symbols for training purposes
                 probs_vec = self.calculate_posteriors(self.detector, i + 1, probs_vec, rx)
             # adding the loss. In contrast to sequential learning - we do not update yet

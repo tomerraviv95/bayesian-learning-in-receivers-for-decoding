@@ -101,17 +101,17 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 6
     elif plot_type == PlotType.iterations_ablation:
         params_dicts = [
-            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 1},
-            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 2},
-            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 3},
-            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 1},
-            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 2},
-            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 3},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 1},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 2},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 3},
+            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 1,'snr': 12},
+            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 2,'snr': 12},
+            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 3,'snr': 12},
+            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 1,'snr': 12},
+            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 2,'snr': 12},
+            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 3,'snr': 12},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 1,'snr': 12},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 2,'snr': 12},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 3,'snr': 12},
         ]
-        to_plot_by_values = [1, 2, 3, 4]
+        to_plot_by_values = [1, 2, 3]
     ## Detection and decoding methods vary with snr
     elif plot_type == PlotType.final_comparison_by_SNR_EightPSK:
         params_dicts = [

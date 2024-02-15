@@ -50,7 +50,7 @@ def get_mean_ece_list(all_curves, average=True):
 ## Plotter for the Paper's Figures
 if __name__ == '__main__':
     run_over = True  # whether to run over previous results
-    trial_num = 1  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
+    trial_num = 3  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
     plot_type = PlotType.iterations_ablation
     print(plot_type.name)
     run_params_obj = RunParams(run_over=run_over, trial_num=trial_num)
@@ -65,14 +65,8 @@ if __name__ == '__main__':
                      PlotType.detection_comparison_by_SNR_EightPSK,
                      PlotType.detection_comparison_by_SNR_cost_QPSK,
                      PlotType.detection_comparison_by_SNR_cost_EightPSK]:
-        means_bers_dict = get_mean_ber_list(all_curves)
         means_sers_dict = get_mean_ser_list(all_curves)
-        means_ece_dict = get_mean_ece_list(all_curves)
         plot_dict_vs_list(values_dict=means_sers_dict, xlabel='SNR [dB]', ylabel='SER', plot_type=plot_type,
-                          to_plot_by_values=to_plot_by_values, legend_type=LEGEND_TYPE.DETECTION_ONLY)
-        plot_dict_vs_list(values_dict=means_ece_dict, xlabel='SNR [dB]', ylabel='ECE', plot_type=plot_type,
-                          to_plot_by_values=to_plot_by_values, legend_type=LEGEND_TYPE.DETECTION_ONLY)
-        plot_dict_vs_list(values_dict=means_bers_dict, xlabel='SNR [dB]', ylabel='BER', plot_type=plot_type,
                           to_plot_by_values=to_plot_by_values, legend_type=LEGEND_TYPE.DETECTION_ONLY)
     elif plot_type is PlotType.iterations_ablation:
         means_sers_dict = get_mean_ser_list(all_curves)
@@ -90,7 +84,11 @@ if __name__ == '__main__':
     else:
         means_bers_dict = get_mean_ber_list(all_curves)
         means_sers_dict = get_mean_ser_list(all_curves)
+        means_sers_dict.pop('F-DeepSIC, MB-WBP')
+        means_sers_dict.pop('MB-DeepSIC, MB-WBP')
         means_ece_dict = get_mean_ece_list(all_curves)
+        means_ece_dict.pop('F-DeepSIC, MB-WBP')
+        means_ece_dict.pop('MB-DeepSIC, MB-WBP')
         plot_dict_vs_list(values_dict=means_sers_dict, xlabel='SNR [dB]', ylabel='SER', plot_type=plot_type,
                           to_plot_by_values=to_plot_by_values, legend_type=LEGEND_TYPE.DETECTION_ONLY)
         plot_dict_vs_list(values_dict=means_ece_dict, xlabel='SNR [dB]', ylabel='ECE', plot_type=plot_type,
