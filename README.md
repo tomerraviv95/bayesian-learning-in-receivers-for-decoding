@@ -6,9 +6,9 @@
 
 # Bayesian Learning for Deep Receivers
 
-Python repository for the paper "Modular Bayesian Learning for Uncertainty-Aware and Reliable Deep MIMO Receivers".
+Python repository for a submitted journal paper "Uncertainty-Aware and Reliable Neural MIMO Receivers via Modular Bayesian Deep Learning".
 
-Please cite our [paper](https://arxiv.org/pdf/2302.02436.pdf), if the code is used for publishing research.
+Please cite our paper, if the code is used for publishing research. Paper is still unavailable until publication.
 
 # Table of Contents
 
@@ -28,7 +28,7 @@ Please cite our [paper](https://arxiv.org/pdf/2302.02436.pdf), if the code is us
 
 # Introduction
 
-This repository implements the proposed model-based Bayesian framework for [DeepSIC](https://arxiv.org/abs/2002.03214), a machine-learning model-based MIMO detector. We explain on the different directories and subdirectories below.
+This repository implements the proposed model-based Bayesian framework for [DeepSIC](https://arxiv.org/abs/2002.03214) and for the weighted belief propogation [WBP](https://arxiv.org/abs/1607.04793). We explain on the different directories and subdirectories below.
 
 # Folders Structure
 
