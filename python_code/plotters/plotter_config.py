@@ -11,6 +11,7 @@ class PlotType(Enum):
     detection_comparison_by_SNR_cost_EightPSK = 'detection_comparison_by_SNR_cost_EightPSK'
     ber_by_ece = 'ber_by_ece'
     iterations_ablation = 'iterations_ablation'
+    decoding_comparison_by_SNR = 'decoding_comparison_by_SNR'
     final_comparison_by_SNR_EightPSK = 'final_comparison_by_SNR_EightPSK'
     final_comparison_by_SNR_cost_EightPSK = 'final_comparison_by_SNR_cost_EightPSK'
 
@@ -101,17 +102,38 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 6
     elif plot_type == PlotType.iterations_ablation:
         params_dicts = [
-            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 1,'snr': 15},
-            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 2,'snr': 15},
-            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 3,'snr': 15},
-            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 1,'snr': 15},
-            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 2,'snr': 15},
-            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 3,'snr': 15},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 1,'snr': 15},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 2,'snr': 15},
-            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 3,'snr': 15},
+            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 1, 'snr': 15},
+            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 2, 'snr': 15},
+            {'detector_type': DetectorType.seq_model.name, 'deepsic_iterations': 3, 'snr': 15},
+            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 1, 'snr': 15},
+            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 2, 'snr': 15},
+            {'detector_type': DetectorType.bayesian.name, 'deepsic_iterations': 3, 'snr': 15},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 1, 'snr': 15},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 2, 'snr': 15},
+            {'detector_type': DetectorType.model_based_bayesian.name, 'deepsic_iterations': 3, 'snr': 15},
         ]
         to_plot_by_values = [1, 2, 3]
+
+    ## Detection with DeepSIC, decoding methods vary
+    elif plot_type == PlotType.decoding_comparison_by_SNR:
+        params_dicts = [
+            {'snr': 6, 'decoder_type': DecoderType.wbp.name},
+            {'snr': 7, 'decoder_type': DecoderType.wbp.name},
+            {'snr': 8, 'decoder_type': DecoderType.wbp.name},
+            {'snr': 9, 'decoder_type': DecoderType.wbp.name},
+            {'snr': 10, 'decoder_type': DecoderType.wbp.name},
+            {'snr': 6, 'decoder_type': DecoderType.bayesian_wbp.name},
+            {'snr': 7, 'decoder_type': DecoderType.bayesian_wbp.name},
+            {'snr': 8, 'decoder_type': DecoderType.bayesian_wbp.name},
+            {'snr': 9, 'decoder_type': DecoderType.bayesian_wbp.name},
+            {'snr': 10, 'decoder_type': DecoderType.bayesian_wbp.name},
+            {'snr': 6, 'decoder_type': DecoderType.modular_bayesian_wbp.name},
+            {'snr': 7, 'decoder_type': DecoderType.modular_bayesian_wbp.name},
+            {'snr': 8, 'decoder_type': DecoderType.modular_bayesian_wbp.name},
+            {'snr': 9, 'decoder_type': DecoderType.modular_bayesian_wbp.name},
+            {'snr': 10, 'decoder_type': DecoderType.modular_bayesian_wbp.name},
+        ]
+        to_plot_by_values = range(6, 11, 1)
     ## Detection and decoding methods vary with snr
     elif plot_type == PlotType.final_comparison_by_SNR_EightPSK:
         params_dicts = [

@@ -40,9 +40,9 @@ def get_linestyle(method_name: str) -> str:
 def get_color(method_name: str) -> str:
     if 'MB-D' in method_name:
         return 'blue'
-    elif 'B-D' in method_name:
+    elif 'B-' in method_name:
         return 'black'
-    elif 'F-D' in method_name:
+    elif 'F-' in method_name:
         return 'red'
     else:
         return 'green'

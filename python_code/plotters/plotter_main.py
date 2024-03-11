@@ -50,8 +50,8 @@ def get_mean_ece_list(all_curves, average=True):
 ## Plotter for the Paper's Figures
 if __name__ == '__main__':
     run_over = False  # whether to run over previous results
-    trial_num = 5  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
-    plot_type = PlotType.iterations_ablation
+    trial_num = 1  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
+    plot_type = PlotType.decoding_comparison_by_SNR
     print(plot_type.name)
     run_params_obj = RunParams(run_over=run_over, trial_num=trial_num)
     params_dicts, to_plot_by_values = get_config(plot_type)
@@ -84,11 +84,7 @@ if __name__ == '__main__':
     else:
         means_bers_dict = get_mean_ber_list(all_curves)
         means_sers_dict = get_mean_ser_list(all_curves)
-        means_sers_dict.pop('F-DeepSIC, MB-WBP')
-        means_sers_dict.pop('MB-DeepSIC, MB-WBP')
         means_ece_dict = get_mean_ece_list(all_curves)
-        means_ece_dict.pop('F-DeepSIC, MB-WBP')
-        means_ece_dict.pop('MB-DeepSIC, MB-WBP')
         plot_dict_vs_list(values_dict=means_sers_dict, xlabel='SNR [dB]', ylabel='SER', plot_type=plot_type,
                           to_plot_by_values=to_plot_by_values, legend_type=LEGEND_TYPE.DETECTION_ONLY)
         plot_dict_vs_list(values_dict=means_ece_dict, xlabel='SNR [dB]', ylabel='ECE', plot_type=plot_type,

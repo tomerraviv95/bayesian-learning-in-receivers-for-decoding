@@ -1,0 +1,35 @@
+##  DISCLAIMERS ON INPUT SIZES
+# Note that due to coding length, both the block length and pilots size have to be divisible by the message bits.
+# Also, for the QPSK modulation one has to have an even number of pre-modulated bits thus
+# x = block_length * (code_bits/message_bits) have to be even.
+# For the same reason, in 8-PSK this quantity x has to divisible by 4.
+
+# general
+seed: 10 # run seed
+
+# MIMO protocol
+block_length: 15360 # coherence block time, total size of pilot + data. values: int.
+pilots_length: 1536 # pilot bits
+blocks_num: 10 # number of validation frames. values: int.
+n_user: 4 # number of transmitting devices
+n_ant: 4 # number of received signals
+
+# datasets
+channel_model: 'Synthetic' # ['Synthetic','Cost2100']
+linear: True # datasets linearity. Boolean value.
+fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
+snr: 8 # validation snr value. values: float.
+modulation_type: 'BPSK' # ['BPSK','QPSK','EightPSK']
+detector_type: 'seq_model' # ['seq_model','model_based_bayesian','bayesian']
+
+# coding hyperparams
+code_type: 'POLAR' # ['BCH','POLAR']
+code_bits: 128
+message_bits: 64
+decoder_type: 'wbp' # ['wbp','modular_bayesian_wbp','bayesian_wbp']
+
+# training hyperparameters
+loss_type: 'CrossEntropy' # Loss type. values: 'BCE','CrossEntropy','MSE'.
+optimizer_type: 'Adam' # Optimizer type. values: 'Adam','RMSprop','SGD'.
+hidden_base_size: 48 # size of the hidden layer in DeepSIC
+deepsic_iterations: 3 # number of iterations for DeepSIC
