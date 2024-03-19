@@ -8,7 +8,7 @@
 
 Python repository for a submitted journal paper "Uncertainty-Aware and Reliable Neural MIMO Receivers via Modular Bayesian Deep Learning".
 
-Please cite our paper, if the code is used for publishing research. Paper is still unavailable until publication.
+Please cite [our paper][https://arxiv.org/pdf/2302.02436.pdf], if the code is used for publishing research. Paper is still unavailable until publication.
 
 # Table of Contents
 
