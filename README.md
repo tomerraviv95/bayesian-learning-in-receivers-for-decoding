@@ -89,21 +89,25 @@ Includes the models of the vanilla deepsic trained either in end to end fashion,
 
 ### plotters
 
-The main script is plotter_main.py, and it is used to plot the figures in the paper including ser versus snr, and reliability diagrams.
+The main script is plotter_main.py, and it is used to plot the figures in the paper including all ser/ber versus snr, and reliability diagrams.
 
 ### utils
 
 Extra utils for many different things: 
 
-* python utils - saving and loading pkls. 
-
-* metrics - calculating accuracy, confidence, ECE and sampling frequency for reliability diagrams.
+* bayesian utils - for the calculation of the LBD loss.
+  
+* coding_utils.py - some utility functions for the coding part.
 
 * config_singleton - holds the singleton definition of the config yaml.
+  
+* constants - some global constants.
+  
+* metrics - calculating accuracy, confidence, ECE and sampling frequency for reliability diagrams.
 
 * probs utils - for generate symbols from states; symbols from probs and vice versa.
 
-* bayesian utils - for the calculation of the LBD loss.
+* python utils - saving and loading pkls.
 
 ## resources
 
