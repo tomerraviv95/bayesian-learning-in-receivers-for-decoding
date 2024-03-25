@@ -44,8 +44,6 @@ class Cost2100MIMOChannel:
             w_imag = np.sqrt(var) / 2 * np.random.randn(conf.n_ant, s.shape[1]) * 1j
             w = w_real + w_imag
         y = conv + w
-        if not conf.linear:
-            y = np.tanh(0.5 * y)
         return y
 
     @staticmethod

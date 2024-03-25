@@ -49,46 +49,18 @@ class Detector(nn.Module):
         """
         Sets up the optimizer and loss criterion
         """
-        if conf.optimizer_type == 'Adam':
-            self.optimizer = Adam(filter(lambda p: p.requires_grad, self.detector.parameters()),
-                                  lr=lr)
-        elif conf.optimizer_type == 'RMSprop':
-            self.optimizer = RMSprop(filter(lambda p: p.requires_grad, self.detector.parameters()),
-                                     lr=lr)
-        elif conf.optimizer_type == 'SGD':
-            self.optimizer = SGD(filter(lambda p: p.requires_grad, self.detector.parameters()),
-                                 lr=lr)
-        else:
-            raise NotImplementedError("No such optimizer implemented!!!")
-        if conf.loss_type == 'CrossEntropy':
-            self.criterion = CrossEntropyLoss().to(DEVICE)
-        elif conf.loss_type == 'MSE':
-            self.criterion = MSELoss().to(DEVICE)
-        else:
-            raise NotImplementedError("No such loss function implemented!!!")
+        self.optimizer = Adam(filter(lambda p: p.requires_grad, self.detector.parameters()),
+                              lr=lr)
+        self.criterion = CrossEntropyLoss().to(DEVICE)
 
     # setup the optimization algorithm
     def calibration_deep_learning_setup(self):
         """
         Sets up the optimizer and loss criterion
         """
-        if conf.optimizer_type == 'Adam':
-            self.optimizer = Adam(filter(lambda p: p.requires_grad, self.detector.net.dropout_logits),
-                                  lr=self.lr)
-        elif conf.optimizer_type == 'RMSprop':
-            self.optimizer = RMSprop(filter(lambda p: p.requires_grad, self.detector.net.dropout_logits),
-                                     lr=self.lr)
-        elif conf.optimizer_type == 'SGD':
-            self.optimizer = SGD(filter(lambda p: p.requires_grad, self.detector.net.dropout_logits),
-                                 lr=self.lr)
-        else:
-            raise NotImplementedError("No such optimizer implemented!!!")
-        if conf.loss_type == 'CrossEntropy':
-            self.criterion = CrossEntropyLoss().to(DEVICE)
-        elif conf.loss_type == 'MSE':
-            self.criterion = MSELoss().to(DEVICE)
-        else:
-            raise NotImplementedError("No such loss function implemented!!!")
+        self.optimizer = Adam(filter(lambda p: p.requires_grad, self.detector.net.dropout_logits),
+                              lr=self.lr)
+        self.criterion = CrossEntropyLoss().to(DEVICE)
 
     def _online_training(self, tx: torch.Tensor, rx: torch.Tensor):
         """

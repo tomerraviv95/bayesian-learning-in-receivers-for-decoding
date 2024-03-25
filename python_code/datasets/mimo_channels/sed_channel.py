@@ -43,8 +43,6 @@ class SEDChannel:
             w_imag = np.sqrt(var) / 2 * np.random.randn(conf.n_ant, s.shape[1]) * 1j
             w = w_real + w_imag
         y = conv + w
-        if not conf.linear:
-            y = np.tanh(y)
         return y
 
     @staticmethod

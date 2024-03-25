@@ -53,7 +53,6 @@ The python simulations of the simplified communication chain: bits generation, e
 
 * channel_model - the channel model, in the set ['Synthetic','Cost2100']. 
 
-* linear - whether the channel is linear or not. Boolean value.
   
 * fading_in_channel - whether to apply fading. Only relevant for the Synthetic channel, Cost2100 has built in fading as a default. Boolean value.
 
