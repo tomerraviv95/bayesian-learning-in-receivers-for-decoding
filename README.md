@@ -15,7 +15,8 @@ Please cite [our paper](https://arxiv.org/pdf/2302.02436.pdf), if the code is us
 - [Introduction](#introduction)
 - [Folders Structure](#folders-structure)
   * [python_code](#python_code)
-    + [channel](#channel)
+    + [datasets](#datasets)
+    + [decoders](#decoders)
     + [detectors](#detectors)
     + [plotters](#plotters)
     + [utils](#utils)
@@ -28,15 +29,53 @@ Please cite [our paper](https://arxiv.org/pdf/2302.02436.pdf), if the code is us
 
 # Introduction
 
-This repository implements the proposed model-based Bayesian framework for [DeepSIC](https://arxiv.org/abs/2002.03214) and for the weighted belief propogation [WBP](https://arxiv.org/abs/1607.04793). We explain on the different directories and subdirectories below.
+This repository implements the proposed model-based Bayesian framework for [DeepSIC](https://arxiv.org/abs/2002.03214) and for the weighted belief propogation [WBP](https://arxiv.org/abs/1607.04793). The explanation on how the simulations were obtained follows below.
 
 # Folders Structure
 
 ## python_code 
 
-The python simulations of the simplified communication chain: symbols generation, channel transmission and detection.
+The python simulations of the simplified communication chain: bits generation, encoding, modulation, transmission through noisy channel, detection and finally decoding. The transmission is done over a sequence of blocks composed of pilot and information parts as in the paper. The main script for running this pipeline is the evaluator.py file, using the configuration defined in the config.yaml file. It has the following parameters:
 
-### channel 
+### config.yaml
+
+* seed - random integer used for reproducibility.
+
+* block_length - coherence block bits, total size of pilot + data. type: int.
+
+* pilots_length - number of bits in the pilots part. Other bits in the block are information bits. type: int.
+
+* blocks_num - number of block transmitted sequentailly. type: int.
+
+* n_user - number of users in the uplink scenario. type: int.
+
+* n_ant - number of antennas on the BS in the uplink scenario. type: int.
+
+* channel_model - the channel model, in the set ['Synthetic','Cost2100']. 
+
+* linear - whether the channel is linear or not. Boolean value.
+  
+* fading_in_channel - whether to apply fading. Only relevant for the Synthetic channel, Cost2100 has built in fading as a default. Boolean value.
+
+* snr - signal-to-noise value in dB (float).
+
+* modulation_type - which modulation to use, in the set of ['BPSK','QPSK','EightPSK'].
+  
+* detector_type - which detector to use, in the set of ['seq_model','model_based_bayesian','bayesian','end_to_end'].
+  
+* code_type - which code to use, in the set of ['BCH','POLAR']. I've only used polar codes for the paper.
+  
+* code_bits - number of code bits, integer. The n value in the polar (n,k) definition.
+  
+* message_bits - number of message bits, integer. The k value in the polar (n,k) definition.
+  
+* decoder_type - which decoder to use, in the set of ['bp','wbp','modular_bayesian_wbp','bayesian_wbp'].
+  
+* hidden_base_size - number of hidden neurons in the DeepSIC architecture. Integer.
+
+* deepsic_iterations - number of iterations in the DeepSIC model.
+
+### datasets 
 
 Includes the symbols generation and transmission part, up to the creation of the dataset composed of (transmitted, received) tuples in the channel_dataset wrapper class. The modulation is done in the modulator file.
 
@@ -67,47 +106,6 @@ Extra utils for many different things:
 * probs utils - for generate symbols from states; symbols from probs and vice versa.
 
 * bayesian utils - for the calculation of the LBD loss.
-
-### config.yaml
-
-Controls all hyperparameters:
-
-* seed - random integer used as the generation seed.
-
-* channel_type - only 'MIMO' is supported for the conference version.
-
-* channel_model - the type of channel used, only 'Synthetic' is support in the conference version but we will add in the journal paper more.
-
-* detector_type - the type of evaluted detector. 'seq_model' - sequentially trained DeepSIC, 'end_to_end_model' - end-to-end trained DeepSIC, 
-'model_based_bayesian'- our proposed model-based Bayesian DeepSIC, 'bayesian' - Bayesian DeepSIC, 'black_box' - DNN detector, 'bayesian_black_box' - Bayesian black-box DNN detector.
-
-* linear - only linear channel is supported in this version.
-
-* fading_in_channel - whether the channel is time-varying. We used 'False' such that the channel is static for the conference paper.
-
-* snr - signal-to-noise value in dB (float).
-
-* modulation_type - which modulation to use, in the set of ['BPSK','QPSK','EightPSK'].
- 
-* n_user - integer number of transmitting devices.
-
-* n_ant - integer number of received signals.
-
-* block_length - number of total bits in transmission (pilots + info).
-
-* pilots_length - number of pilot bits in the transmission.
-
-* blocks_num - number of blocks to transmit.
-
-* is_online_training - whether to train at each incoming block using its pilot part or skip training. 
-
-* loss_type - loss type in the set ['BCE','CrossEntropy','MSE'].
-
-* optimizer_type - in the set ['Adam','RMSprop','SGD'].
-
-### evaluate
-
-Run the evaluation using one of the methods, as appears in config.yaml
 
 ## resources
 
