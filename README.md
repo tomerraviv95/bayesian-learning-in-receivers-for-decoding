@@ -77,17 +77,15 @@ The python simulations of the simplified communication chain: bits generation, e
 
 ### datasets 
 
-channel_dataset is the main class for the creation of the dataset, composed of tuples of (tx bits, tx symbols, received channel values). Handles all the data generation part up to the channel output including. 
+channel_dataset is the main class for the creation of the dataset, composed of tuples of (tx bits, tx symbols, received channel values). Handles all the data generation part up to the channel output. 
+
+### decoders
+
+Includes the models of the vanilla BP (bp directory), WBP (wbp directory), model-based Bayesian WBP (modular_bayesian_wbp directory) and the Bayesian WBP (bayesian_wbp) directory. See each file for further documentation. The common architecture is in bp_nn and bp_nn_weights. The file decoder_trainer holds the basic functions for training and evaluating the decoder. 
 
 ### detectors 
 
-Includes the next files:
-
-(1) The backbone trainer.py which holds the most basic functions, including the network initialization and the sequential transmission in the channel and BER calculation. 
-
-(2) The DeepSIC trainer and backbone detector, including the Bayesian variants. Note that we included end-to-end implementation of DeepSIC even as it is not employed in the paper (DeepSIC in the paper refers to the sequential trained one which has higher performance).
-
-(3) The black-box DNN we compare to, and its Bayesian variant for comparison - again it is not used in the paper as the DNN is inferior to DeepSIC in small data regime (so its Bayesian variant is not so interesting).
+Includes the models of the vanilla deepsic trained either in end to end fashion, or the more conventional sequentially (see the original paper on DeepSIC for more details).Model-based Bayesian DeepSIC is in the modular_bayesian_deepsic directory and the Bayesian DeepSIC is in bayesian_deepsic directory. See each file inside for further documentation. The common architecture is in the file deepsic_detector. The files detector_trainer and deepsic_trainer hold the basic functions for training and evaluating the detector. 
 
 ### plotters
 
