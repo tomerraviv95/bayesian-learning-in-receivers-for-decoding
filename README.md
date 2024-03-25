@@ -52,14 +52,17 @@ The python simulations of the simplified communication chain: bits generation, e
 * n_ant - number of antennas on the BS in the uplink scenario. type: int.
 
 * channel_model - the channel model, in the set ['Synthetic','Cost2100']. 
-
   
 * fading_in_channel - whether to apply fading. Only relevant for the Synthetic channel, Cost2100 has built in fading as a default. Boolean value.
 
 * snr - signal-to-noise value in dB (float).
 
 * modulation_type - which modulation to use, in the set of ['BPSK','QPSK','EightPSK'].
-  
+
+* hidden_base_size - number of hidden neurons in the DeepSIC architecture. Integer.
+
+* deepsic_iterations - number of iterations in the DeepSIC model.
+ 
 * detector_type - which detector to use, in the set of ['seq_model','model_based_bayesian','bayesian','end_to_end'].
   
 * code_type - which code to use, in the set of ['BCH','POLAR']. I've only used polar codes for the paper.
@@ -69,14 +72,10 @@ The python simulations of the simplified communication chain: bits generation, e
 * message_bits - number of message bits, integer. The k value in the polar (n,k) definition.
   
 * decoder_type - which decoder to use, in the set of ['bp','wbp','modular_bayesian_wbp','bayesian_wbp'].
-  
-* hidden_base_size - number of hidden neurons in the DeepSIC architecture. Integer.
-
-* deepsic_iterations - number of iterations in the DeepSIC model.
 
 ### datasets 
 
-channel_dataset is the main class for the creation of the dataset, composed of tuples of (tx bits, tx symbols, received channel values). Handles all the data generation part up to the channel output. 
+The file channel_dataset is the main class for the creation of the dataset, composed of tuples of (tx bits, tx symbols, received channel values). Handles all the data generation part up to the channel output. The folder named communication_blocks holds all the basic communication blocks such as encoding and modulation, while the mimo_channels has the mimo channels models.  
 
 ### decoders
 
