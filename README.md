@@ -77,7 +77,7 @@ The python simulations of the simplified communication chain: bits generation, e
 
 ### datasets 
 
-Includes the symbols generation and transmission part, up to the creation of the dataset composed of (transmitted, received) tuples in the channel_dataset wrapper class. The modulation is done in the modulator file.
+channel_dataset is the main class for the creation of the dataset, composed of tuples of (tx bits, tx symbols, received channel values). Handles all the data generation part up to the channel output including. 
 
 ### detectors 
 
