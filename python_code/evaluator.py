@@ -9,12 +9,12 @@ import torch
 from python_code import conf, DEVICE
 from python_code.datasets.channel_dataset import ChannelModelDataset
 from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING, BPSKModulator
-from python_code.datasets.siso_channels.awgn_channel import compute_channel_llr, compute_channel_sigma
 from python_code.decoders import DECODERS_TYPE_DICT
 from python_code.detectors import DETECTORS_TYPE_DICT
 from python_code.utils.constants import ModulationType, HALF
 from python_code.utils.metrics import calculate_error_rate, calculate_reliability_and_ece
-from python_code.utils.probs_utils import get_qpsk_symbols_from_bits, get_eightpsk_symbols_from_bits
+from python_code.utils.probs_utils import get_qpsk_symbols_from_bits, get_eightpsk_symbols_from_bits, \
+    compute_channel_llr, compute_channel_sigma
 
 random.seed(conf.seed)
 torch.manual_seed(conf.seed)

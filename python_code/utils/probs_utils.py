@@ -117,3 +117,12 @@ def get_bits_from_eightpsk_symbols(target: torch.Tensor) -> torch.Tensor:
     target = torch.cat([first_bit.unsqueeze(-1), second_bit.unsqueeze(-1), third_bit.unsqueeze(-1)], dim=2)
     target = target.transpose(1, 2).reshape(3 * first_bit.shape[0], -1)
     return target
+
+def compute_channel_llr(rx, sigma):
+    llr = rx * 2 / (sigma ** 2)
+    return llr
+
+
+def compute_channel_sigma(rate, snr):
+    sigma = np.sqrt(0.5 * ((10 ** ((snr + 10 * np.log10(rate)) / 10)) ** (-1)))
+    return sigma
