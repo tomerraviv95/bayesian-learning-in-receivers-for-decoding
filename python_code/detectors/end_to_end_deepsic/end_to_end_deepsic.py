@@ -11,7 +11,7 @@ from python_code.detectors.deepsic_trainer import DeepSICTrainer, EPOCHS
 class EndToEndDeepSICTrainer(DeepSICTrainer):
     def __init__(self):
         super().__init__()
-        self.apply_dropout = True
+        self.apply_dropout = False
 
     def __str__(self):
         return 'F-DeepSIC'

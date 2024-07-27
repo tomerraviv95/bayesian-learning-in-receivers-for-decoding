@@ -27,15 +27,14 @@ class DeepSICDetector(nn.Module):
         linear_input = base_rx_size + (classes_num - 1) * (conf.n_user - 1)  # from DeepSIC paper
         self.activation = nn.ReLU()
         self.fc1 = nn.Linear(linear_input, hidden_size)
-        self.fc2 = nn.Linear(hidden_size, hidden_size)
-        self.fc3 = nn.Linear(hidden_size, classes_num)
+        # self.fc2 = nn.Linear(hidden_size, hidden_size)
+        self.fc2 = nn.Linear(hidden_size, classes_num)
         self.dropout_logits = LOGITS_INIT * torch.ones([1, hidden_size], device=DEVICE)
 
     def forward(self, rx: torch.Tensor, apply_dropout: bool = False) -> torch.Tensor:
         x = self.activation(self.fc1(rx))
-        x = self.activation(self.fc2(x))
         if apply_dropout:
             u = torch.rand(x.shape).to(DEVICE)
             x = dropout_ori(x, self.dropout_logits, u)
-        out1 = self.fc3(x)
-        return out1
+        out = self.fc2(x)
+        return out

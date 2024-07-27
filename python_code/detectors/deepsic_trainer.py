@@ -17,7 +17,7 @@ class DeepSICTrainer(Detector):
     def __init__(self):
         self.n_user = conf.n_user
         self.n_ant = conf.n_ant
-        self.lr = 5e-3
+        self.lr = 5e-2
         self.apply_dropout = False
         self.iterations = conf.deepsic_iterations
         super().__init__()

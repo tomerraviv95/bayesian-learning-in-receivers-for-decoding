@@ -28,7 +28,8 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
 
     def _initialize_detector(self):
         self.detector = [
-            [BayesianDeepSICDetector(self.ensemble_num, self.kl_scale).to(DEVICE) for _ in range(self.iterations)] for _ in
+            [BayesianDeepSICDetector(self.ensemble_num, self.kl_scale).to(DEVICE) for _ in range(self.iterations)] for _
+            in
             range(self.n_user)]  # 2D list for Storing the DeepSIC Networks
 
     def calc_loss(self, est: LossVariable, tx: torch.IntTensor) -> torch.Tensor:
@@ -41,7 +42,6 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
         loss_term_arm_tilde = self.criterion_arm(input=est.arm_tilde[0], target=tx.long())
         arm_delta = (loss_term_arm_tilde - loss_term_arm_original)
         grad_logit = arm_delta.unsqueeze(-1) * (est.u - HALF)
-        grad_logit[grad_logit < 0] *= -1
         arm_loss = grad_logit * est.dropout_logits
         arm_loss = self.arm_beta * torch.mean(arm_loss)
         # KL Loss
