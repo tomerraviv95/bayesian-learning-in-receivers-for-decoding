@@ -17,7 +17,7 @@ class ModularBayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 5
+        self.ensemble_num = 3
         self.kl_scale = 1
         self.kl_beta = 1e-4
         self.arm_beta = 1

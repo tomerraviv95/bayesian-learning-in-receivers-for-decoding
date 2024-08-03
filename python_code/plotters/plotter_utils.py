@@ -94,9 +94,9 @@ def plot_dict_vs_list(values_dict: Dict[str, List[float]], to_plot_by_values: Li
     if not os.path.isdir(os.path.join(FIGURES_DIR, folder_name)):
         os.makedirs(os.path.join(FIGURES_DIR, folder_name))
 
-    # extract names from simulated plots
+    # extract names from simulated plots_backup
     plt.figure()
-    # plots all methods
+    # plots_backup all methods
     print("Plotting")
     for method_name in values_dict.keys():
         print(method_name)
@@ -130,10 +130,10 @@ def plot_dict_vs_dict(values_dict: Dict[str, List[float]], to_plot_by_values: Di
     if not os.path.isdir(os.path.join(FIGURES_DIR, folder_name)):
         os.makedirs(os.path.join(FIGURES_DIR, folder_name))
 
-    # extract names from simulated plots
+    # extract names from simulated plots_backup
     plt.figure()
 
-    # plots all methods
+    # plots_backup all methods
     print("Plotting")
     for method_name in values_dict.keys():
         print(method_name)

@@ -44,7 +44,10 @@ class Cost2100MIMOChannel:
             w_imag = np.sqrt(var) / 2 * np.random.randn(conf.n_ant, s.shape[1]) * 1j
             w = w_real + w_imag
         y = conv + w
-        return y
+        if conf.linear:
+            return y
+        # non-linear output - simulates a saturation phenomena at the receiver
+        return np.tanh(y)
 
     @staticmethod
     def _compute_channel_signal_convolution(h: np.ndarray, s: np.ndarray) -> np.ndarray:

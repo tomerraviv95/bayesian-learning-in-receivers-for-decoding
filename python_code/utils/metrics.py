@@ -23,7 +23,7 @@ def calculate_reliability_and_ece(correct_values_list: List[float], error_values
                                   values: List[float]) -> Tuple[float, List[float], List[float]]:
     """
     Input is two lists, of the correctly detected and incorrectly detected confidence values
-    Computes the two lists of accuracy and confidences (red and blue bar plots in paper), the ECE measure and the
+    Computes the two lists of accuracy and confidences (red and blue bar plots_backup in paper), the ECE measure and the
     normalized frequency count per bin (green bar plot in paper)
     """
     correct_values_array = np.array(correct_values_list)

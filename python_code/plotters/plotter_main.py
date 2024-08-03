@@ -49,9 +49,9 @@ def get_mean_ece_list(all_curves, average=True):
 
 ## Plotter for the Paper's Figures
 if __name__ == '__main__':
-    run_over = False  # whether to run over previous results
+    run_over = True  # whether to run over previous results
     trial_num = 1  # number of trials per point estimate, used to reduce noise by averaging results of multiple runs
-    plot_type = PlotType.decoding_comparison_by_SNR
+    plot_type = PlotType.detection_comparison_by_SNR_QPSK
     print(plot_type.name)
     run_params_obj = RunParams(run_over=run_over, trial_num=trial_num)
     params_dicts, to_plot_by_values = get_config(plot_type)
