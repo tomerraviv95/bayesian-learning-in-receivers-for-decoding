@@ -26,15 +26,11 @@ class DNNDetector(nn.Module):
                   nn.Linear(HIDDEN_SIZE, HIDDEN_SIZE),
                   nn.ReLU(),
                   nn.Linear(HIDDEN_SIZE, HIDDEN_SIZE),
-                  nn.ReLU(),
-                  ]
+                  nn.ReLU()]
         self.net = nn.Sequential(*layers).to(DEVICE)
-        self.projecion_heads = [nn.Linear(HIDDEN_SIZE, MODULATION_NUM_MAPPING[conf.modulation_type]).to(DEVICE) for _ in
-                                range(self.n_ant)]
+        self.project_head = nn.Linear(HIDDEN_SIZE, MODULATION_NUM_MAPPING[conf.modulation_type] * self.n_ant).to(DEVICE)
 
     def forward(self, rx: torch.Tensor) -> torch.Tensor:
         embedding = self.net(rx)
-        soft_estimation = []
-        for head in self.projecion_heads:
-            soft_estimation.append(head(embedding).unsqueeze(1))
-        return torch.cat(soft_estimation, dim=1)
+        out = self.project_head(embedding).reshape(-1, self.n_ant, MODULATION_NUM_MAPPING[conf.modulation_type])
+        return out
