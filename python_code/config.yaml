@@ -22,7 +22,8 @@ snr: 10 # validation snr value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 
 # training hyperparameters
-detector_type: 'model_based_bayesian' # ['seq_model','model_based_bayesian','bayesian','end_to_end']
+# ['seq_model','model_based_bayesian','bayesian','end_to_end','dnn']
+detector_type: 'dnn'
 hidden_base_size: 16 # size of the hidden layer in DeepSIC
 deepsic_iterations: 3 # number of iterations for DeepSIC
 

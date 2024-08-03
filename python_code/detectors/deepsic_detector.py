@@ -27,7 +27,6 @@ class DeepSICDetector(nn.Module):
         linear_input = base_rx_size + (classes_num - 1) * (conf.n_user - 1)  # from DeepSIC paper
         self.activation = nn.ReLU()
         self.fc1 = nn.Linear(linear_input, hidden_size)
-        # self.fc2 = nn.Linear(hidden_size, hidden_size)
         self.fc2 = nn.Linear(hidden_size, classes_num)
         self.dropout_logits = LOGITS_INIT * torch.ones([1, hidden_size], device=DEVICE)
 

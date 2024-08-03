@@ -4,8 +4,10 @@ from python_code.detectors.modular_bayesian_deepsic.modular_bayesian_deep_sic_tr
     ModularBayesianDeepSICTrainer
 from python_code.detectors.seq_deepsic.seq_deep_sic_trainer import SeqDeepSICTrainer
 from python_code.utils.constants import DetectorType
+from python_code.detectors.dnn.dnn_trainer import DNNTrainer
 
 DETECTORS_TYPE_DICT = {DetectorType.seq_model.name: SeqDeepSICTrainer,
                        DetectorType.end_to_end.name: EndToEndDeepSICTrainer,
                        DetectorType.model_based_bayesian.name: ModularBayesianDeepSICTrainer,
-                       DetectorType.bayesian.name: BayesianDeepSICTrainer}
+                       DetectorType.bayesian.name: BayesianDeepSICTrainer,
+                       DetectorType.dnn.name: DNNTrainer}

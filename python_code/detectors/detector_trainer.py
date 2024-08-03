@@ -4,10 +4,13 @@ from typing import Tuple
 import numpy as np
 import torch
 from torch import nn
-from torch.nn import CrossEntropyLoss, MSELoss
-from torch.optim import RMSprop, Adam, SGD
+from torch.nn import CrossEntropyLoss
+from torch.optim import Adam
 
 from python_code import DEVICE, conf
+from python_code.datasets.communication_blocks.modulator import MODULATION_DICT
+from python_code.utils.constants import ModulationType
+from python_code.utils.probs_utils import prob_to_BPSK_symbol, prob_to_QPSK_symbol, prob_to_EightPSK_symbol
 
 random.seed(conf.seed)
 torch.manual_seed(conf.seed)
@@ -83,3 +86,22 @@ class Detector(nn.Module):
         loss.backward()
         self.optimizer.step()
         return current_loss
+
+    def compute_output(self, probs_vec):
+        if conf.modulation_type == ModulationType.BPSK.name:
+            symbols_word = prob_to_BPSK_symbol(probs_vec.float())
+        elif conf.modulation_type == ModulationType.QPSK.name:
+            symbols_word = prob_to_QPSK_symbol(probs_vec.float())
+        elif conf.modulation_type == ModulationType.EightPSK.name:
+            symbols_word = prob_to_EightPSK_symbol(probs_vec.float())
+        else:
+            raise ValueError("No such constellation!")
+        detected_words = MODULATION_DICT[conf.modulation_type].demodulate(symbols_word)
+        if conf.modulation_type == ModulationType.BPSK.name:
+            new_probs_vec = torch.cat([probs_vec.unsqueeze(dim=2), (1 - probs_vec).unsqueeze(dim=2)], dim=2)
+        elif conf.modulation_type in [ModulationType.QPSK.name, ModulationType.EightPSK.name]:
+            new_probs_vec = torch.cat([probs_vec, (1 - probs_vec.sum(dim=2)).unsqueeze(dim=2)], dim=2)
+        else:
+            raise ValueError("No such constellation!")
+        soft_confidences = torch.amax(new_probs_vec, dim=2)
+        return detected_words, soft_confidences

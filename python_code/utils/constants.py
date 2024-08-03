@@ -28,6 +28,7 @@ class DetectorType(Enum):
     end_to_end = 'end_to_end'
     bayesian = 'bayesian'
     model_based_bayesian = 'model_based_bayesian'
+    dnn = 'dnn'
 
 
 class DecoderType(Enum):
