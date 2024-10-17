@@ -15,9 +15,9 @@ n_user: 4 # number of transmitting devices
 n_ant: 4 # number of received signals
 
 # datasets
-channel_model: 'Cost2100' # ['Synthetic','Cost2100']
+channel_model: 'Synthetic' # ['Synthetic','Cost2100']
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
-linear: True # whether to apply a tanh at the channel receiver after detection
+linear: False # whether to apply a tanh at the channel receiver after detection
 snr: 12 # validation snr value. values: float.
 modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
 

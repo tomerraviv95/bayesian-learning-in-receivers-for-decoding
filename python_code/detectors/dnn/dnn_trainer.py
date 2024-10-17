@@ -3,6 +3,7 @@ from typing import Tuple
 import torch
 
 from python_code import conf
+from python_code.datasets.communication_blocks.modulator import MODULATION_NUM_MAPPING
 from python_code.detectors.detector_trainer import Detector
 from python_code.detectors.dnn.dnn_detector import DNNDetector
 from python_code.utils.constants import ModulationType
@@ -68,5 +69,5 @@ class DNNTrainer(Detector):
         for i in range(EPOCHS):
             # pass through detector
             soft_estimation = self.detector(rx.float())
-            current_loss = self.run_train_loop(est=soft_estimation.reshape(-1,4), tx=tx.long().reshape(-1))
+            current_loss = self.run_train_loop(est=soft_estimation.reshape(-1,MODULATION_NUM_MAPPING[conf.modulation_type]), tx=tx.long().reshape(-1))
             loss += current_loss

@@ -18,7 +18,7 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
     """
 
     def __init__(self):
-        self.ensemble_num = 3
+        self.ensemble_num = 5
         self.kl_scale = 1
         self.kl_beta = 1e-4
         self.arm_beta = 1
@@ -67,7 +67,8 @@ class BayesianDeepSICTrainer(DeepSICTrainer):
                 arm_loss += self.arm_beta * torch.mean(arm_loss_before_avg)
                 kl_term += self.kl_beta * loss_var.kl_term
                 # Frequentist loss
-                f_loss += self.criterion(input=loss_var.priors, target=tx_all[user].long())
+                if iter == self.iterations - 1:
+                    f_loss += self.criterion(input=loss_var.priors, target=tx_all[user].long())
         loss += f_loss + arm_loss + kl_term
         return loss
 

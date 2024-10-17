@@ -47,7 +47,7 @@ class Cost2100MIMOChannel:
         if conf.linear:
             return y
         # non-linear output - simulates a saturation phenomena at the receiver
-        return np.tanh(y)
+        return np.tanh(y / 2)
 
     @staticmethod
     def _compute_channel_signal_convolution(h: np.ndarray, s: np.ndarray) -> np.ndarray:

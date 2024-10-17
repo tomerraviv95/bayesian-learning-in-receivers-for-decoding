@@ -6,8 +6,10 @@ from python_code.utils.constants import DetectorType, DecoderType
 
 class PlotType(Enum):
     detection_comparison_by_SNR_QPSK = 'detection_comparison_by_SNR_QPSK'
+    detection_comparison_by_SNR_QPSK_nonlinear = 'detection_comparison_by_SNR_QPSK_nonlinear'
     detection_comparison_by_SNR_EightPSK = 'detection_comparison_by_SNR_EightPSK'
     detection_comparison_by_SNR_cost_QPSK = 'detection_comparison_by_SNR_cost_QPSK'
+    detection_comparison_by_SNR_EightPSK_nonlinear = 'detection_comparison_by_SNR_EightPSK_nonlinear'
     detection_comparison_by_SNR_cost_EightPSK = 'detection_comparison_by_SNR_cost_EightPSK'
     ber_by_ece = 'ber_by_ece'
     iterations_ablation = 'iterations_ablation'
@@ -21,6 +23,30 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 3a
     if plot_type == PlotType.detection_comparison_by_SNR_QPSK:
         params_dicts = [
+            {'snr': 6, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 8, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 10, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 12, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 6, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
+            {'snr': 8, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
+            {'snr': 10, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
+            {'snr': 12, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
+            {'snr': 6, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'QPSK'},
+            {'snr': 8, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'QPSK'},
+            {'snr': 10, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'QPSK'},
+            {'snr': 12, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'QPSK'},
+            {'snr': 6, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'QPSK'},
+            {'snr': 8, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'QPSK'},
+            {'snr': 10, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'QPSK'},
+            {'snr': 12, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'QPSK'},
+        ]
+        to_plot_by_values = range(6, 13, 2)
+    elif plot_type == PlotType.detection_comparison_by_SNR_QPSK_nonlinear:
+        params_dicts = [
+            {'snr': 6, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 8, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 10, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 12, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
             {'snr': 6, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
             {'snr': 8, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
             {'snr': 10, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
@@ -38,6 +64,30 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 3b
     elif plot_type == PlotType.detection_comparison_by_SNR_EightPSK:
         params_dicts = [
+            {'snr': 10, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 10, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 10, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 10, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+        ]
+        to_plot_by_values = range(10, 17, 2)
+    elif plot_type == PlotType.detection_comparison_by_SNR_EightPSK_nonlinear:
+        params_dicts = [
+            {'snr': 10, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
             {'snr': 10, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
             {'snr': 12, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
             {'snr': 14, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
@@ -55,6 +105,10 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 4a
     elif plot_type == PlotType.detection_comparison_by_SNR_cost_QPSK:
         params_dicts = [
+            {'snr': 4, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 6, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 8, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
+            {'snr': 10, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'QPSK'},
             {'snr': 4, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
             {'snr': 6, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
             {'snr': 8, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'QPSK'},
@@ -72,6 +126,30 @@ def get_config(plot_type: PlotType) -> Tuple[List[Dict], List[int]]:
     # Figure 4b
     elif plot_type == PlotType.detection_comparison_by_SNR_cost_EightPSK:
         params_dicts = [
+            {'snr': 10, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 10, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
+            {'snr': 10, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 10, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.model_based_bayesian.name, 'modulation_type': 'EightPSK'},
+        ]
+        to_plot_by_values = range(10, 17, 2)
+    elif plot_type == PlotType.detection_comparison_by_SNR_cost_EightPSK:
+        params_dicts = [
+            {'snr': 10, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 12, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 14, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
+            {'snr': 16, 'detector_type': DetectorType.dnn.name, 'modulation_type': 'EightPSK'},
             {'snr': 10, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
             {'snr': 12, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},
             {'snr': 14, 'detector_type': DetectorType.seq_model.name, 'modulation_type': 'EightPSK'},

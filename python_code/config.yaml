@@ -8,7 +8,7 @@
 seed: 4 # run seed
 
 # MIMO protocol
-block_length: 7680 # coherence block time, total size of pilot + data. values: int.
+block_length: 15360 # coherence block time, total size of pilot + data. values: int.
 pilots_length: 384 # pilot bits
 blocks_num: 10 # number of validation frames. values: int.
 n_user: 4 # number of transmitting devices
@@ -17,13 +17,13 @@ n_ant: 4 # number of received signals
 # datasets
 channel_model: 'Synthetic' # ['Synthetic','Cost2100']
 fading_in_channel: False # If the datasets is fading/non-fading. values: [True, False]
-linear: True # whether to apply a tanh at the channel receiver after detection
-snr: 10 # validation snr value. values: float.
-modulation_type: 'QPSK' # ['BPSK','QPSK','EightPSK']
+linear: False # whether to apply a tanh at the channel receiver after detection
+snr: 14 # validation snr value. values: float.
+modulation_type: 'EightPSK' # ['BPSK','QPSK','EightPSK']
 
 # training hyperparameters
 # ['seq_model','model_based_bayesian','bayesian','end_to_end','dnn']
-detector_type: 'dnn'
+detector_type: 'seq_model'
 hidden_base_size: 16 # size of the hidden layer in DeepSIC
 deepsic_iterations: 3 # number of iterations for DeepSIC
 
